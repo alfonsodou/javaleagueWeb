@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cronentries>
+	<cron>
+		<url>/cron/authUsers</url>
+		<description>Comprueba cada día los usuarios que no han validado su email</description>
+		<schedule>every day 00:00</schedule>
+	</cron>
+</cronentries>

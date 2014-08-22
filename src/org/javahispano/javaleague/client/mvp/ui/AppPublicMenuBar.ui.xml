@@ -1,0 +1,63 @@
+<!DOCTYPE ui:UiBinder SYSTEM "http://dl.google.com/gwt/DTD/xhtml.ent">
+<ui:UiBinder xmlns:ui='urn:ui:com.google.gwt.uibinder'
+	xmlns:g='urn:import:com.google.gwt.user.client.ui' xmlns:b='urn:import:org.gwtbootstrap3.client.ui'
+	ui:generateFormat='com.google.gwt.i18n.rebind.format.PropertiesFormat'
+	ui:generateKeys='com.google.gwt.i18n.rebind.keygen.MD5KeyGenerator'
+	ui:generateLocales='default'>
+
+	<ui:style>
+	.danger {
+		background-color: #fcf2f2;
+		border-color: #dFb5b4;
+	}
+	
+	.margin-fix {
+		margin-bottom: 0 !important;
+	}
+	</ui:style>
+
+	<b:Navbar ui:field="menuNavBar" position="FIXED_TOP">
+		<b:Container>
+
+			<b:NavbarHeader>
+				<b:NavbarBrand ui:field="navbarBrand">javaLeague</b:NavbarBrand>
+				<b:NavbarCollapseButton dataTarget="#navbar-collapse" />
+			</b:NavbarHeader>
+
+			<b:NavbarCollapse b:id="navbar-collapse">
+				<b:NavbarNav>
+
+					<b:AnchorListItem ui:field="frameWorkLink">
+						<ui:msg key="frameWorkLink">FrameWork</ui:msg>
+					</b:AnchorListItem>
+
+					<b:AnchorListItem ui:field="loginLink">
+						<ui:msg key="loginLink">Login</ui:msg>
+					</b:AnchorListItem>
+
+					<b:AnchorListItem ui:field="registerLink">
+						<ui:msg key="registerLink">Registro</ui:msg>
+					</b:AnchorListItem>
+
+					<b:AnchorListItem ui:field="wikiLink"
+						href="https://github.com/alfonsodou/javaLeague/wiki/_pages">
+						<ui:msg key="wikiLink">Wiki</ui:msg>
+					</b:AnchorListItem>
+
+					<b:ListDropDown>
+						<b:AnchorButton ui:field="locale" dataToggle="DROPDOWN" icon="GLOBE">Español
+							(es)</b:AnchorButton>
+						<b:DropDownMenu>
+							<b:AnchorListItem ui:field="localeES">Español (es)</b:AnchorListItem>
+							<b:AnchorListItem ui:field="localeEN">English (en)</b:AnchorListItem>
+						</b:DropDownMenu>
+					</b:ListDropDown>
+
+				</b:NavbarNav>
+
+
+			</b:NavbarCollapse>
+
+		</b:Container>
+	</b:Navbar>
+</ui:UiBinder> 
