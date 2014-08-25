@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.gwtbootstrap3.client.ui.AnchorButton;
 import org.javahispano.javaleague.client.ClientFactory;
+import org.javahispano.javaleague.client.mvp.places.MyTacticPlace;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -41,6 +42,8 @@ public class AppPrivateMenuBar extends Composite {
 	HasClickHandlers localeEN;
 	@UiField
 	AnchorButton locale;
+	@UiField
+	HasClickHandlers myTacticLink;
 
 	public AppPrivateMenuBar() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -69,6 +72,13 @@ public class AppPrivateMenuBar extends Composite {
 				// changeLocale("en");
 				locale.setText("English (en)");
 				setLocaleCookie("en");
+			}
+		});
+		
+		myTacticLink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				GWT.log("AppPublicMenuBar: select MyTactic");
+				goTo(new MyTacticPlace());
 			}
 		});
 

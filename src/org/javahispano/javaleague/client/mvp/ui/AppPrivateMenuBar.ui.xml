@@ -31,8 +31,8 @@
 						<ui:msg key="frameWorkLink">FrameWork</ui:msg>
 					</b:AnchorListItem>
 					
-					<b:AnchorListItem ui:field="tacticLink">
-						<ui:msg key="tacticLink">Mi táctica</ui:msg>
+					<b:AnchorListItem ui:field="myTacticLink">
+						<ui:msg key="myTacticLink">Mi táctica</ui:msg>
 					</b:AnchorListItem>
 
 					<b:AnchorListItem ui:field="logoutLink">

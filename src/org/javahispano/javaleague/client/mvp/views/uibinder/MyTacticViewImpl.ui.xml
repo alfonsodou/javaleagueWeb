@@ -28,7 +28,7 @@
 			</g:SimplePanel>
 
 			<g:SimplePanel ui:field="centerPanel" addStyleNames="{style.push}">
-				<my:AppLogin></my:AppLogin>
+				<my:AppMyTactic></my:AppMyTactic>
 			</g:SimplePanel>
 
 			<g:SimplePanel ui:field="footerPanel">
