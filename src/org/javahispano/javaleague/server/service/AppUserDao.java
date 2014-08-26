@@ -60,11 +60,8 @@ public class AppUserDao extends ObjectifyDao<AppUser> {
 
 	public AppUser findByEmail(String email) {
 		AppUser appUser = null;
-		try {
-			appUser = this.getByProperty("email", email);
-		} catch (TooManyResultsException e) {
-			e.printStackTrace();
-		}
+
+		appUser = this.getByProperty2("email", email);
 
 		return appUser;
 	}
