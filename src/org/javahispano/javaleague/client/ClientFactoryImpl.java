@@ -12,6 +12,7 @@ import org.javahispano.javaleague.client.mvp.views.uibinder.LoginViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.MyTacticViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.RegisterViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.WelcomeViewImpl;
+import org.javahispano.javaleague.shared.proxy.AppUserProxy;
 import org.javahispano.javaleague.shared.service.JavaLeagueRequestFactory;
 
 import com.google.gwt.core.client.GWT;
@@ -31,6 +32,8 @@ public class ClientFactoryImpl implements ClientFactory {
 	private static RegisterView registerView;
 	private static LoginView loginView;
 	private static MyTacticView myTacticView;
+	
+	private static AppUserProxy appUser;
 
 	private final JavaLeagueRequestFactory javaLeagueRequestFactory = GWT
 			.create(JavaLeagueRequestFactory.class);
@@ -91,6 +94,17 @@ public class ClientFactoryImpl implements ClientFactory {
 		if (myTacticView == null) 
 			myTacticView = new MyTacticViewImpl();
 		return myTacticView;	
+	}
+
+	@Override
+	public AppUserProxy getAppUser() {
+		return appUser;
+	}
+
+	@Override
+	public void setAppUser(AppUserProxy appUser) {
+		this.appUser = appUser;
+		
 	}
 
 }

@@ -26,6 +26,7 @@ public class AppUser extends DatastoreObject {
 	private Date dateToken;
 	private String locale;
 	private Date lastActive;
+	@Index
 	private boolean active;
 	private Date lastLoginOn;
 	

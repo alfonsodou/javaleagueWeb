@@ -89,7 +89,7 @@ public class AppLogin extends Composite {
 
 		cancelButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				// hideErrorLabel();
+				hideErrorLabel();
 				formLoginUser.reset();
 				goTo(new WelcomePlace());
 			}
@@ -97,7 +97,7 @@ public class AppLogin extends Composite {
 
 		registerUserButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				// hideErrorLabel();
+				hideErrorLabel();
 				formLoginUser.reset();
 				goTo(new RegisterPlace());
 			}
@@ -172,7 +172,7 @@ public class AppLogin extends Composite {
 				crypt_password += Integer.toHexString(0xFF & b);
 			AppUserService appUserService = clientFactory.getRequestFactory()
 					.appUserService();
-			AppUserProxy appUser = appUserService.create(AppUserProxy.class);
+			final AppUserProxy appUser = appUserService.create(AppUserProxy.class);
 			appUser.setEmail(emailTextBox.getValue());
 			appUser.setPassword(crypt_password);
 			
@@ -180,7 +180,7 @@ public class AppLogin extends Composite {
 				@Override
 				public void onSuccess(AppUserProxy response) {
 					if (response != null) {
-
+						clientFactory.setAppUser(appUser);
 						formLoginUser.reset();
 
 						goTo(new MyTacticPlace());

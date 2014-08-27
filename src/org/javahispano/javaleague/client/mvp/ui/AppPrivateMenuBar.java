@@ -8,6 +8,7 @@ import java.util.Date;
 import org.gwtbootstrap3.client.ui.AnchorButton;
 import org.javahispano.javaleague.client.ClientFactory;
 import org.javahispano.javaleague.client.mvp.places.MyTacticPlace;
+import org.javahispano.javaleague.client.mvp.places.WelcomePlace;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -44,6 +45,8 @@ public class AppPrivateMenuBar extends Composite {
 	AnchorButton locale;
 	@UiField
 	HasClickHandlers myTacticLink;
+	@UiField
+	HasClickHandlers logoutLink;
 
 	public AppPrivateMenuBar() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -59,8 +62,7 @@ public class AppPrivateMenuBar extends Composite {
 
 		localeES.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				GWT.log("AppPublicMenuBar: select locale ES");
-				// changeLocale("es");
+				GWT.log("AppPrivateMenuBar: select locale ES");
 				locale.setText("Español (es)");
 				setLocaleCookie("es");
 			}
@@ -68,8 +70,7 @@ public class AppPrivateMenuBar extends Composite {
 
 		localeEN.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				GWT.log("AppPublicMenuBar: select locale EN");
-				// changeLocale("en");
+				GWT.log("AppPrivateMenuBar: select locale EN");
 				locale.setText("English (en)");
 				setLocaleCookie("en");
 			}
@@ -77,8 +78,17 @@ public class AppPrivateMenuBar extends Composite {
 		
 		myTacticLink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
-				GWT.log("AppPublicMenuBar: select MyTactic");
+				GWT.log("AppPrivateMenuBar: select MyTactic");
 				goTo(new MyTacticPlace());
+			}
+		});
+
+		logoutLink.addClickHandler(new ClickHandler() {
+			public void onClick(ClickEvent event) {
+				GWT.log("AppPrivateMenuBar: select Logout");
+				// Falta borrar cookie para no recordar al usuario
+				clientFactory.setAppUser(null);
+				goTo(new WelcomePlace());
 			}
 		});
 
