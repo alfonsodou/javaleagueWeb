@@ -30,13 +30,9 @@
 					<b:AnchorListItem ui:field="frameWorkLink">
 						<ui:msg key="frameWorkLink">FrameWork</ui:msg>
 					</b:AnchorListItem>
-					
+
 					<b:AnchorListItem ui:field="myTacticLink">
 						<ui:msg key="myTacticLink">Mi táctica</ui:msg>
-					</b:AnchorListItem>
-
-					<b:AnchorListItem ui:field="logoutLink">
-						<ui:msg key="logoutLink">Logout</ui:msg>
 					</b:AnchorListItem>
 
 					<b:AnchorListItem ui:field="wikiLink"
@@ -45,13 +41,27 @@
 					</b:AnchorListItem>
 
 					<b:ListDropDown>
-						<b:AnchorButton ui:field="locale" dataToggle="DROPDOWN" icon="GLOBE">Español
+						<b:AnchorButton ui:field="locale" dataToggle="DROPDOWN"
+							icon="GLOBE">Español
 							(es)</b:AnchorButton>
 						<b:DropDownMenu>
 							<b:AnchorListItem ui:field="localeES">Español (es)</b:AnchorListItem>
 							<b:AnchorListItem ui:field="localeEN">English (en)</b:AnchorListItem>
 						</b:DropDownMenu>
 					</b:ListDropDown>
+
+					<b:ListDropDown>
+						<b:AnchorButton ui:field="userName" dataToggle="DROPDOWN"></b:AnchorButton>
+						<b:DropDownMenu>
+							<b:AnchorListItem ui:field="perfilLink">
+								<ui:msg key="perfilLink">Perfil</ui:msg>
+							</b:AnchorListItem>
+							<b:AnchorListItem ui:field="logoutLink">
+								<ui:msg key="logoutLink">Salir</ui:msg>
+							</b:AnchorListItem>
+						</b:DropDownMenu>
+					</b:ListDropDown>
+
 
 				</b:NavbarNav>
 

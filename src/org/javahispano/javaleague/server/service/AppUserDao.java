@@ -129,6 +129,10 @@ public class AppUserDao extends ObjectifyDao<AppUser> {
 		AppUser response = findByEmail(appUser.getEmail());
 		if ((response != null)
 				&& (response.getPassword().equals(appUser.getPassword()))) {
+			response.setLastLoginOn(new Date());
+			response.setLastActive(new Date());
+			this.put(response);
+			
 			return response;
 		}
 

@@ -47,6 +47,8 @@ public class AppPrivateMenuBar extends Composite {
 	HasClickHandlers myTacticLink;
 	@UiField
 	HasClickHandlers logoutLink;
+	@UiField
+	AnchorButton userName;
 
 	public AppPrivateMenuBar() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -75,6 +77,8 @@ public class AppPrivateMenuBar extends Composite {
 				setLocaleCookie("en");
 			}
 		});
+		
+		userName.setText(clientFactory.getAppUser().getAppUserName());
 		
 		myTacticLink.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {

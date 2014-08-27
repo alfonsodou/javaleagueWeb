@@ -172,7 +172,7 @@ public class AppLogin extends Composite {
 				crypt_password += Integer.toHexString(0xFF & b);
 			AppUserService appUserService = clientFactory.getRequestFactory()
 					.appUserService();
-			final AppUserProxy appUser = appUserService.create(AppUserProxy.class);
+			AppUserProxy appUser = appUserService.create(AppUserProxy.class);
 			appUser.setEmail(emailTextBox.getValue());
 			appUser.setPassword(crypt_password);
 			
@@ -180,7 +180,7 @@ public class AppLogin extends Composite {
 				@Override
 				public void onSuccess(AppUserProxy response) {
 					if (response != null) {
-						clientFactory.setAppUser(appUser);
+						clientFactory.setAppUser(response);
 						formLoginUser.reset();
 
 						goTo(new MyTacticPlace());
