@@ -18,6 +18,8 @@ public class AppUser extends DatastoreObject {
 
 	private static final Logger log = Logger.getLogger(AppUser.class.getName());
 
+	private Long tacticUserId;
+
 	private String appUserName;
 	@Index
 	private String email;
@@ -27,7 +29,7 @@ public class AppUser extends DatastoreObject {
 	private String locale;
 	private Date lastActive;
 	@Index
-	private boolean active;
+	private Boolean active;
 	private Date lastLoginOn;
 	
 	public AppUser() {
@@ -169,5 +171,17 @@ public class AppUser extends DatastoreObject {
 	}
 
 	
-	
+	/**
+	 * @return the tacticUserId
+	 */
+	public Long getTacticUserId() {
+		return tacticUserId;
+	}
+
+	/**
+	 * @param tacticUserId the tacticUserId to set
+	 */
+	public void setTacticUserId(Long tacticUserId) {
+		this.tacticUserId = tacticUserId;
+	}
 }

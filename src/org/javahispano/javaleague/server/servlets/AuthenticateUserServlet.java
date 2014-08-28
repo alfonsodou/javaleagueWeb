@@ -49,13 +49,14 @@ public class AuthenticateUserServlet extends HttpServlet {
 				appUserTemp.setActive(true);
 				appUserTemp.setLastActive(new Date());
 				appUserTemp.setLastLoginOn(new Date());
-
-				appUserDao.save(appUserTemp);
-
 				TacticUser tacticUser = new TacticUser(appUserTemp.getId(),
 						req.getParameter("teamName"));
-				
 				tacticUserDao.save(tacticUser);
+				appUserTemp.setTacticUserId(tacticUser.getId());
+				
+				appUserDao.save(appUserTemp);
+				
+
 
 				/*
 				 * All done.

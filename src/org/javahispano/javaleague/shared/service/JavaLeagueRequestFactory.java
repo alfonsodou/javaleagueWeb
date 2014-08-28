@@ -11,4 +11,5 @@ import com.google.web.bindery.requestfactory.shared.RequestFactory;
  */
 public interface JavaLeagueRequestFactory extends RequestFactory {
 	public AppUserService appUserService();
+	public TacticUserService tacticUserService();
 }

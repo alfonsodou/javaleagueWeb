@@ -25,7 +25,7 @@ public class TacticUser extends DatastoreObject {
 	private String fileNameJar;
 	private String fileNameImage;
 	private Long bytes;
-	private boolean valid;
+	private Boolean valid;
 	
 	public TacticUser() {
 		this.valid = false;

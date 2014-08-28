@@ -18,7 +18,9 @@ public interface AppUserProxy extends EntityProxy {
 	String getAppUserName();
 	String getEmail();
 	String getPassword();
+	Long getTacticUserId();
 	void setAppUserName(String appUserName);
 	void setEmail(String email);
 	void setPassword(String password);
+	void setTacticUserId(Long tacticUserId);
 }

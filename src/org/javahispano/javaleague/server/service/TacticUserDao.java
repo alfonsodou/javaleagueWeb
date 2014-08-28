@@ -41,5 +41,16 @@ public class TacticUserDao extends ObjectifyDao<TacticUser> {
 
 		return tacticUser;
 	}
+	
+	public TacticUser findByUserId(Long id) {
+		TacticUser tacticUser = null;
+		try {
+			tacticUser = this.getByProperty2("userId", id);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return tacticUser;
+	}
 
 }
