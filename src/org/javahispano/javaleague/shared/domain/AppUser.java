@@ -1,12 +1,14 @@
 /**
  * 
  */
-package org.javahispano.javaleague.server.domain;
+package org.javahispano.javaleague.shared.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 /**
@@ -14,12 +16,14 @@ import com.googlecode.objectify.annotation.Index;
  * 
  */
 @Entity
-public class AppUser extends DatastoreObject {
+public class AppUser implements Serializable {
 
 	private static final Logger log = Logger.getLogger(AppUser.class.getName());
+	
+	@Id
+	private Long id;
 
 	private Long tacticUserId;
-
 	private String appUserName;
 	@Index
 	private String email;
@@ -184,4 +188,34 @@ public class AppUser extends DatastoreObject {
 	public void setTacticUserId(Long tacticUserId) {
 		this.tacticUserId = tacticUserId;
 	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the active
+	 */
+	public Boolean getActive() {
+		return active;
+	}
+
+	/**
+	 * @param active the active to set
+	 */
+	public void setActive(Boolean active) {
+		this.active = active;
+	}
+	
+	
 }

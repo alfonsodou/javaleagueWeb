@@ -5,7 +5,6 @@ package org.javahispano.javaleague.server.service;
 
 import java.io.StringWriter;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
 import java.util.logging.Logger;
 
@@ -18,67 +17,57 @@ import javax.mail.internet.MimeMessage;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
-import org.javahispano.javaleague.server.domain.AppUser;
+import org.javahispano.javaleague.client.service.AppUserService;
+import org.javahispano.javaleague.server.domain.AppUserDao;
 import org.javahispano.javaleague.server.utils.ServletUtils;
 import org.javahispano.javaleague.server.utils.SessionIdentifierGenerator;
 import org.javahispano.javaleague.server.utils.VelocityHelper;
-import org.javahispano.javaleague.shared.exception.TooManyResultsException;
+import org.javahispano.javaleague.shared.domain.AppUser;
 
-import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
 /**
  * @author adou
- * 
+ *
  */
-public class AppUserDao extends ObjectifyDao<AppUser> {
+public class AppUserServiceImpl extends RemoteServiceServlet implements
+		AppUserService {
 
-	private static Logger logger = Logger.getLogger(AppUserDao.class.getName());
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
-	public void save(AppUser appUser) {
-		this.put(appUser);
-	}
+	private static Logger logger = Logger.getLogger(AppUserServiceImpl.class
+			.getName());
 
-	public void remove(Long id) {
-		try {
-			AppUser appUser = this.get(id);
-			this.delete(appUser);
-		} catch (EntityNotFoundException e) {
-			e.printStackTrace();
+	private AppUserDao appUserDao = new AppUserDao();
+
+	@Override
+	public AppUser login(AppUser appUser) {
+		AppUser response = appUserDao.findByEmail(appUser.getEmail());
+		if ((response != null)
+				&& (response.getPassword().equals(appUser.getPassword()))) {
+			response.setLastLoginOn(new Date());
+			response.setLastActive(new Date());
+			appUserDao.save(response);
+
+			return response;
 		}
+
+		return null;
 	}
 
-	public AppUser fetch(Long id) {
-		AppUser appUser = null;
-		try {
-			appUser = this.get(id);
-		} catch (EntityNotFoundException e) {
-			e.printStackTrace();
-		}
-
-		return appUser;
-	}
-
-	public AppUser findByEmail(String email) {
-		AppUser appUser = null;
-
-		appUser = this.getByProperty2("email", email);
-
-		return appUser;
-	}
-
-	public List<AppUser> getAuthUser(Boolean active) {
-		return this.listByProperty("active", active);
-	}
-
+	@Override
 	public Boolean newUser(AppUser appUser, String teamName) {
 		AppUser appUserTemp = null;
 		try {
-			appUserTemp = this.getByProperty2("email", appUser.getEmail());
+			appUserTemp = appUserDao.findByEmail("email");
 			if (appUserTemp == null) {
 				SessionIdentifierGenerator userTokenGenerator = new SessionIdentifierGenerator();
 				appUser.setDateToken(new Date());
 				appUser.setToken(userTokenGenerator.nextSessionId());
-				this.put(appUser);
+				appUserDao.save(appUser);
 
 				VelocityContext context = new VelocityContext();
 				context.put("username", appUser.getAppUserName());
@@ -124,21 +113,7 @@ public class AppUserDao extends ObjectifyDao<AppUser> {
 
 		return Boolean.FALSE;
 	}
-
-	public AppUser login(AppUser appUser) {
-		AppUser response = findByEmail(appUser.getEmail());
-		if ((response != null)
-				&& (response.getPassword().equals(appUser.getPassword()))) {
-			response.setLastLoginOn(new Date());
-			response.setLastActive(new Date());
-			this.put(response);
-			
-			return response;
-		}
-
-		return null;
-	}
-
+	
 	private String buildStackTrace(Throwable t, String log) {
 		// return "disabled";
 		if (t != null) {
@@ -168,4 +143,5 @@ public class AppUserDao extends ObjectifyDao<AppUser> {
 		}
 		return log;
 	}
+
 }

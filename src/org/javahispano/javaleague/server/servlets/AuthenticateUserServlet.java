@@ -13,11 +13,11 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.javahispano.javaleague.server.domain.AppUser;
-import org.javahispano.javaleague.server.domain.TacticUser;
-import org.javahispano.javaleague.server.service.AppUserDao;
-import org.javahispano.javaleague.server.service.TacticUserDao;
+import org.javahispano.javaleague.server.domain.AppUserDao;
+import org.javahispano.javaleague.server.domain.TacticUserDao;
 import org.javahispano.javaleague.server.utils.LoginHelper;
+import org.javahispano.javaleague.shared.domain.AppUser;
+import org.javahispano.javaleague.shared.domain.TacticUser;
 
 /**
  * @author adou
@@ -39,8 +39,7 @@ public class AuthenticateUserServlet extends HttpServlet {
 		AppUser appUserTemp = null;
 		Date now = new Date();
 		try {
-			appUserTemp = appUserDao.getByProperty2("email",
-					req.getParameter("email"));
+			appUserTemp = appUserDao.findByEmail(req.getParameter("email"));
 			if ((appUserTemp != null)
 					&& (req.getParameter("token")
 							.equals(appUserTemp.getToken()))
@@ -53,10 +52,8 @@ public class AuthenticateUserServlet extends HttpServlet {
 						req.getParameter("teamName"));
 				tacticUserDao.save(tacticUser);
 				appUserTemp.setTacticUserId(tacticUser.getId());
-				
-				appUserDao.save(appUserTemp);
-				
 
+				appUserDao.save(appUserTemp);
 
 				/*
 				 * All done.

@@ -1,11 +1,11 @@
 /**
  * 
  */
-package org.javahispano.javaleague.server.service;
+package org.javahispano.javaleague.server.domain;
 
 
-import org.javahispano.javaleague.server.domain.AppUser;
-import org.javahispano.javaleague.server.domain.TacticUser;
+import org.javahispano.javaleague.shared.domain.AppUser;
+import org.javahispano.javaleague.shared.domain.TacticUser;
 
 import com.googlecode.objectify.Objectify;
 import com.googlecode.objectify.ObjectifyFactory;

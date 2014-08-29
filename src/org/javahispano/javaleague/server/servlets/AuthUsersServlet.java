@@ -4,6 +4,7 @@
 package org.javahispano.javaleague.server.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
@@ -13,9 +14,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.javahispano.javaleague.server.domain.AppUser;
-import org.javahispano.javaleague.server.service.AppUserDao;
+import org.javahispano.javaleague.server.domain.AppUserDao;
 import org.javahispano.javaleague.server.utils.ServletHelper;
+import org.javahispano.javaleague.shared.domain.AppUser;
 
 /**
  * @author adou
@@ -33,7 +34,7 @@ public class AuthUsersServlet extends HttpServlet {
 
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws IOException, ServletException {
-		List<AppUser> listAppUser = null;
+		List<AppUser> listAppUser = new ArrayList<AppUser>();
 		listAppUser = appUserDao.getAuthUser(Boolean.FALSE);
 		if (listAppUser != null) {
 			Date now = new Date();
@@ -42,7 +43,7 @@ public class AuthUsersServlet extends HttpServlet {
 				if (now.compareTo(ServletHelper.addMinutesToDate(
 						appUser.getDateToken(), 1440)) < 0) {
 					log.info("AuthUsersServlet :: borrando usuario id: " + appUser.getId());
-					appUserDao.delete(appUser);
+					appUserDao.remove(appUser);
 				}
 			}
 		}

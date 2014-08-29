@@ -8,8 +8,8 @@ import java.util.logging.Logger;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.javahispano.javaleague.server.domain.AppUser;
-import org.javahispano.javaleague.server.service.AppUserDao;
+import org.javahispano.javaleague.server.domain.AppUserDao;
+import org.javahispano.javaleague.shared.domain.AppUser;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -53,7 +53,7 @@ public class LoginHelper extends RemoteServiceServlet {
 
 		Long id = Long.parseLong(userId.trim());
 		try {
-			AppUser u = appUserDao.get(id);
+			AppUser u = appUserDao.fetch(id);
 			u.setLastActive(new Date());
 			appUserDao.save(u);
 			return u;

@@ -21,8 +21,8 @@ import org.javahispano.javaleague.client.mvp.places.MyTacticPlace;
 import org.javahispano.javaleague.client.mvp.places.RegisterPlace;
 import org.javahispano.javaleague.client.mvp.places.WelcomePlace;
 import org.javahispano.javaleague.client.resources.messages.AppLoginMessages;
-import org.javahispano.javaleague.shared.proxy.AppUserProxy;
-import org.javahispano.javaleague.shared.service.AppUserService;
+import org.javahispano.javaleague.client.service.AppUserService;
+import org.javahispano.javaleague.client.service.AppUserServiceAsync;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -36,6 +36,7 @@ import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
 import com.google.web.bindery.requestfactory.shared.Receiver;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * @author adou
@@ -48,7 +49,7 @@ public class AppLogin extends Composite {
 	private ClientFactory clientFactory = GWT.create(ClientFactory.class);
 	private AppLoginMessages appLoginMessages = GWT
 			.create(AppLoginMessages.class);
-
+	
 	interface AppLoginUiBinder extends UiBinder<Widget, AppLogin> {
 	}
 
@@ -170,6 +171,24 @@ public class AppLogin extends Composite {
 			// Converts bytes to string
 			for (byte b : digested)
 				crypt_password += Integer.toHexString(0xFF & b);
+			
+			new RPCCall<AppUser>() {
+				@Override
+				protected void callService(AsyncCallback<AppUser> cb) {
+					
+				}
+				
+				@Override
+				public onSuccess(AppUser response) {
+					
+				}
+				
+				@Override
+				public void onFailure(Throwable caught) {
+					
+				}
+			};
+			
 			AppUserService appUserService = clientFactory.getRequestFactory()
 					.appUserService();
 			AppUserProxy appUser = appUserService.create(AppUserProxy.class);

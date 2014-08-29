@@ -12,8 +12,10 @@ import org.javahispano.javaleague.client.mvp.views.uibinder.LoginViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.MyTacticViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.RegisterViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.WelcomeViewImpl;
-import org.javahispano.javaleague.shared.proxy.AppUserProxy;
-import org.javahispano.javaleague.shared.service.JavaLeagueRequestFactory;
+import org.javahispano.javaleague.client.service.AppUserService;
+import org.javahispano.javaleague.client.service.AppUserServiceAsync;
+import org.javahispano.javaleague.client.service.TacticUserServiceAsync;
+import org.javahispano.javaleague.shared.domain.AppUser;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.place.shared.PlaceController;
@@ -32,16 +34,19 @@ public class ClientFactoryImpl implements ClientFactory {
 	private static RegisterView registerView;
 	private static LoginView loginView;
 	private static MyTacticView myTacticView;
-	
-	private static AppUserProxy appUser;
 
-	private final JavaLeagueRequestFactory javaLeagueRequestFactory = GWT
-			.create(JavaLeagueRequestFactory.class);
+	private static AppUser appUser;
+
 	private final AppPlacesHistoryMapper historyMapper = GWT
 			.create(AppPlacesHistoryMapper.class);
 
+	private final AppUserServiceAsync appUserService = GWT
+			.create(AppUserService.class);
+	private final TacticUserServiceAsync tacticUserService = GWT
+			.create(TacticUserService.class);
+
 	public ClientFactoryImpl() {
-		javaLeagueRequestFactory.initialize(eventBus);
+
 	}
 
 	@Override
@@ -73,11 +78,6 @@ public class ClientFactoryImpl implements ClientFactory {
 	}
 
 	@Override
-	public JavaLeagueRequestFactory getRequestFactory() {
-		return javaLeagueRequestFactory;
-	}
-
-	@Override
 	public AppPlacesHistoryMapper getHistoryMapper() {
 		return historyMapper;
 	}
@@ -91,20 +91,30 @@ public class ClientFactoryImpl implements ClientFactory {
 
 	@Override
 	public MyTacticView getMyTacticView() {
-		if (myTacticView == null) 
+		if (myTacticView == null)
 			myTacticView = new MyTacticViewImpl();
-		return myTacticView;	
+		return myTacticView;
 	}
 
 	@Override
-	public AppUserProxy getAppUser() {
+	public AppUser getAppUser() {
 		return appUser;
 	}
 
 	@Override
-	public void setAppUser(AppUserProxy appUser) {
+	public void setAppUser(AppUser appUser) {
 		this.appUser = appUser;
-		
+
+	}
+
+	@Override
+	public AppUserServiceAsync getAppUserService() {
+		return appUserService;
+	}
+
+	@Override
+	public TacticUserServiceAsync getTacticUserService() {
+		return tacticUserService;
 	}
 
 }

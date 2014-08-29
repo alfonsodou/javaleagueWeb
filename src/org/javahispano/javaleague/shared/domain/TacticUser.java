@@ -1,12 +1,14 @@
 /**
  * 
  */
-package org.javahispano.javaleague.server.domain;
+package org.javahispano.javaleague.shared.domain;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Logger;
 
 import com.googlecode.objectify.annotation.Entity;
+import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
 
 /**
@@ -14,9 +16,11 @@ import com.googlecode.objectify.annotation.Index;
  *
  */
 @Entity
-public class TacticUser extends DatastoreObject {
+public class TacticUser implements Serializable {
 	private static final Logger log = Logger.getLogger(TacticUser.class.getName());
 	
+	@Id
+	private Long id;
 	@Index
 	private Long userId;
 	private String teamName;
@@ -154,6 +158,35 @@ public class TacticUser extends DatastoreObject {
 	public void setFileNameImage(String fileNameImage) {
 		this.fileNameImage = fileNameImage;
 	}
+
+	/**
+	 * @return the id
+	 */
+	public Long getId() {
+		return id;
+	}
+
+	/**
+	 * @param id the id to set
+	 */
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	/**
+	 * @return the valid
+	 */
+	public Boolean getValid() {
+		return valid;
+	}
+
+	/**
+	 * @param valid the valid to set
+	 */
+	public void setValid(Boolean valid) {
+		this.valid = valid;
+	}
+	
 	
 	
 }

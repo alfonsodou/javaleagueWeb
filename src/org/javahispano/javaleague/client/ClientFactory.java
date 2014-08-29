@@ -8,8 +8,9 @@ import org.javahispano.javaleague.client.mvp.views.LoginView;
 import org.javahispano.javaleague.client.mvp.views.MyTacticView;
 import org.javahispano.javaleague.client.mvp.views.RegisterView;
 import org.javahispano.javaleague.client.mvp.views.WelcomeView;
-import org.javahispano.javaleague.shared.proxy.AppUserProxy;
-import org.javahispano.javaleague.shared.service.JavaLeagueRequestFactory;
+import org.javahispano.javaleague.client.service.AppUserServiceAsync;
+import org.javahispano.javaleague.client.service.TacticUserServiceAsync;
+import org.javahispano.javaleague.shared.domain.AppUser;
 
 import com.google.gwt.place.shared.PlaceController;
 import com.google.web.bindery.event.shared.EventBus;
@@ -23,8 +24,6 @@ public interface ClientFactory {
 
 	public PlaceController getPlaceController();
 
-	public JavaLeagueRequestFactory getRequestFactory();
-	
 	public AppPlacesHistoryMapper getHistoryMapper();
 	
 	public WelcomeView getWelcomeView();
@@ -35,7 +34,11 @@ public interface ClientFactory {
 	
 	public MyTacticView getMyTacticView();
 	
-	public AppUserProxy getAppUser();
+	public AppUser getAppUser();
 	
-	public void setAppUser(AppUserProxy appUser);
+	public void setAppUser(AppUser appUser);
+	
+	public AppUserServiceAsync getAppUserService();
+	
+	public TacticUserServiceAsync getTacticUserService();
 }
