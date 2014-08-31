@@ -1,10 +1,10 @@
 package org.javahispano.javaleague.client.service;
 
-import org.javahispano.javaleague.client.JavaLeagueApp;
-import org.javahispano.javaleague.client.event.LogoutEvent;
-import org.javahispano.javaleague.client.event.RPCInEvent;
-import org.javahispano.javaleague.client.event.RPCOutEvent;
-import org.javahispano.javaleague.client.resources.messages.JavaLeagueConstants;
+import org.javahispano.javaleague.client.ClientFactory;
+import org.javahispano.javaleague.client.mvp.events.LogoutEvent;
+import org.javahispano.javaleague.client.mvp.events.RPCInEvent;
+import org.javahispano.javaleague.client.mvp.events.RPCOutEvent;
+import org.javahispano.javaleague.client.resources.constants.JavaLeagueConstants;
 import org.javahispano.javaleague.shared.exception.NotLoggedInException;
 
 import com.google.gwt.core.client.GWT;
@@ -22,6 +22,8 @@ import com.google.gwt.user.client.rpc.SerializationException;
  * @param <T>
  */
 public abstract class RPCCall<T> implements AsyncCallback<T> {
+	
+	private ClientFactory clientFactory = GWT.create(ClientFactory.class);
 
 	protected abstract void callService(AsyncCallback<T> cb);
 
@@ -37,7 +39,7 @@ public abstract class RPCCall<T> implements AsyncCallback<T> {
 				} catch (InvocationException invocationException) {
 					if (caught.getMessage().equals(
 							JavaLeagueConstants.LOGGED_OUT)) {
-						JavaLeagueApp.get().getEventBus()
+						clientFactory.getEventBus()
 								.fireEvent(new LogoutEvent());
 						return;
 					}
@@ -52,7 +54,7 @@ public abstract class RPCCall<T> implements AsyncCallback<T> {
 				} catch (SerializationException serializationException) {
 					Window.alert("A serialization error occurred. Try again.");
 				} catch (NotLoggedInException e) {
-					JavaLeagueApp.get().getEventBus()
+					clientFactory.getEventBus()
 							.fireEvent(new LogoutEvent());
 				} catch (RequestTimeoutException e) {
 					Window.alert("This is taking too long, try again");
@@ -69,11 +71,11 @@ public abstract class RPCCall<T> implements AsyncCallback<T> {
 	}
 
 	private void onRPCIn() {
-		JavaLeagueApp.get().getEventBus().fireEvent(new RPCInEvent());
+		clientFactory.getEventBus().fireEvent(new RPCInEvent());
 	}
 
 	private void onRPCOut() {
-		JavaLeagueApp.get().getEventBus().fireEvent(new RPCOutEvent());
+		clientFactory.getEventBus().fireEvent(new RPCOutEvent());
 	}
 
 	public void retry(int retryCount) {

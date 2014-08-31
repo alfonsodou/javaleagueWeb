@@ -14,6 +14,7 @@ import org.javahispano.javaleague.client.mvp.views.uibinder.RegisterViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.WelcomeViewImpl;
 import org.javahispano.javaleague.client.service.AppUserService;
 import org.javahispano.javaleague.client.service.AppUserServiceAsync;
+import org.javahispano.javaleague.client.service.TacticUserService;
 import org.javahispano.javaleague.client.service.TacticUserServiceAsync;
 import org.javahispano.javaleague.shared.domain.AppUser;
 
@@ -115,6 +116,14 @@ public class ClientFactoryImpl implements ClientFactory {
 	@Override
 	public TacticUserServiceAsync getTacticUserService() {
 		return tacticUserService;
+	}
+
+	@Override
+	public void init() {
+		appUser = null;
+		welcomeView = null;
+		registerView = null;
+		myTacticView = null;
 	}
 
 }

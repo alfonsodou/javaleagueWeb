@@ -41,4 +41,6 @@ public interface ClientFactory {
 	public AppUserServiceAsync getAppUserService();
 	
 	public TacticUserServiceAsync getTacticUserService();
+	
+	public void init();
 }

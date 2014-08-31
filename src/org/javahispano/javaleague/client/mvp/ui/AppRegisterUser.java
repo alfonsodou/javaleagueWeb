@@ -14,13 +14,12 @@ import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.ModalBody;
 import org.gwtbootstrap3.client.ui.ModalFooter;
 import org.gwtbootstrap3.client.ui.TextBox;
-import org.gwtbootstrap3.client.ui.html.Paragraph;
 import org.gwtbootstrap3.client.ui.html.Span;
 import org.javahispano.javaleague.client.ClientFactory;
 import org.javahispano.javaleague.client.mvp.places.WelcomePlace;
 import org.javahispano.javaleague.client.resources.messages.AppRegisterUserMessages;
-import org.javahispano.javaleague.shared.proxy.AppUserProxy;
-import org.javahispano.javaleague.shared.service.AppUserService;
+import org.javahispano.javaleague.client.service.RPCCall;
+import org.javahispano.javaleague.shared.domain.AppUser;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -31,10 +30,10 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.FormPanel;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.web.bindery.requestfactory.shared.Receiver;
 
 /**
  * @author adou
@@ -90,7 +89,7 @@ public class AppRegisterUser extends Composite {
 
 	private void setUp() {
 		hideErrorLabel();
-		
+
 		formRegisterUser.reset();
 
 		Scheduler.get().scheduleDeferred(new ScheduledCommand() {
@@ -164,18 +163,25 @@ public class AppRegisterUser extends Composite {
 			for (byte b : digested)
 				crypt_password += Integer.toHexString(0xFF & b);
 
-			AppUserService appUserService = clientFactory.getRequestFactory()
-					.appUserService();
-			AppUserProxy appUser = appUserService.create(AppUserProxy.class);
+			final AppUser appUser = new AppUser();
 			appUser.setAppUserName(userName.getText());
 			appUser.setEmail(email.getValue());
 			appUser.setPassword(crypt_password);
 
 			registerButton.setEnabled(false);
-			appUserService.newUser(appUser, teamName.getText()).fire(new Receiver<Boolean>() {
+
+			new RPCCall<Boolean>() {
+
 				@Override
-				public void onSuccess(Boolean response) {
-					if (response == Boolean.TRUE) {
+				public void onFailure(Throwable caught) {
+					GWT.log(caught.getMessage());
+					Window.alert("Error Register User ...");
+					registerButton.setEnabled(true);
+				}
+
+				@Override
+				public void onSuccess(Boolean result) {
+					if (result == Boolean.TRUE) {
 						final Modal modal = new Modal();
 						modal.setTitle(appRegisterUserMessages
 								.captionAppRegisterUser());
@@ -186,13 +192,15 @@ public class AppRegisterUser extends Composite {
 								.okMessage()));
 
 						final ModalFooter modalFooter = new ModalFooter();
-						modalFooter.add(new Button(appRegisterUserMessages
-								.okButton(), new ClickHandler() {
-							@Override
-							public void onClick(final ClickEvent event) {
-								modal.hide();
-							}
-						}));
+						modalFooter.add(new Button(
+								appRegisterUserMessages.okButton(),
+								new ClickHandler() {
+									@Override
+									public void onClick(
+											final ClickEvent event) {
+										modal.hide();
+									}
+								}));
 						modal.add(modalBody);
 						modal.add(modalFooter);
 
@@ -205,9 +213,16 @@ public class AppRegisterUser extends Composite {
 						errorRegisterEmail.setVisible(true);
 					}
 					registerButton.setEnabled(true);
-
 				}
-			});
+
+				@Override
+				protected void callService(AsyncCallback<Boolean> cb) {
+					clientFactory.getAppUserService().newUser(appUser,
+							teamName.getText(), cb);
+				}
+
+			}.retry(3);
+
 		}
 	}
 

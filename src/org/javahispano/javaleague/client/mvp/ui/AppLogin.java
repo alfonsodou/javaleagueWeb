@@ -21,8 +21,8 @@ import org.javahispano.javaleague.client.mvp.places.MyTacticPlace;
 import org.javahispano.javaleague.client.mvp.places.RegisterPlace;
 import org.javahispano.javaleague.client.mvp.places.WelcomePlace;
 import org.javahispano.javaleague.client.resources.messages.AppLoginMessages;
-import org.javahispano.javaleague.client.service.AppUserService;
-import org.javahispano.javaleague.client.service.AppUserServiceAsync;
+import org.javahispano.javaleague.client.service.RPCCall;
+import org.javahispano.javaleague.shared.domain.AppUser;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.Scheduler;
@@ -33,10 +33,9 @@ import com.google.gwt.place.shared.Place;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.web.bindery.requestfactory.shared.Receiver;
-import com.google.gwt.user.client.rpc.AsyncCallback;
 
 /**
  * @author adou
@@ -171,35 +170,28 @@ public class AppLogin extends Composite {
 			// Converts bytes to string
 			for (byte b : digested)
 				crypt_password += Integer.toHexString(0xFF & b);
-			
+
+			final AppUser appUser = new AppUser();
+			appUser.setEmail(emailTextBox.getValue());
+			appUser.setPassword(crypt_password);
+
 			new RPCCall<AppUser>() {
 				@Override
 				protected void callService(AsyncCallback<AppUser> cb) {
-					
+					clientFactory.getAppUserService().login(appUser, cb);
 				}
-				
-				@Override
-				public onSuccess(AppUser response) {
-					
-				}
-				
+							
 				@Override
 				public void onFailure(Throwable caught) {
-					
+					GWT.log(caught.getMessage());
+					Window.alert("Error user login ...");
+					loginButton.setEnabled(true);
 				}
-			};
-			
-			AppUserService appUserService = clientFactory.getRequestFactory()
-					.appUserService();
-			AppUserProxy appUser = appUserService.create(AppUserProxy.class);
-			appUser.setEmail(emailTextBox.getValue());
-			appUser.setPassword(crypt_password);
-			
-			appUserService.login(appUser).fire(new Receiver<AppUserProxy>() {
+
 				@Override
-				public void onSuccess(AppUserProxy response) {
-					if (response != null) {
-						clientFactory.setAppUser(response);
+				public void onSuccess(AppUser result) {
+					if (result != null) {
+						clientFactory.setAppUser(result);
 						formLoginUser.reset();
 
 						goTo(new MyTacticPlace());
@@ -208,7 +200,7 @@ public class AppLogin extends Composite {
 					}
 					loginButton.setEnabled(true);
 				}
-			});
+			}.retry(3);
 		}
 	}
 	

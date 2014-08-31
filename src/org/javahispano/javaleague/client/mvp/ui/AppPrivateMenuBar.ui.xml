@@ -39,17 +39,7 @@
 						href="https://github.com/alfonsodou/javaLeague/wiki/_pages">
 						<ui:msg key="wikiLink">Wiki</ui:msg>
 					</b:AnchorListItem>
-
-					<b:ListDropDown>
-						<b:AnchorButton ui:field="locale" dataToggle="DROPDOWN"
-							icon="GLOBE">Español
-							(es)</b:AnchorButton>
-						<b:DropDownMenu>
-							<b:AnchorListItem ui:field="localeES">Español (es)</b:AnchorListItem>
-							<b:AnchorListItem ui:field="localeEN">English (en)</b:AnchorListItem>
-						</b:DropDownMenu>
-					</b:ListDropDown>
-					
+				
 					<b:ListDropDown>
 						<b:AnchorButton ui:field="userName" dataToggle="DROPDOWN"></b:AnchorButton>
 						<b:DropDownMenu>

@@ -38,6 +38,10 @@
 					<ui:msg key="wikiLink">Wiki</ui:msg>
 				</b:AnchorListItem>
 
+				<b:AnchorListItem ui:field="loginLink">
+					<ui:msg key="loginLink">Login</ui:msg>
+				</b:AnchorListItem>
+				
 				<b:ListDropDown>
 					<b:AnchorButton ui:field="locale" dataToggle="DROPDOWN"
 						icon="GLOBE">Español
@@ -48,9 +52,6 @@
 					</b:DropDownMenu>
 				</b:ListDropDown>
 
-				<b:AnchorListItem ui:field="loginLink">
-					<ui:msg key="loginLink">Login</ui:msg>
-				</b:AnchorListItem>
 				
 			</b:NavbarNav>
 

@@ -38,12 +38,6 @@ public class AppPrivateMenuBar extends Composite {
 	private ClientFactory clientFactory = GWT.create(ClientFactory.class);
 
 	@UiField
-	HasClickHandlers localeES;
-	@UiField
-	HasClickHandlers localeEN;
-	@UiField
-	AnchorButton locale;
-	@UiField
 	HasClickHandlers myTacticLink;
 	@UiField
 	HasClickHandlers logoutLink;
@@ -56,27 +50,6 @@ public class AppPrivateMenuBar extends Composite {
 	}
 
 	private void setUp() {
-		String localeCookie = getLocaleCookie();
-		if (localeCookie.equals("es"))
-			locale.setText("Español (es)");
-		else if (localeCookie.equals("en"))
-			locale.setText("English (en)");
-
-		localeES.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				GWT.log("AppPrivateMenuBar: select locale ES");
-				locale.setText("Español (es)");
-				setLocaleCookie("es");
-			}
-		});
-
-		localeEN.addClickHandler(new ClickHandler() {
-			public void onClick(ClickEvent event) {
-				GWT.log("AppPrivateMenuBar: select locale EN");
-				locale.setText("English (en)");
-				setLocaleCookie("en");
-			}
-		});
 		
 		userName.setText(clientFactory.getAppUser().getAppUserName());
 		
@@ -91,37 +64,11 @@ public class AppPrivateMenuBar extends Composite {
 			public void onClick(ClickEvent event) {
 				GWT.log("AppPrivateMenuBar: select Logout");
 				// Falta borrar cookie para no recordar al usuario
-				clientFactory.setAppUser(null);
+				clientFactory.init();
 				goTo(new WelcomePlace());
 			}
 		});
 
-	}
-
-	private void setLocaleCookie(String locale) {
-		String cookie = getLocaleCookie();
-		boolean control = false;
-
-		if (cookie.equals(locale))
-			control = true;
-		else
-			control = false;
-
-		final String cookieName = LocaleInfo.getLocaleCookieName();
-		if (cookieName != null) {
-			Date expires = new Date();
-			expires.setTime(expires.getTime() + (1000 * 60 * 60 * 24 * 21));
-			Cookies.setCookie(cookieName, locale, expires);
-		}
-
-		if (!control) {
-			com.google.gwt.user.client.Window.Location.reload();
-		}
-	}
-
-	private String getLocaleCookie() {
-		final String cookieName = LocaleInfo.getLocaleCookieName();
-		return Cookies.getCookie(cookieName);
 	}
 
 	public void goTo(Place place) {

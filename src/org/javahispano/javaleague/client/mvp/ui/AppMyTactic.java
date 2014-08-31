@@ -5,17 +5,19 @@ package org.javahispano.javaleague.client.mvp.ui;
 
 import org.gwtbootstrap3.client.ui.Label;
 import org.javahispano.javaleague.client.ClientFactory;
-import org.javahispano.javaleague.shared.proxy.TacticUserProxy;
-import org.javahispano.javaleague.shared.service.TacticUserService;
+import org.javahispano.javaleague.client.service.RPCCall;
+import org.javahispano.javaleague.shared.domain.TacticUser;
 
 import com.google.gwt.core.client.GWT;
+import com.google.gwt.i18n.client.DateTimeFormat;
+import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.gwt.user.client.ui.Composite;
 import com.google.gwt.user.client.ui.TextBox;
 import com.google.gwt.user.client.ui.Widget;
-import com.google.web.bindery.requestfactory.shared.Receiver;
 
 /**
  * @author adou
@@ -31,7 +33,7 @@ public class AppMyTactic extends Composite {
 
 	private ClientFactory clientFactory = GWT.create(ClientFactory.class);
 
-	private TacticUserProxy tacticUser = null;
+	private TacticUser tacticUser = null;
 
 	@UiField
 	Label errorTeamName;
@@ -66,21 +68,32 @@ public class AppMyTactic extends Composite {
 	}
 
 	private void checkTactic() {
-		TacticUserService tacticUserService = clientFactory.getRequestFactory()
-				.tacticUserService();
+		new RPCCall<TacticUser>() {
 
-		tacticUserService.fetch(clientFactory.getAppUser().getTacticUserId())
-				.fire(new Receiver<TacticUserProxy>() {
-					@Override
-					public void onSuccess(TacticUserProxy response) {
-						if (response != null) {
-							tacticUser = response;
-						} else {
-							Window.alert("Error al recuperar la táctica!");
-						}
-					}
-				});
+			@Override
+			public void onFailure(Throwable caught) {
+				GWT.log(caught.getMessage());
+				Window.alert("Error Fetch Tactic ...");
+			}
 
+			@Override
+			public void onSuccess(TacticUser result) {
+				tacticUser = result;
+				if (result != null) {
+					updatedTactic.setText(DateTimeFormat.getFormat(
+							PredefinedFormat.DATE_TIME_MEDIUM).format(
+							tacticUser.getUpdated()));
+					teamName.setText(tacticUser.getTeamName());
+				}
+			}
+
+			@Override
+			protected void callService(AsyncCallback<TacticUser> cb) {
+				clientFactory.getTacticUserService().fetchById(
+						clientFactory.getAppUser().getTacticUserId(), cb);
+			}
+
+		}.retry(3);
 	}
 
 	private void showTactic() {

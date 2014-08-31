@@ -62,7 +62,6 @@ public class AppPublicMenuBar extends Composite {
 		localeES.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				GWT.log("AppPublicMenuBar: select locale ES");
-				// changeLocale("es");
 				locale.setText("Español (es)");
 				setLocaleCookie("es");
 			}
@@ -71,7 +70,6 @@ public class AppPublicMenuBar extends Composite {
 		localeEN.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				GWT.log("AppPublicMenuBar: select locale EN");
-				// changeLocale("en");
 				locale.setText("English (en)");
 				setLocaleCookie("en");
 			}
