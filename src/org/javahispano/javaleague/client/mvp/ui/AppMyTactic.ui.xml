@@ -75,6 +75,8 @@
 											<b:Button ui:field="updateTacticButton">
 												<ui:msg key="updateTactic">Actualizar</ui:msg>
 											</b:Button>
+											<g:TextBox ui:field="appUserId"></g:TextBox>
+											<g:TextBox ui:field="tacticUserId"></g:TextBox>
 										</g:FlowPanel>
 									</g:customCell>
 								</g:row>

@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import org.javahispano.javaleague.shared.AppLib;
+
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
@@ -30,12 +32,14 @@ public class TacticUser implements Serializable {
 	private String fileNameImage;
 	private Long bytes;
 	private Boolean valid;
+	private Integer state;
 	
 	public TacticUser() {
 		this.valid = false;
 		this.creation = new Date();
 		this.updated = new Date();
 		this.bytes = 0L;
+		this.state = AppLib.FRIENDLY_MATCH_OK;
 	}
 	
 	public TacticUser(Long userId, String teamName) {
@@ -45,6 +49,7 @@ public class TacticUser implements Serializable {
 		this.bytes = 0L;
 		this.userId = userId;
 		this.teamName = teamName;
+		this.state = AppLib.FRIENDLY_MATCH_OK;
 	}
 
 	/**
@@ -185,6 +190,20 @@ public class TacticUser implements Serializable {
 	 */
 	public void setValid(Boolean valid) {
 		this.valid = valid;
+	}
+
+	/**
+	 * @return the state
+	 */
+	public Integer getState() {
+		return state;
+	}
+
+	/**
+	 * @param state the state to set
+	 */
+	public void setState(Integer state) {
+		this.state = state;
 	}
 	
 	

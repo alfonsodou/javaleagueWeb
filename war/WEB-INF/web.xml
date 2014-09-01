@@ -45,6 +45,16 @@
 		<servlet-name>AuthenticateUser</servlet-name>
 		<url-pattern>/authenticateUser</url-pattern>
 	</servlet-mapping>
+	
+	<!-- ===================== UploadBlob Servlet ===================== -->
+	<servlet>
+		<servlet-name>UploadBlob</servlet-name>
+		<servlet-class>org.javahispano.javaleague.server.servlets.UploadBlobServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadBlob</servlet-name>
+		<url-pattern>/upload</url-pattern>
+	</servlet-mapping>	
 
 	<!-- ===================== AuthUsers Servlet ===================== -->
 	<servlet>

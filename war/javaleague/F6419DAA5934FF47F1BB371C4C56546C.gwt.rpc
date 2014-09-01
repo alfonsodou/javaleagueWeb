@@ -4,6 +4,7 @@ com.google.gwt.user.client.rpc.RpcTokenException, true, true, false, false, com.
 com.google.gwt.user.client.rpc.XsrfToken, false, false, true, true, com.google.gwt.user.client.rpc.XsrfToken/4254043109, 4254043109
 java.lang.Boolean, true, true, false, false, java.lang.Boolean/476441737, 476441737
 java.lang.Exception, true, false, true, false, java.lang.Exception/1920171873, 1920171873
+java.lang.Integer, true, true, false, false, java.lang.Integer/3438268394, 3438268394
 java.lang.Long, true, true, true, true, java.lang.Long/4227064769, 4227064769
 java.lang.Number, true, false, true, false, java.lang.Number/300033342, 300033342
 java.lang.RuntimeException, true, false, true, false, java.lang.RuntimeException/515124647, 515124647
@@ -14,4 +15,4 @@ java.sql.Time, true, true, false, false, java.sql.Time/1816797103, 1816797103
 java.sql.Timestamp, true, true, false, false, java.sql.Timestamp/3040052672, 3040052672
 java.util.Date, true, true, false, false, java.util.Date/3385151746, 3385151746
 org.javahispano.javaleague.client.service.TacticUserService, false, false, false, false, _, 611033080
-org.javahispano.javaleague.shared.domain.TacticUser, true, true, false, false, org.javahispano.javaleague.shared.domain.TacticUser/4065079889, 4065079889
+org.javahispano.javaleague.shared.domain.TacticUser, true, true, false, false, org.javahispano.javaleague.shared.domain.TacticUser/2383024680, 2383024680

@@ -6,6 +6,7 @@ package org.javahispano.javaleague.client.mvp.ui;
 import org.gwtbootstrap3.client.ui.Label;
 import org.javahispano.javaleague.client.ClientFactory;
 import org.javahispano.javaleague.client.service.RPCCall;
+import org.javahispano.javaleague.shared.AppLib;
 import org.javahispano.javaleague.shared.domain.TacticUser;
 
 import com.google.gwt.core.client.GWT;
@@ -45,6 +46,12 @@ public class AppMyTactic extends Composite {
 	Label updatedTactic;
 	@UiField
 	TextBox teamName;
+	@UiField
+	Label waitForFriendlyMatch;
+	@UiField
+	TextBox appUserId;
+	@UiField
+	TextBox tacticUserId;
 
 	public AppMyTactic() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -54,11 +61,9 @@ public class AppMyTactic extends Composite {
 	private void setUp() {
 		hideErrorLabel();
 
+		waitForFriendlyMatch.setVisible(false);
+
 		checkTactic();
-
-		if (tacticUser != null)
-			showTactic();
-
 	}
 
 	private void hideErrorLabel() {
@@ -84,6 +89,11 @@ public class AppMyTactic extends Composite {
 							PredefinedFormat.DATE_TIME_MEDIUM).format(
 							tacticUser.getUpdated()));
 					teamName.setText(tacticUser.getTeamName());
+					tacticUserId.setText(Long.toString(tacticUser.getId()));
+					if ((tacticUser.getValid())
+							&& (tacticUser.getState() == AppLib.FRIENDLY_MATCH_SCHEDULED)) {
+						waitForFriendlyMatch.setVisible(true);
+					}
 				}
 			}
 
@@ -95,10 +105,4 @@ public class AppMyTactic extends Composite {
 
 		}.retry(3);
 	}
-
-	private void showTactic() {
-		updatedTactic.setText(tacticUser.getUpdated().toString());
-		teamName.setText(tacticUser.getTeamName());
-	}
-
 }
