@@ -19,6 +19,11 @@ import com.googlecode.objectify.annotation.Index;
  */
 @Entity
 public class TacticUser implements Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private static final Logger log = Logger.getLogger(TacticUser.class.getName());
 	
 	@Id
@@ -40,6 +45,7 @@ public class TacticUser implements Serializable {
 		this.updated = new Date();
 		this.bytes = 0L;
 		this.state = AppLib.FRIENDLY_MATCH_OK;
+		this.fileNameJar = AppLib.NO_FILE;
 	}
 	
 	public TacticUser(Long userId, String teamName) {
@@ -50,6 +56,7 @@ public class TacticUser implements Serializable {
 		this.userId = userId;
 		this.teamName = teamName;
 		this.state = AppLib.FRIENDLY_MATCH_OK;
+		this.fileNameJar = AppLib.NO_FILE;
 	}
 
 	/**

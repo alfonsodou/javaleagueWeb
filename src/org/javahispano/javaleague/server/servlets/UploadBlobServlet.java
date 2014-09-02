@@ -5,7 +5,6 @@ package org.javahispano.javaleague.server.servlets;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.nio.ByteBuffer;
 import java.util.Date;
 import java.util.Iterator;
@@ -26,6 +25,7 @@ import org.javahispano.javaleague.server.classloader.MyDataStoreClassLoader;
 import org.javahispano.javaleague.server.domain.AppUserDao;
 import org.javahispano.javaleague.server.domain.FrameWorkDao;
 import org.javahispano.javaleague.server.domain.TacticUserDao;
+import org.javahispano.javaleague.server.utils.Utils;
 import org.javahispano.javaleague.shared.AppLib;
 import org.javahispano.javaleague.shared.domain.FrameWork;
 import org.javahispano.javaleague.shared.domain.TacticUser;
@@ -56,6 +56,9 @@ public class UploadBlobServlet extends HttpServlet {
 	private static FrameWorkDao frameWorkDAO = new FrameWorkDao();
 
 	private MyDataStoreClassLoader myDataStoreClassLoader;
+	
+	private String stackTrace;
+	private Object objectTactic;
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
@@ -66,6 +69,8 @@ public class UploadBlobServlet extends HttpServlet {
 		int error = 0;
 		String teamName = null;
 
+		stackTrace = null;
+		objectTactic = null;
 		try {
 			ServletFileUpload upload = new ServletFileUpload();
 			FileItemIterator iter = upload.getItemIterator(req);
@@ -78,7 +83,12 @@ public class UploadBlobServlet extends HttpServlet {
 					} else if (item.getFieldName().equals("teamName")) {
 						teamName = IOUtils.toString(item.openStream());
 					}
-				} else {
+				}
+			}
+			iter = upload.getItemIterator(req);
+			while (iter.hasNext()) {
+				FileItemStream item = iter.next();
+				if (!item.isFormField()) {
 					if (!item.getName().isEmpty()) {
 						zipBytes = IOUtils.toByteArray(item.openStream());
 						if (zipBytes != null) {
@@ -94,20 +104,16 @@ public class UploadBlobServlet extends HttpServlet {
 								writeToFile(fileName, zipBytes);
 
 								if (tacticUser.getFileNameJar() != null) {
-									gcsService
-											.delete(new GcsFilename(
-													AppLib.BUCKET_GCS,
-													"user/"
-															+ tacticUser
-																	.getUserId()
-																	.toString()
-															+ "/"
-															+ tacticUser
-																	.getId()
-																	.toString()
-															+ "/"
-															+ tacticUser
-																	.getFileNameJar()));
+									gcsService.delete(new GcsFilename(
+											AppLib.BUCKET_GCS, "user/"
+													+ tacticUser.getUserId()
+															.toString()
+													+ "/"
+													+ tacticUser.getId()
+															.toString()
+													+ "/"
+													+ tacticUser
+															.getFileNameJar()));
 								}
 
 								tacticUser.setFileNameJar(item.getName());
@@ -135,11 +141,12 @@ public class UploadBlobServlet extends HttpServlet {
 			sb.append("<root>");
 			sb.append("<tactic>");
 			sb.append("<teamname>" + tacticUser.getTeamName() + "</teamname>\n");
-
-			sb.append("<filename>" + tacticUser.getFileNameJar() + "</filename>\n");
+			sb.append("<filename>" + tacticUser.getFileNameJar()
+					+ "</filename>\n");
 			sb.append("<bytes>" + tacticUser.getBytes().toString()
 					+ "</bytes>\n");
 			sb.append("<error>" + Integer.toString(error) + "</error>");
+			sb.append("<stacktrace>" + stackTrace + "</stacktrace>");
 			sb.append("</tactic>");
 			sb.append("</root>");
 			log.warning("XML: " + sb.toString());
@@ -147,11 +154,7 @@ public class UploadBlobServlet extends HttpServlet {
 			out.flush();
 
 		} catch (Exception e) {
-			status = e.getMessage();
-			log.warning("ERROR: " + status);
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			log.warning("stackTrace -> " + sw.toString());
+			log.warning(Utils.stackTraceToString(e));
 		}
 
 	}
@@ -184,13 +187,19 @@ public class UploadBlobServlet extends HttpServlet {
 			Agent a = cz.newInstance();
 
 			result = loadClass(tactic, a, AppLib.PATH_PACKAGE + tacticId);
+			
+			// Realizamos la última comprobación
+			// Ejecutar las primeras iteraciones de un partido
+			if (result == 0)  {
+				stackTrace = a.testTactic(objectTactic, objectTactic);
+				if (stackTrace != null) {
+					result = 3;
+				}
+			}
 
 		} catch (Exception e) {
 			result = 1;
-			log.warning("ERROR validateTactic: " + e.getMessage());
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			log.warning("stackTrace -> " + sw.toString());
+			log.warning(Utils.stackTraceToString(e));
 		}
 
 		return result;
@@ -200,6 +209,7 @@ public class UploadBlobServlet extends HttpServlet {
 			throws IOException, ClassNotFoundException, InstantiationException,
 			IllegalAccessException {
 		Class<?> cz = null;
+		Class<?> result = null;
 		Map<String, byte[]> byteStream;
 		boolean errorPackageName, existInterfaceTactic;
 		int errorValidate = 0;
@@ -223,11 +233,7 @@ public class UploadBlobServlet extends HttpServlet {
 				}
 
 			} catch (Exception e) {
-
-				log.warning(e.getMessage());
-				StringWriter sw = new StringWriter();
-				e.printStackTrace(new PrintWriter(sw));
-				log.warning("stackTrace -> " + sw.toString());
+				log.warning(Utils.stackTraceToString(e));
 			}
 
 		}
@@ -244,24 +250,19 @@ public class UploadBlobServlet extends HttpServlet {
 				cz = myDataStoreClassLoader.loadClass(name);
 
 				if (a.isTactic(cz)) {
+					objectTactic = cz.newInstance();
 					existInterfaceTactic = true;
 				}
 			} catch (Exception e) {
-
-				log.warning(e.getMessage());
-				StringWriter sw = new StringWriter();
-				e.printStackTrace(new PrintWriter(sw));
-				log.warning("stackTrace -> " + sw.toString());
+				log.warning(Utils.stackTraceToString(e));
 			}
 
 		}
 
 		if (errorPackageName == true) {
 			errorValidate = 1;
-		} else {
-			if (existInterfaceTactic == false) {
-				errorValidate = 2;
-			}
+		} else if (existInterfaceTactic == false) {
+			errorValidate = 2;
 		}
 
 		return errorValidate;
