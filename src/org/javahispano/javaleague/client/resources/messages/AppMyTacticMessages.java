@@ -15,4 +15,8 @@ public interface AppMyTacticMessages extends Messages {
 	String packagePath(String path);
 	@DefaultMessage(":: Sin táctica ::")
 	String emptyUserTactic();
+	@DefaultMessage("Error al ejecutar la táctica")
+	String captionErrorValidateTactic();
+	@DefaultMessage("OK")
+	String okButton();	
 }

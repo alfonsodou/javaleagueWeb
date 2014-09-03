@@ -23,7 +23,7 @@ public class LoginHelper extends RemoteServiceServlet {
 
 	private static Logger logger = Logger
 			.getLogger(LoginHelper.class.getName());
-	private static final int NUM_RETRIES = 5;
+
 	private static AppUserDao appUserDao = new AppUserDao();	
 
 	static public String getApplicationURL(HttpServletRequest request) {

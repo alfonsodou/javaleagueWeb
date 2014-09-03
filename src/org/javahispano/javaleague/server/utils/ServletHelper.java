@@ -20,7 +20,7 @@ public class ServletHelper extends RemoteServiceServlet {
 
 	private static final long serialVersionUID = -6362867182441202099L;
 
-	public HttpSession getSessionIfLoggedOrThrowException()
+	public static HttpSession getSessionIfLoggedOrThrowException()
 			throws NotLoggedInException {
 		HttpSession session = null;
 		if (session == null)

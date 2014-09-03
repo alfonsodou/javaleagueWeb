@@ -13,16 +13,21 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+import javax.servlet.http.HttpSession;
 
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.VelocityEngine;
 import org.javahispano.javaleague.client.service.AppUserService;
 import org.javahispano.javaleague.server.domain.AppUserDao;
+import org.javahispano.javaleague.server.utils.LoginHelper;
+import org.javahispano.javaleague.server.utils.ServletHelper;
 import org.javahispano.javaleague.server.utils.ServletUtils;
 import org.javahispano.javaleague.server.utils.SessionIdentifierGenerator;
+import org.javahispano.javaleague.server.utils.Utils;
 import org.javahispano.javaleague.server.utils.VelocityHelper;
 import org.javahispano.javaleague.shared.domain.AppUser;
+import org.javahispano.javaleague.shared.exception.NotLoggedInException;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
 
@@ -45,14 +50,23 @@ public class AppUserServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public AppUser login(AppUser appUser) {
-		AppUser response = appUserDao.findByEmail(appUser.getEmail());
-		if ((response != null)
-				&& (response.getPassword().equals(appUser.getPassword()))) {
-			response.setLastLoginOn(new Date());
-			response.setLastActive(new Date());
-			appUserDao.save(response);
+		try {
+			AppUser response = appUserDao.findByEmail(appUser.getEmail());
+			if ((response != null) && (response.isActive())
+					&& (response.getPassword().equals(appUser.getPassword()))) {
+				HttpSession session = getThreadLocalRequest().getSession();
+				// update session if successful
+				session.setAttribute("userId", String.valueOf(response.getId()));
+				session.setAttribute("loggedin", true);
 
-			return response;
+				response.setLastLoginOn(new Date());
+				response.setLastActive(new Date());
+				appUserDao.save(response);
+
+				return response;
+			}
+		} catch (Exception e) {
+			logger.warning(Utils.stackTraceToString(e));
 		}
 
 		return null;
@@ -106,42 +120,28 @@ public class AppUserServiceImpl extends RemoteServiceServlet implements
 						+ appUserTemp.getAppUserName());
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
-			String message = e.getMessage() + " :: ";
-			logger.warning(buildStackTrace(e, message));
+			logger.warning(Utils.stackTraceToString(e));
 		}
 
 		return Boolean.FALSE;
 	}
-	
-	private String buildStackTrace(Throwable t, String log) {
-		// return "disabled";
-		if (t != null) {
-			log += t.getClass().toString();
-			log += t.getMessage();
-			//
-			StackTraceElement[] stackTrace = t.getStackTrace();
-			if (stackTrace != null) {
-				StringBuffer trace = new StringBuffer();
 
-				for (int i = 0; i < stackTrace.length; i++) {
-					trace.append(stackTrace[i].getClassName() + "."
-							+ stackTrace[i].getMethodName() + "("
-							+ stackTrace[i].getFileName() + ":"
-							+ stackTrace[i].getLineNumber());
-				}
+	@Override
+	public void logout() throws NotLoggedInException {
+		getThreadLocalRequest().getSession().invalidate();
+		throw new NotLoggedInException("Logged out");
+	}
 
-				log += trace.toString();
-			}
-			//
-			Throwable cause = t.getCause();
-			if (cause != null && cause != t) {
-
-				log += buildStackTrace(cause, "CausedBy:\n");
-
-			}
+	@Override
+	public AppUser getLoggedInUser() {
+		try {
+			return LoginHelper.getLoggedInUser(getThreadLocalRequest()
+					.getSession());
+		} catch (Exception e) {
+			logger.warning(Utils.stackTraceToString(e));
 		}
-		return log;
+
+		return null;
 	}
 
 }

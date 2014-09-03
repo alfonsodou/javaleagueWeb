@@ -14,12 +14,14 @@ import org.javahispano.javaleague.client.mvp.views.uibinder.RegisterViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.WelcomeViewImpl;
 import org.javahispano.javaleague.client.service.AppUserService;
 import org.javahispano.javaleague.client.service.AppUserServiceAsync;
+import org.javahispano.javaleague.client.service.RPCCall;
 import org.javahispano.javaleague.client.service.TacticUserService;
 import org.javahispano.javaleague.client.service.TacticUserServiceAsync;
 import org.javahispano.javaleague.shared.domain.AppUser;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.place.shared.PlaceController;
+import com.google.gwt.user.client.rpc.AsyncCallback;
 import com.google.web.bindery.event.shared.EventBus;
 import com.google.web.bindery.event.shared.SimpleEventBus;
 
@@ -99,12 +101,33 @@ public class ClientFactoryImpl implements ClientFactory {
 
 	@Override
 	public AppUser getAppUser() {
+		if (appUser == null) {
+			new RPCCall<AppUser>() {
+
+				@Override
+				public void onFailure(Throwable caught) {
+					GWT.log("ClientFactoryImpl: Error getAppUser");
+				}
+
+				@Override
+				public void onSuccess(AppUser result) {
+					appUser = result;
+				}
+
+				@Override
+				protected void callService(AsyncCallback<AppUser> cb) {
+					appUserService.getLoggedInUser(cb);
+				}
+
+			}.retry(3);
+		}
+		
 		return appUser;
 	}
 
 	@Override
 	public void setAppUser(AppUser appUser) {
-		this.appUser = appUser;
+		ClientFactoryImpl.appUser = appUser;
 
 	}
 

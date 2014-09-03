@@ -25,6 +25,7 @@ import org.javahispano.javaleague.server.classloader.MyDataStoreClassLoader;
 import org.javahispano.javaleague.server.domain.AppUserDao;
 import org.javahispano.javaleague.server.domain.FrameWorkDao;
 import org.javahispano.javaleague.server.domain.TacticUserDao;
+import org.javahispano.javaleague.server.utils.LoginHelper;
 import org.javahispano.javaleague.server.utils.Utils;
 import org.javahispano.javaleague.shared.AppLib;
 import org.javahispano.javaleague.shared.domain.FrameWork;
@@ -56,13 +57,14 @@ public class UploadBlobServlet extends HttpServlet {
 	private static FrameWorkDao frameWorkDAO = new FrameWorkDao();
 
 	private MyDataStoreClassLoader myDataStoreClassLoader;
-	
+
 	private String stackTrace;
 	private Object objectTactic;
 
 	public void doPost(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {
 		TacticUser tacticUser = null;
+
 		String status = null;
 		GcsFilename fileName = null;
 		byte[] zipBytes = null;
@@ -71,58 +73,47 @@ public class UploadBlobServlet extends HttpServlet {
 
 		stackTrace = null;
 		objectTactic = null;
+
+		tacticUser = tacticUserDao.findByUserId(LoginHelper.getLoggedInUser(
+				req.getSession()).getId());
+
 		try {
 			ServletFileUpload upload = new ServletFileUpload();
 			FileItemIterator iter = upload.getItemIterator(req);
 			while (iter.hasNext()) {
 				FileItemStream item = iter.next();
 				if (item.isFormField()) {
-					if (item.getFieldName().equals("tacticUserId")) {
-						tacticUser = tacticUserDao.fetch(Long.getLong(IOUtils
-								.toString(item.openStream())));
-					} else if (item.getFieldName().equals("teamName")) {
+					if (item.getFieldName().equals("teamName")) {
 						teamName = IOUtils.toString(item.openStream());
 					}
-				}
-			}
-			iter = upload.getItemIterator(req);
-			while (iter.hasNext()) {
-				FileItemStream item = iter.next();
-				if (!item.isFormField()) {
-					if (!item.getName().isEmpty()) {
-						zipBytes = IOUtils.toByteArray(item.openStream());
-						if (zipBytes != null) {
-							error = validateTactic(zipBytes, tacticUser.getId()
-									.toString());
-							if (error == 0) {
-								fileName = new GcsFilename(AppLib.BUCKET_GCS,
-										"user/"
+				} else if (!item.getName().isEmpty()) {
+					zipBytes = IOUtils.toByteArray(item.openStream());
+					if (zipBytes != null) {
+						error = validateTactic(zipBytes, tacticUser.getId()
+								.toString());
+						if (error == 0) {
+							fileName = new GcsFilename(AppLib.BUCKET_GCS,
+									"user/" + tacticUser.getUserId().toString()
+											+ "/"
+											+ tacticUser.getId().toString()
+											+ "/" + item.getName());
+							writeToFile(fileName, zipBytes);
+
+							if (tacticUser.getFileNameJar() != null) {
+								gcsService.delete(new GcsFilename(
+										AppLib.BUCKET_GCS, "user/"
 												+ tacticUser.getUserId()
 														.toString() + "/"
 												+ tacticUser.getId().toString()
-												+ "/" + item.getName());
-								writeToFile(fileName, zipBytes);
+												+ "/"
+												+ tacticUser.getFileNameJar()));
+							}
 
-								if (tacticUser.getFileNameJar() != null) {
-									gcsService.delete(new GcsFilename(
-											AppLib.BUCKET_GCS, "user/"
-													+ tacticUser.getUserId()
-															.toString()
-													+ "/"
-													+ tacticUser.getId()
-															.toString()
-													+ "/"
-													+ tacticUser
-															.getFileNameJar()));
-								}
-
-								tacticUser.setFileNameJar(item.getName());
-								tacticUser.setBytes(gcsService.getMetadata(
-										fileName).getLength());
-								if (tacticUser.getState() != AppLib.FRIENDLY_MATCH_SCHEDULED) {
-									tacticUser
-											.setState(AppLib.FRIENDLY_MATCH_OK);
-								}
+							tacticUser.setFileNameJar(item.getName());
+							tacticUser.setBytes(gcsService
+									.getMetadata(fileName).getLength());
+							if (tacticUser.getState() != AppLib.FRIENDLY_MATCH_SCHEDULED) {
+								tacticUser.setState(AppLib.FRIENDLY_MATCH_OK);
 							}
 						}
 					}
@@ -187,10 +178,10 @@ public class UploadBlobServlet extends HttpServlet {
 			Agent a = cz.newInstance();
 
 			result = loadClass(tactic, a, AppLib.PATH_PACKAGE + tacticId);
-			
+
 			// Realizamos la última comprobación
 			// Ejecutar las primeras iteraciones de un partido
-			if (result == 0)  {
+			if (result == 0) {
 				stackTrace = a.testTactic(objectTactic, objectTactic);
 				if (stackTrace != null) {
 					result = 3;

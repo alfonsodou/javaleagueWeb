@@ -8,7 +8,11 @@ import java.util.Date;
 import org.gwtbootstrap3.client.ui.Badge;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Label;
+import org.gwtbootstrap3.client.ui.Modal;
+import org.gwtbootstrap3.client.ui.ModalBody;
+import org.gwtbootstrap3.client.ui.ModalFooter;
 import org.gwtbootstrap3.client.ui.html.Paragraph;
+import org.gwtbootstrap3.client.ui.html.Span;
 import org.javahispano.javaleague.client.ClientFactory;
 import org.javahispano.javaleague.client.resources.messages.AppMyTacticMessages;
 import org.javahispano.javaleague.client.service.RPCCall;
@@ -64,10 +68,6 @@ public class AppMyTactic extends Composite {
 	TextBox teamName;
 	@UiField
 	Label waitForFriendlyMatch;
-	@UiField
-	TextBox appUserId;
-	@UiField
-	TextBox tacticUserId;
 	@UiField
 	Paragraph messagePackagePath;
 	@UiField
@@ -125,6 +125,28 @@ public class AppMyTactic extends Composite {
 					case 2:
 						errorInterfaceTactic.setVisible(true);
 						break;
+					case 3:
+						final Modal modal = new Modal();
+						modal.setTitle(appMyTacticMessages.captionErrorValidateTactic());
+						modal.setClosable(true);
+
+						final ModalBody modalBody = new ModalBody();
+						modalBody.add(new Span(getElementTextValue(
+								tacticElement, "stacktrace")));
+
+						final ModalFooter modalFooter = new ModalFooter();
+						modalFooter.add(new Button(appMyTacticMessages
+								.okButton(), new ClickHandler() {
+							@Override
+							public void onClick(final ClickEvent event) {
+								modal.hide();
+							}
+						}));
+						modal.add(modalBody);
+						modal.add(modalFooter);
+
+						modal.show();
+						break;
 					}
 				} else {
 					fileName.setText(appMyTacticMessages.emptyUserTactic());
@@ -170,7 +192,6 @@ public class AppMyTactic extends Composite {
 		}
 
 		if (!error) {
-
 			updateTacticButton.setEnabled(false);
 
 			tacticUser.setTeamName(teamName.getValue());
@@ -201,7 +222,6 @@ public class AppMyTactic extends Composite {
 							PredefinedFormat.DATE_TIME_MEDIUM).format(
 							tacticUser.getUpdated()));
 					teamName.setText(tacticUser.getTeamName());
-					tacticUserId.setText(Long.toString(tacticUser.getId()));
 					messagePackagePath.setText(appMyTacticMessages
 							.packagePath(AppLib.PATH_PACKAGE
 									+ tacticUser.getId().toString()));

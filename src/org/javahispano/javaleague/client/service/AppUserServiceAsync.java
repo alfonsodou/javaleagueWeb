@@ -17,5 +17,8 @@ public interface AppUserServiceAsync {
 			AsyncCallback<Boolean> callback);
 
 	void login(AppUser appUser, AsyncCallback<AppUser> callback);
+	
+	void logout(AsyncCallback<Void> callback);
 
+	void getLoggedInUser(AsyncCallback<AppUser> callback);
 }

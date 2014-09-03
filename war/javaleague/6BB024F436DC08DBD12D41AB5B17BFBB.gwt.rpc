@@ -15,3 +15,4 @@ java.sql.Timestamp, true, true, true, true, java.sql.Timestamp/3040052672, 30400
 java.util.Date, true, true, true, true, java.util.Date/3385151746, 3385151746
 org.javahispano.javaleague.client.service.AppUserService, false, false, false, false, _, 3757289015
 org.javahispano.javaleague.shared.domain.AppUser, true, true, true, true, org.javahispano.javaleague.shared.domain.AppUser/1250837244, 1250837244
+org.javahispano.javaleague.shared.exception.NotLoggedInException, true, true, false, false, org.javahispano.javaleague.shared.exception.NotLoggedInException/4103393952, 4103393952
