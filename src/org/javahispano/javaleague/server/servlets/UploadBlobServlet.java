@@ -92,13 +92,6 @@ public class UploadBlobServlet extends HttpServlet {
 						error = validateTactic(zipBytes, tacticUser.getId()
 								.toString());
 						if (error == 0) {
-							fileName = new GcsFilename(AppLib.BUCKET_GCS,
-									"user/" + tacticUser.getUserId().toString()
-											+ "/"
-											+ tacticUser.getId().toString()
-											+ "/" + item.getName());
-							writeToFile(fileName, zipBytes);
-
 							if (tacticUser.getFileNameJar() != null) {
 								gcsService.delete(new GcsFilename(
 										AppLib.BUCKET_GCS, "user/"
@@ -108,6 +101,13 @@ public class UploadBlobServlet extends HttpServlet {
 												+ "/"
 												+ tacticUser.getFileNameJar()));
 							}
+							
+							fileName = new GcsFilename(AppLib.BUCKET_GCS,
+									"user/" + tacticUser.getUserId().toString()
+											+ "/"
+											+ tacticUser.getId().toString()
+											+ "/" + item.getName());
+							writeToFile(fileName, zipBytes);
 
 							tacticUser.setFileNameJar(item.getName());
 							tacticUser.setBytes(gcsService
@@ -166,7 +166,7 @@ public class UploadBlobServlet extends HttpServlet {
 			myDataStoreClassLoader = new MyDataStoreClassLoader(this.getClass()
 					.getClassLoader());
 
-			frameWork = frameWorkDAO.findById(AppLib.DEFAULT_FRAMEWORK_ID);
+			frameWork = frameWorkDAO.findDefaultFrameWork();
 			// Cargamos el framework
 			myDataStoreClassLoader.addClassJarFramework(new BlobKey(frameWork
 					.getFrameWork()));
@@ -181,12 +181,12 @@ public class UploadBlobServlet extends HttpServlet {
 
 			// Realizamos la última comprobación
 			// Ejecutar las primeras iteraciones de un partido
-			if (result == 0) {
+			/*if (result == 0) {
 				stackTrace = a.testTactic(objectTactic, objectTactic);
 				if (stackTrace != null) {
 					result = 3;
 				}
-			}
+			}*/
 
 		} catch (Exception e) {
 			result = 1;

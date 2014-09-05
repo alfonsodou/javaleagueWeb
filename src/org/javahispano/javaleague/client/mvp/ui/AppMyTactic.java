@@ -127,7 +127,8 @@ public class AppMyTactic extends Composite {
 						break;
 					case 3:
 						final Modal modal = new Modal();
-						modal.setTitle(appMyTacticMessages.captionErrorValidateTactic());
+						modal.setTitle(appMyTacticMessages
+								.captionErrorValidateTactic());
 						modal.setClosable(true);
 
 						final ModalBody modalBody = new ModalBody();
@@ -228,7 +229,8 @@ public class AppMyTactic extends Composite {
 					if (tacticUser.getFileNameJar().equals(AppLib.NO_FILE)) {
 						fileName.setText(appMyTacticMessages.emptyUserTactic());
 					} else {
-						fileName.setText(tacticUser.getFileNameJar());
+						fileName.setText(tacticUser.getFileNameJar() + " :: "
+								+ tacticUser.getBytes() + " bytes");
 					}
 					if ((tacticUser.getValid())
 							&& (tacticUser.getState() == AppLib.FRIENDLY_MATCH_SCHEDULED)) {

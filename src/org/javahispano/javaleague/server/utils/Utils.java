@@ -17,6 +17,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -121,6 +123,21 @@ public class Utils {
 			}
 		}
 		return retValue;
+	}
+	
+	/**
+	 * Agrega o quita minutos a una fecha dada. Para quitar minutos hay que
+	 * sumarle valores negativos.
+	 * 
+	 * @param date
+	 * @param minutes
+	 * @return
+	 */
+	public static Date addMinutesToDate(Date date, int minutes) {
+		Calendar calendarDate = Calendar.getInstance();
+		calendarDate.setTime(date);
+		calendarDate.add(Calendar.MINUTE, minutes);
+		return calendarDate.getTime();
 	}
 
 } // end class

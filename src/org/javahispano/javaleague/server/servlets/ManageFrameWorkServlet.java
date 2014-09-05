@@ -52,6 +52,8 @@ public class ManageFrameWorkServlet extends HttpServlet {
 				frameWork.setFrameWork(SaveFile(req.getParameter("url"),
 						req.getParameter("url")));
 				frameWork.setUrlDownload(req.getParameter("urlSource"));
+				frameWork.setActive(Boolean.TRUE);
+				frameWork.setDefaultFrameWork(Boolean.TRUE);
 
 				frameWorkDAO.save(frameWork);
 			} catch (Exception e) {
