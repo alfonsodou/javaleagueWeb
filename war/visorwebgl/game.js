@@ -889,8 +889,7 @@ loadScene.addChild(logoKreadi);
 setGame('gameCanvas', loadScene, _fps);
 console.log(document.location.search.substring(1));
 //loadPartido('/imageTransform?file=' + document.location.search.substring(1));
-//loadPartido('/visorwebgl/partidos/matchs-league-6133129278390272-5031379704217600.bin');
-loadPartido('http://javacup.javahispano.org/imageTransform?file=cma_team-9na.jvcweb.678728151888032398');
+loadPartido('/serveFriendlyBin?id=' + document.location.search.substring(1));
 
 function animLoad() {
     loadText2.position.y = _h - 33;

@@ -1,8 +1,6 @@
 package org.javahispano.javaleague.server.servlets;
 
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.nio.ByteBuffer;
 import java.util.Iterator;
 import java.util.Map;
@@ -19,6 +17,7 @@ import org.javahispano.javaleague.server.classloader.MyDataStoreClassLoader;
 import org.javahispano.javaleague.server.domain.FrameWorkDao;
 import org.javahispano.javaleague.server.domain.MatchFriendlyDao;
 import org.javahispano.javaleague.server.domain.TacticUserDao;
+import org.javahispano.javaleague.server.utils.Utils;
 import org.javahispano.javaleague.shared.AppLib;
 import org.javahispano.javaleague.shared.domain.FrameWork;
 import org.javahispano.javaleague.shared.domain.MatchFriendly;
@@ -117,17 +116,9 @@ public class PlayMatchFriendlyServlet extends HttpServlet {
 			visitingTactic.setState(AppLib.FRIENDLY_MATCH_OK);
 
 		} catch (Exception e) {
-
-			log.warning(e.getClass().getCanonicalName());
-			log.warning(e.getClass().getName());
-			log.warning(e.getMessage());
-
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			log.warning("stackTrace -> " + sw.toString());
-
+			log.warning(Utils.stackTraceToString(e));
 			match.setState(AppLib.MATCH_ERROR);
-			match.setError(sw.toString());
+			match.setError(Utils.stackTraceToString(e));
 			localTactic.setState(AppLib.FRIENDLY_MATCH_OK);
 			visitingTactic.setState(AppLib.FRIENDLY_MATCH_OK);
 		} finally {
@@ -163,13 +154,8 @@ public class PlayMatchFriendlyServlet extends HttpServlet {
 				myDataStoreClassLoader.addClass(name, (byte[]) e.getValue());
 
 			} catch (Exception e) {
-
-				log.warning(e.getMessage());
-				StringWriter sw = new StringWriter();
-				e.printStackTrace(new PrintWriter(sw));
-				log.warning("stackTrace -> " + sw.toString());
+				log.warning(Utils.stackTraceToString(e));
 			}
-
 		}
 
 		Iterator it1 = byteStream.entrySet().iterator();
@@ -186,13 +172,8 @@ public class PlayMatchFriendlyServlet extends HttpServlet {
 					result = cz;
 				}
 			} catch (Exception e) {
-
-				log.warning(e.getMessage());
-				StringWriter sw = new StringWriter();
-				e.printStackTrace(new PrintWriter(sw));
-				log.warning("stackTrace -> " + sw.toString());
+				log.warning(Utils.stackTraceToString(e));
 			}
-
 		}
 
 		if (result != null)
@@ -221,11 +202,7 @@ public class PlayMatchFriendlyServlet extends HttpServlet {
 				readChannel.read(result);
 			}
 		} catch (Exception e) {
-			log.warning(e.getMessage());
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			log.warning("stackTrace -> " + sw.toString());
-
+			log.warning(Utils.stackTraceToString(e));
 		}
 
 		return result.array();

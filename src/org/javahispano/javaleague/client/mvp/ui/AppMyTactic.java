@@ -3,20 +3,31 @@
  */
 package org.javahispano.javaleague.client.mvp.ui;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Date;
+import java.util.List;
 
+import org.gwtbootstrap3.client.ui.Anchor;
 import org.gwtbootstrap3.client.ui.Badge;
 import org.gwtbootstrap3.client.ui.Button;
+import org.gwtbootstrap3.client.ui.Column;
 import org.gwtbootstrap3.client.ui.Label;
 import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.ModalBody;
 import org.gwtbootstrap3.client.ui.ModalFooter;
+import org.gwtbootstrap3.client.ui.Row;
+import org.gwtbootstrap3.client.ui.constants.Alignment;
+import org.gwtbootstrap3.client.ui.constants.ColumnSize;
+import org.gwtbootstrap3.client.ui.html.Italic;
 import org.gwtbootstrap3.client.ui.html.Paragraph;
+import org.gwtbootstrap3.client.ui.html.Small;
 import org.gwtbootstrap3.client.ui.html.Span;
 import org.javahispano.javaleague.client.ClientFactory;
 import org.javahispano.javaleague.client.resources.messages.AppMyTacticMessages;
 import org.javahispano.javaleague.client.service.RPCCall;
 import org.javahispano.javaleague.shared.AppLib;
+import org.javahispano.javaleague.shared.domain.MatchFriendly;
 import org.javahispano.javaleague.shared.domain.TacticUser;
 
 import com.google.gwt.core.client.GWT;
@@ -55,6 +66,8 @@ public class AppMyTactic extends Composite {
 			.create(AppMyTacticMessages.class);
 
 	private TacticUser tacticUser = null;
+	private List<MatchFriendly> listMatchFriendly = null;
+	private Date now;
 
 	@UiField
 	Label errorTeamName;
@@ -78,6 +91,8 @@ public class AppMyTactic extends Composite {
 	Button playMatchButton;
 	@UiField
 	Badge fileName;
+	@UiField
+	Paragraph listMatchs;
 
 	public AppMyTactic() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -101,6 +116,18 @@ public class AppMyTactic extends Composite {
 
 				doUpdateTactic();
 			}
+		});
+
+		playMatchButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				GWT.log("AppMyTactic: select play match: id: "
+						+ tacticUser.getId());
+
+				doPlayMatch();
+			}
+
 		});
 
 		formPanelTactic.addSubmitCompleteHandler(new SubmitCompleteHandler() {
@@ -206,6 +233,35 @@ public class AppMyTactic extends Composite {
 		errorInterfaceTactic.setVisible(false);
 	}
 
+	private void doPlayMatch() {
+		new RPCCall<MatchFriendly>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				GWT.log(caught.getMessage());
+				Window.alert("Error Play Match ...");
+			}
+
+			@Override
+			public void onSuccess(MatchFriendly result) {
+				if (result == null) {
+					waitForFriendlyMatch.setVisible(true);
+				} else {
+					listMatchFriendly.add(result);
+					bubbleSort(listMatchFriendly);
+					showMatchs();
+				}
+			}
+
+			@Override
+			protected void callService(AsyncCallback<MatchFriendly> cb) {
+				clientFactory.getMatchFriendlyService().dispatchMatch(
+						tacticUser.getId(), cb);
+			}
+
+		}.retry(3);
+	}
+
 	private void checkTactic() {
 		new RPCCall<TacticUser>() {
 
@@ -236,6 +292,8 @@ public class AppMyTactic extends Composite {
 							&& (tacticUser.getState() == AppLib.FRIENDLY_MATCH_SCHEDULED)) {
 						waitForFriendlyMatch.setVisible(true);
 					}
+
+					checkDate();
 				}
 			}
 
@@ -253,5 +311,211 @@ public class AppMyTactic extends Composite {
 		// have to include safety checks.
 		return parent.getElementsByTagName(elementTag).item(0).getFirstChild()
 				.getNodeValue();
+	}
+
+	private void bubbleSort(List<MatchFriendly> array) {
+		boolean swapped = true;
+		int j = 0;
+		MatchFriendly tmp;
+		while (swapped) {
+			swapped = false;
+			j++;
+			for (int i = 0; i < array.size() - j; i++) {
+				if (array.get(i).getVisualization()
+						.compareTo(array.get(i + 1).getVisualization()) > 0) {
+					tmp = array.get(i);
+					array.set(i, array.get(i + 1));
+					array.set(i + 1, tmp);
+					swapped = true;
+				}
+			}
+		}
+	}
+
+	private void checkMatchs() {
+		new RPCCall<List<MatchFriendly>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				GWT.log(caught.getMessage());
+				Window.alert("Error Fetch Match ...");
+			}
+
+			@Override
+			public void onSuccess(List<MatchFriendly> result) {
+				if ((result != null) && (result.size() > 0)) {
+					listMatchFriendly = result;
+					showMatchs();
+				}
+			}
+
+			@Override
+			protected void callService(AsyncCallback<List<MatchFriendly>> cb) {
+				clientFactory.getMatchFriendlyService()
+						.getAllFriendlyMatchsByTactic(tacticUser.getId(), cb);
+			}
+
+		}.retry(3);
+	}
+
+	private void checkDate() {
+		
+		new RPCCall<Date>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				GWT.log(caught.getMessage());
+				Window.alert("Error Fetch Date ...");
+			}
+
+			@Override
+			public void onSuccess(Date result) {
+				if (result != null) {
+					now = result;
+					
+					checkMatchs();
+				}
+			}
+
+			@Override
+			protected void callService(AsyncCallback<Date> cb) {
+				clientFactory.getMatchFriendlyService().getDateNow(cb);
+			}
+
+		}.retry(3);
+		
+	}
+
+	private void showMatchs() {
+		listMatchs.clear();
+		for (MatchFriendly m : listMatchFriendly) {
+			Row row = new Row();
+
+			row.add(addType());
+			row.add(addTeam(m.getLocalTeamId(), m.getNameLocal(),
+					m.getNameLocalManager()));
+
+			row.add(addResult(m.getLocalGoals(), m.getVisitingTeamGoals(),
+					m.getLocalPossesion(), m.getState(), m.getId(),
+					m.getVisualization()));
+			
+			row.add(addTeam(m.getVisitingTeamId(), m.getNameForeign(),
+					m.getNameVisitingManager()));
+			
+			listMatchs.add(row);
+		}
+	}
+
+	private Column addType() {
+		Column column = new Column();
+
+		column.setSize(ColumnSize.MD_2);
+
+		Italic italics = new Italic();
+		italics.setText(appMyTacticMessages.friendly());
+		column.add(italics);
+
+		return column;
+	}
+
+	private Column addTeam(Long id, String name, String nameManager) {
+		Column column = new Column();
+		column.setSize(ColumnSize.MD_3);
+		Paragraph p = new Paragraph();
+		p.setAlignment(Alignment.CENTER);
+		Paragraph teamName = new Paragraph();
+		Small managerName = new Small();
+
+		teamName.setText(name);
+		managerName.setText(nameManager);
+
+		p.add(teamName);
+		p.add(managerName);
+
+		column.add(p);
+
+		return column;
+	}
+
+	private Column addResult(int localGoals, int visitingTeamGoals,
+			double localPossesion, int state, Long id, Date d) {
+		Column column = new Column();
+		column.setSize(ColumnSize.MD_3);
+		Paragraph p = new Paragraph();
+		p.setAlignment(Alignment.CENTER);
+		Paragraph result = new Paragraph();
+		Small possesion = new Small();
+		DateTimeFormat date = DateTimeFormat
+				.getFormat(PredefinedFormat.DATE_TIME_MEDIUM);
+
+		Anchor anchor = new Anchor();
+
+		switch (state) {
+		case AppLib.MATCH_ERROR:
+			anchor.setText(appMyTacticMessages.matchError());
+			anchor.setHref(AppLib.baseURL + "/serveError?id="
+					+ Long.toString(id));
+			break;
+		case AppLib.MATCH_SCHEDULED:
+			anchor.setText(date.format(d));
+			break;
+		case AppLib.MATCH_QUEUE:
+			anchor.setText(date.format(d));
+			break;
+		case AppLib.MATCH_OK:
+			if (now.before(addMinutesToDate(d,
+					-AppLib.MINUTES_BEFORE_LIVE_MATCH))) {
+				anchor.setText(date.format(d));
+			} else {
+				if (now.after(addMinutesToDate(d,
+						-AppLib.MINUTES_BEFORE_LIVE_MATCH))
+						&& now.before(addMinutesToDate(d,
+								AppLib.MINUTES_AFTER_LIVE_MATCH))) {
+					anchor.setText(appMyTacticMessages.live());
+				} else {
+					anchor.setText(localGoals + " - " + visitingTeamGoals);
+					possesion.setText(round(localPossesion * 100d, 2) + " - "
+							+ round((1d - localPossesion) * 100d, 2));
+				}
+				/*
+				 * De momento el enlace descarga el partido Falta arreglar el
+				 * visor para ver el partido en directo
+				 */
+				/*
+				 * anchor.setHref(AppLib.baseURL + "/serve?id=" +
+				 * Long.toString(id));
+				 */
+
+				anchor.setHref(AppLib.baseURL + "/visorwebgl/play.html?"
+						+ Long.toString(id));
+				/*
+				 * MyClickHandlerMatch myClickHandler = new MyClickHandlerMatch(
+				 * id, eventBus); anchor.addClickHandler(myClickHandler);
+				 */
+			}
+			break;
+		}
+
+		result.add(anchor);
+
+		p.add(result);
+		p.add(possesion);
+
+		column.add(p);
+
+		return column;
+	}
+
+	private double round(double value, int places) {
+		if (places < 0)
+			throw new IllegalArgumentException();
+
+		BigDecimal bd = new BigDecimal(value);
+		bd = bd.setScale(places, RoundingMode.HALF_UP);
+		return bd.doubleValue();
+	}
+
+	private Date addMinutesToDate(Date date, int minutes) {
+		return new Date(date.getTime() + (minutes * 60 * 1000));
 	}
 }

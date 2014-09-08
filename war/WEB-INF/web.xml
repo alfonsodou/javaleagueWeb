@@ -36,6 +36,17 @@
 		<url-pattern>/javaleague/tacticUserService</url-pattern>
 	</servlet-mapping>
 
+	<!-- ===================== matchFriendlyService ===================== -->
+	<servlet>
+		<servlet-name>matchFriendlyService</servlet-name>
+		<servlet-class>org.javahispano.javaleague.server.service.MatchFriendlyServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>matchFriendlyService</servlet-name>
+		<url-pattern>/javaleague/matchFriendlyService</url-pattern>
+	</servlet-mapping>
+
 	<!-- ===================== AuthenticateUser Servlet ===================== -->
 	<servlet>
 		<servlet-name>AuthenticateUser</servlet-name>
@@ -45,7 +56,7 @@
 		<servlet-name>AuthenticateUser</servlet-name>
 		<url-pattern>/authenticateUser</url-pattern>
 	</servlet-mapping>
-	
+
 	<!-- ===================== UploadBlob Servlet ===================== -->
 	<servlet>
 		<servlet-name>UploadBlob</servlet-name>
@@ -54,7 +65,7 @@
 	<servlet-mapping>
 		<servlet-name>UploadBlob</servlet-name>
 		<url-pattern>/upload</url-pattern>
-	</servlet-mapping>	
+	</servlet-mapping>
 
 	<!-- ===================== AuthUsers Servlet ===================== -->
 	<servlet>
@@ -65,8 +76,8 @@
 		<servlet-name>authUsers</servlet-name>
 		<url-pattern>/cron/authUsers</url-pattern>
 	</servlet-mapping>
-	
-		<!-- ===================== ManageFrameWork Servlet ===================== -->
+
+	<!-- ===================== ManageFrameWork Servlet ===================== -->
 	<servlet>
 		<servlet-name>ManageFrameWork</servlet-name>
 		<servlet-class>org.javahispano.javaleague.server.servlets.ManageFrameWorkServlet</servlet-class>
@@ -74,6 +85,36 @@
 	<servlet-mapping>
 		<servlet-name>ManageFrameWork</servlet-name>
 		<url-pattern>/cron/manageFrameWork</url-pattern>
+	</servlet-mapping>
+
+	<!-- ===================== Play Friendly Match Servlet ===================== -->
+	<servlet>
+		<servlet-name>playMatchFriendly</servlet-name>
+		<servlet-class>org.javahispano.javaleague.server.servlets.PlayMatchFriendlyServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>playMatchFriendly</servlet-name>
+		<url-pattern>/playMatchFriendly</url-pattern>
+	</servlet-mapping>
+
+	<!-- ===================== Serve Bin Friendly Match Servlet ===================== -->
+	<servlet>
+		<servlet-name>serveFriendlyBin</servlet-name>
+		<servlet-class>org.javahispano.javaleague.server.servlets.ServeFriendlyBinServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>serveFriendlyBin</servlet-name>
+		<url-pattern>/serveFriendlyBin</url-pattern>
+	</servlet-mapping>
+
+	<!-- ===================== Image Servlet ===================== -->
+	<servlet>
+		<servlet-name>image</servlet-name>
+		<servlet-class>org.javahispano.javaleague.server.servlets.ImageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>image</servlet-name>
+		<url-pattern>/imageTransform</url-pattern>
 	</servlet-mapping>
 
 	<!-- Default page to serve -->

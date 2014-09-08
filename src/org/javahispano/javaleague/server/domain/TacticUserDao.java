@@ -3,14 +3,13 @@
  */
 package org.javahispano.javaleague.server.domain;
 
-import java.util.logging.Logger;
-
 import static org.javahispano.javaleague.server.domain.OfyService.ofy;
 
-import org.javahispano.javaleague.shared.domain.AppUser;
-import org.javahispano.javaleague.shared.domain.TacticUser;
+import java.util.List;
+import java.util.logging.Logger;
 
-import com.google.appengine.api.datastore.EntityNotFoundException;
+import org.javahispano.javaleague.server.utils.Utils;
+import org.javahispano.javaleague.shared.domain.TacticUser;
 
 /**
  * @author adou
@@ -26,7 +25,11 @@ public class TacticUserDao {
 	}
 
 	public void save(TacticUser tacticUser) {
-		ofy().save().entity(tacticUser).now();
+		try {
+			ofy().save().entity(tacticUser).now();
+		} catch (Exception e) {
+			logger.warning(Utils.stackTraceToString(e));
+		}
 	}
 
 	public void remove(Long id) {
@@ -34,8 +37,7 @@ public class TacticUserDao {
 			TacticUser tacticUser = fetch(id);
 			ofy().delete().entity(tacticUser);
 		} catch (Exception e) {
-			String message = e.getMessage() + " :: ";
-			logger.warning(buildStackTrace(e, message));
+			logger.warning(Utils.stackTraceToString(e));
 		}
 	}
 
@@ -44,8 +46,7 @@ public class TacticUserDao {
 		try {
 			tacticUser = ofy().load().type(TacticUser.class).id(id).now();
 		} catch (Exception e) {
-			String message = e.getMessage() + " :: ID: " + id + " :: ";
-			logger.warning(buildStackTrace(e, message));
+			logger.warning(Utils.stackTraceToString(e));
 		}
 
 		return tacticUser;
@@ -57,40 +58,19 @@ public class TacticUserDao {
 			tacticUser = ofy().load().type(TacticUser.class)
 					.filter("userId", id).first().now();
 		} catch (Exception e) {
-			String message = e.getMessage() + " :: ";
-			logger.warning(buildStackTrace(e, message));
+			logger.warning(Utils.stackTraceToString(e));
 		}
 
 		return tacticUser;
 	}
 
-	private String buildStackTrace(Throwable t, String log) {
-		// return "disabled";
-		if (t != null) {
-			log += t.getClass().toString();
-			log += t.getMessage();
-			//
-			StackTraceElement[] stackTrace = t.getStackTrace();
-			if (stackTrace != null) {
-				StringBuffer trace = new StringBuffer();
-
-				for (int i = 0; i < stackTrace.length; i++) {
-					trace.append(stackTrace[i].getClassName() + "."
-							+ stackTrace[i].getMethodName() + "("
-							+ stackTrace[i].getFileName() + ":"
-							+ stackTrace[i].getLineNumber());
-				}
-
-				log += trace.toString();
-			}
-			//
-			Throwable cause = t.getCause();
-			if (cause != null && cause != t) {
-
-				log += buildStackTrace(cause, "CausedBy:\n");
-
-			}
+	public List<TacticUser> finbByState(Integer state) {
+		try {
+			return ofy().load().type(TacticUser.class).filter("state", state)
+					.list();
+		} catch (Exception e) {
+			logger.warning(Utils.stackTraceToString(e));
 		}
-		return log;
+		return null;
 	}
 }

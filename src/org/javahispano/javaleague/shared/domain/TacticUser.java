@@ -37,6 +37,7 @@ public class TacticUser implements Serializable {
 	private String fileNameImage;
 	private Long bytes;
 	private Boolean valid;
+	@Index
 	private Integer state;
 	
 	public TacticUser() {

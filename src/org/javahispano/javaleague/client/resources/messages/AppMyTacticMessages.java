@@ -19,4 +19,10 @@ public interface AppMyTacticMessages extends Messages {
 	String captionErrorValidateTactic();
 	@DefaultMessage("OK")
 	String okButton();	
+	@DefaultMessage("Amistoso")
+	String friendly();
+	@DefaultMessage("ERROR!")
+	String matchError();
+	@DefaultMessage("EN DIRECTO!")
+	String live();
 }

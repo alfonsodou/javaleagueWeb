@@ -14,6 +14,8 @@ import org.javahispano.javaleague.client.mvp.views.uibinder.RegisterViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.WelcomeViewImpl;
 import org.javahispano.javaleague.client.service.AppUserService;
 import org.javahispano.javaleague.client.service.AppUserServiceAsync;
+import org.javahispano.javaleague.client.service.MatchFriendlyService;
+import org.javahispano.javaleague.client.service.MatchFriendlyServiceAsync;
 import org.javahispano.javaleague.client.service.RPCCall;
 import org.javahispano.javaleague.client.service.TacticUserService;
 import org.javahispano.javaleague.client.service.TacticUserServiceAsync;
@@ -47,6 +49,8 @@ public class ClientFactoryImpl implements ClientFactory {
 			.create(AppUserService.class);
 	private final TacticUserServiceAsync tacticUserService = GWT
 			.create(TacticUserService.class);
+	private final MatchFriendlyServiceAsync matchFriendlyService = GWT
+			.create(MatchFriendlyService.class);
 
 	public ClientFactoryImpl() {
 
@@ -121,7 +125,7 @@ public class ClientFactoryImpl implements ClientFactory {
 
 			}.retry(3);
 		}
-		
+
 		return appUser;
 	}
 
@@ -147,6 +151,11 @@ public class ClientFactoryImpl implements ClientFactory {
 		welcomeView = null;
 		registerView = null;
 		myTacticView = null;
+	}
+
+	@Override
+	public MatchFriendlyServiceAsync getMatchFriendlyService() {
+		return matchFriendlyService;
 	}
 
 }

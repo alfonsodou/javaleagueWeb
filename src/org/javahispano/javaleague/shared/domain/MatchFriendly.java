@@ -2,15 +2,12 @@ package org.javahispano.javaleague.shared.domain;
 
 import java.io.Serializable;
 import java.util.Date;
-import java.util.logging.Logger;
 
 import org.javahispano.javaleague.shared.AppLib;
 
-import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Load;
 
 @Entity
 public class MatchFriendly implements Serializable {
@@ -19,8 +16,6 @@ public class MatchFriendly implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-
-	private static final Logger log = Logger.getLogger(MatchFriendly.class.getName());
 
 	@Id
 	private Long id;

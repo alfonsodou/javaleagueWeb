@@ -9,6 +9,7 @@ import org.javahispano.javaleague.client.mvp.views.MyTacticView;
 import org.javahispano.javaleague.client.mvp.views.RegisterView;
 import org.javahispano.javaleague.client.mvp.views.WelcomeView;
 import org.javahispano.javaleague.client.service.AppUserServiceAsync;
+import org.javahispano.javaleague.client.service.MatchFriendlyServiceAsync;
 import org.javahispano.javaleague.client.service.TacticUserServiceAsync;
 import org.javahispano.javaleague.shared.domain.AppUser;
 
@@ -41,6 +42,8 @@ public interface ClientFactory {
 	public AppUserServiceAsync getAppUserService();
 	
 	public TacticUserServiceAsync getTacticUserService();
+	
+	public MatchFriendlyServiceAsync getMatchFriendlyService();
 	
 	public void init();
 }

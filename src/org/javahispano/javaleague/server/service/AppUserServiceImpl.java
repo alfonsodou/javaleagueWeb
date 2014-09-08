@@ -21,7 +21,6 @@ import org.apache.velocity.app.VelocityEngine;
 import org.javahispano.javaleague.client.service.AppUserService;
 import org.javahispano.javaleague.server.domain.AppUserDao;
 import org.javahispano.javaleague.server.utils.LoginHelper;
-import org.javahispano.javaleague.server.utils.ServletHelper;
 import org.javahispano.javaleague.server.utils.ServletUtils;
 import org.javahispano.javaleague.server.utils.SessionIdentifierGenerator;
 import org.javahispano.javaleague.server.utils.Utils;

@@ -130,19 +130,11 @@
 					</b:Column>
 				</b:Row>
 				<b:Row>
-					<b:Column size="MD_6">
+					<b:Column size="MD_12">
 						<b.html:Paragraph alignment="CENTER">
-							<ui:msg key="nextMatchs">Próximos partidos</ui:msg>
+							<ui:msg key="listMatchs">Partidos</ui:msg>
 						</b.html:Paragraph>
-						<b.html:Paragraph ui:field="nextMatchs"
-							alignment="CENTER">
-						</b.html:Paragraph>
-					</b:Column>
-					<b:Column size="MD_6">
-						<b.html:Paragraph alignment="CENTER">
-							<ui:msg key="lastMatchs">Últimos partidos</ui:msg>
-						</b.html:Paragraph>
-						<b.html:Paragraph ui:field="lastMatchs"
+						<b.html:Paragraph ui:field="listMatchs"
 							alignment="CENTER">
 						</b.html:Paragraph>
 					</b:Column>
