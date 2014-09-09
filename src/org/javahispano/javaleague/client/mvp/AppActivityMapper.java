@@ -4,10 +4,12 @@ import org.javahispano.javaleague.client.ClientFactory;
 import org.javahispano.javaleague.client.mvp.activities.LoginActivity;
 import org.javahispano.javaleague.client.mvp.activities.MyTacticActivity;
 import org.javahispano.javaleague.client.mvp.activities.RegisterActivity;
+import org.javahispano.javaleague.client.mvp.activities.ShowMatchActivity;
 import org.javahispano.javaleague.client.mvp.activities.WelcomeActivity;
 import org.javahispano.javaleague.client.mvp.places.LoginPlace;
 import org.javahispano.javaleague.client.mvp.places.MyTacticPlace;
 import org.javahispano.javaleague.client.mvp.places.RegisterPlace;
+import org.javahispano.javaleague.client.mvp.places.ShowMatchPlace;
 import org.javahispano.javaleague.client.mvp.places.WelcomePlace;
 
 import com.google.gwt.activity.shared.Activity;
@@ -26,12 +28,15 @@ public class AppActivityMapper implements ActivityMapper {
 	public Activity getActivity(Place place) {
 		if (place instanceof WelcomePlace)
 			return new WelcomeActivity((WelcomePlace) place, clientFactory);
-		else if (place instanceof RegisterPlace) 
+		else if (place instanceof RegisterPlace)
 			return new RegisterActivity((RegisterPlace) place, clientFactory);
 		else if (place instanceof LoginPlace)
 			return new LoginActivity((LoginPlace) place, clientFactory);
 		else if (place instanceof MyTacticPlace)
 			return new MyTacticActivity((MyTacticPlace) place, clientFactory);
-		else return null;
+		else if (place instanceof ShowMatchPlace)
+			return new ShowMatchActivity((ShowMatchPlace) place, clientFactory);
+		else
+			return null;
 	}
 }

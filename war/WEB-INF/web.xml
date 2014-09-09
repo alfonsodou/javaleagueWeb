@@ -107,6 +107,36 @@
 		<url-pattern>/serveFriendlyBin</url-pattern>
 	</servlet-mapping>
 
+	<!-- ===================== Serve Friendly Match Servlet ===================== -->
+	<servlet>
+		<servlet-name>serveFriendly</servlet-name>
+		<servlet-class>org.javahispano.javaleague.server.servlets.ServeFriendlyServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>serveFriendly</servlet-name>
+		<url-pattern>/serveFriendly</url-pattern>
+	</servlet-mapping>
+
+	<!-- ===================== Time Tactic Match Servlet ===================== -->
+	<servlet>
+		<servlet-name>timeTacticMatch</servlet-name>
+		<servlet-class>org.javahispano.javaleague.server.servlets.TimeTacticMatchServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>timeTacticMatch</servlet-name>
+		<url-pattern>/timeTacticMatch</url-pattern>
+	</servlet-mapping>
+
+	<!-- ===================== Serve Error Servlet ===================== -->
+	<servlet>
+		<servlet-name>serveError</servlet-name>
+		<servlet-class>org.javahispano.javaleague.server.servlets.ServeErrorServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>serveError</servlet-name>
+		<url-pattern>/serveError</url-pattern>
+	</servlet-mapping>
+
 	<!-- ===================== Image Servlet ===================== -->
 	<servlet>
 		<servlet-name>image</servlet-name>

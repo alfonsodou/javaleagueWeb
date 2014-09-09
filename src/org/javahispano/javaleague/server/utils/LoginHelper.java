@@ -24,7 +24,7 @@ public class LoginHelper extends RemoteServiceServlet {
 	private static Logger logger = Logger
 			.getLogger(LoginHelper.class.getName());
 
-	private static AppUserDao appUserDao = new AppUserDao();	
+	private static AppUserDao appUserDao = new AppUserDao();
 
 	static public String getApplicationURL(HttpServletRequest request) {
 
@@ -42,26 +42,22 @@ public class LoginHelper extends RemoteServiceServlet {
 			logger.warning("LoginHelper: getLoggedInUser :: Session is null!");
 			return null; // user not logged in
 		}
-			
 
 		String userId = (String) session.getAttribute("userId");
 		if (userId == null) {
 			logger.warning("LoginHelper: getLoggedInUser :: userId is null!");
-			return null; // user not logged in			
+			return null; // user not logged in
 		}
 
-
 		Long id = Long.parseLong(userId.trim());
+		logger.warning("Session userID: " + userId);
 		try {
 			AppUser u = appUserDao.fetch(id);
 			u.setLastActive(new Date());
 			appUserDao.save(u);
 			return u;
 		} catch (Exception e) {
-			logger.warning(e.getMessage());
-			StringWriter sw = new StringWriter();
-			e.printStackTrace(new PrintWriter(sw));
-			logger.warning("stackTrace -> " + sw.toString());
+			logger.warning(Utils.stackTraceToString(e));
 			return null;
 		}
 
@@ -91,6 +87,5 @@ public class LoginHelper extends RemoteServiceServlet {
 			}
 		}
 	}
-
 
 }

@@ -44,7 +44,7 @@ public class MatchFriendlyServiceImpl extends RemoteServiceServlet implements
 		try {
 			MatchFriendlyDao dao = new MatchFriendlyDao();
 			matchs = dao.findAllByTactic(tacticId);
-			if (matchs.size() > 2) {
+			if (matchs.size() > 1) {
 				bubbleSort(matchs);
 			}
 			logger.warning("Num. partidos: " + matchs.size());

@@ -29,12 +29,15 @@ public class TimeTacticMatchServlet extends HttpServlet {
 			throws ServletException, IOException {
 		MatchFriendlyDao matchDAO = new MatchFriendlyDao();
 		MatchFriendly match = null;
-		long[] time;
+		long[] time = null;
 		String result = "";
+		Long tactic = 0L;
 
 		try {
-			match = matchDAO.findById(Long.parseLong(req
-					.getParameter("matchID").replace("_", "")));
+			match = matchDAO.findById(Long.parseLong(req.getParameter("id")
+					.replace("_", "")));
+			tactic = Long
+					.parseLong(req.getParameter("tactic").replace("_", ""));
 		} catch (Exception e) {
 			log.warning(e.getMessage());
 		}
@@ -43,12 +46,12 @@ public class TimeTacticMatchServlet extends HttpServlet {
 		res.setHeader("ETag", match.getId().toString());// Establece header ETag
 
 		PrintWriter out = res.getWriter();
-		if (req.getParameter("tactic").equals("local")) {
+		if (tactic.equals(match.getLocalTeamId())) {
 			time = match.getTimeLocal();
 			res.setHeader("Content-disposition",
 					"attachment; filename=" + match.getId().toString() + "_"
 							+ eliminaBlancos(match.getNameLocal()) + ".csv");
-		} else {
+		} else if (tactic.equals(match.getVisitingTeamId())) {
 			time = match.getTimeVisita();
 			res.setHeader("Content-disposition",
 					"attachment; filename=" + match.getId().toString() + "_"

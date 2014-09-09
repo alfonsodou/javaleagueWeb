@@ -7,10 +7,12 @@ import org.javahispano.javaleague.client.mvp.AppPlacesHistoryMapper;
 import org.javahispano.javaleague.client.mvp.views.LoginView;
 import org.javahispano.javaleague.client.mvp.views.MyTacticView;
 import org.javahispano.javaleague.client.mvp.views.RegisterView;
+import org.javahispano.javaleague.client.mvp.views.ShowMatchView;
 import org.javahispano.javaleague.client.mvp.views.WelcomeView;
 import org.javahispano.javaleague.client.mvp.views.uibinder.LoginViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.MyTacticViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.RegisterViewImpl;
+import org.javahispano.javaleague.client.mvp.views.uibinder.ShowMatchViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.WelcomeViewImpl;
 import org.javahispano.javaleague.client.service.AppUserService;
 import org.javahispano.javaleague.client.service.AppUserServiceAsync;
@@ -39,17 +41,18 @@ public class ClientFactoryImpl implements ClientFactory {
 	private static RegisterView registerView;
 	private static LoginView loginView;
 	private static MyTacticView myTacticView;
+	private static ShowMatchView showMatchView;
 
 	private static AppUser appUser;
 
-	private final AppPlacesHistoryMapper historyMapper = GWT
+	private AppPlacesHistoryMapper historyMapper = GWT
 			.create(AppPlacesHistoryMapper.class);
 
-	private final AppUserServiceAsync appUserService = GWT
+	private AppUserServiceAsync appUserService = GWT
 			.create(AppUserService.class);
-	private final TacticUserServiceAsync tacticUserService = GWT
+	private TacticUserServiceAsync tacticUserService = GWT
 			.create(TacticUserService.class);
-	private final MatchFriendlyServiceAsync matchFriendlyService = GWT
+	private MatchFriendlyServiceAsync matchFriendlyService = GWT
 			.create(MatchFriendlyService.class);
 
 	public ClientFactoryImpl() {
@@ -86,6 +89,8 @@ public class ClientFactoryImpl implements ClientFactory {
 
 	@Override
 	public AppPlacesHistoryMapper getHistoryMapper() {
+		if (historyMapper == null)
+			historyMapper = GWT.create(AppPlacesHistoryMapper.class);
 		return historyMapper;
 	}
 
@@ -105,7 +110,7 @@ public class ClientFactoryImpl implements ClientFactory {
 
 	@Override
 	public AppUser getAppUser() {
-		if (appUser == null) {
+		if (ClientFactoryImpl.appUser == null) {
 			new RPCCall<AppUser>() {
 
 				@Override
@@ -115,7 +120,7 @@ public class ClientFactoryImpl implements ClientFactory {
 
 				@Override
 				public void onSuccess(AppUser result) {
-					appUser = result;
+					ClientFactoryImpl.appUser = result;
 				}
 
 				@Override
@@ -126,7 +131,7 @@ public class ClientFactoryImpl implements ClientFactory {
 			}.retry(3);
 		}
 
-		return appUser;
+		return ClientFactoryImpl.appUser;
 	}
 
 	@Override
@@ -137,11 +142,15 @@ public class ClientFactoryImpl implements ClientFactory {
 
 	@Override
 	public AppUserServiceAsync getAppUserService() {
+		if (appUserService == null)
+			appUserService = GWT.create(AppUserService.class);
 		return appUserService;
 	}
 
 	@Override
 	public TacticUserServiceAsync getTacticUserService() {
+		if (tacticUserService == null)
+			tacticUserService = GWT.create(TacticUserService.class);
 		return tacticUserService;
 	}
 
@@ -155,7 +164,16 @@ public class ClientFactoryImpl implements ClientFactory {
 
 	@Override
 	public MatchFriendlyServiceAsync getMatchFriendlyService() {
+		if (matchFriendlyService == null)
+			matchFriendlyService = GWT.create(MatchFriendlyService.class);
 		return matchFriendlyService;
+	}
+
+	@Override
+	public ShowMatchView getShowMatchView() {
+		if (showMatchView == null)
+			showMatchView = new ShowMatchViewImpl();
+		return showMatchView;
 	}
 
 }

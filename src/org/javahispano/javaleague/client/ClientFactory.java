@@ -7,6 +7,7 @@ import org.javahispano.javaleague.client.mvp.AppPlacesHistoryMapper;
 import org.javahispano.javaleague.client.mvp.views.LoginView;
 import org.javahispano.javaleague.client.mvp.views.MyTacticView;
 import org.javahispano.javaleague.client.mvp.views.RegisterView;
+import org.javahispano.javaleague.client.mvp.views.ShowMatchView;
 import org.javahispano.javaleague.client.mvp.views.WelcomeView;
 import org.javahispano.javaleague.client.service.AppUserServiceAsync;
 import org.javahispano.javaleague.client.service.MatchFriendlyServiceAsync;
@@ -34,6 +35,8 @@ public interface ClientFactory {
 	public LoginView getLoginView();
 	
 	public MyTacticView getMyTacticView();
+	
+	public ShowMatchView getShowMatchView();
 	
 	public AppUser getAppUser();
 	

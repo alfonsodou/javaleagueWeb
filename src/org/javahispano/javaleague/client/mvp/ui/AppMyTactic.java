@@ -19,11 +19,13 @@ import org.gwtbootstrap3.client.ui.ModalFooter;
 import org.gwtbootstrap3.client.ui.Row;
 import org.gwtbootstrap3.client.ui.constants.Alignment;
 import org.gwtbootstrap3.client.ui.constants.ColumnSize;
+import org.gwtbootstrap3.client.ui.constants.IconType;
 import org.gwtbootstrap3.client.ui.html.Italic;
 import org.gwtbootstrap3.client.ui.html.Paragraph;
 import org.gwtbootstrap3.client.ui.html.Small;
 import org.gwtbootstrap3.client.ui.html.Span;
 import org.javahispano.javaleague.client.ClientFactory;
+import org.javahispano.javaleague.client.mvp.places.ShowMatchPlace;
 import org.javahispano.javaleague.client.resources.messages.AppMyTacticMessages;
 import org.javahispano.javaleague.client.service.RPCCall;
 import org.javahispano.javaleague.shared.AppLib;
@@ -35,6 +37,7 @@ import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.i18n.client.DateTimeFormat;
 import com.google.gwt.i18n.client.DateTimeFormat.PredefinedFormat;
+import com.google.gwt.place.shared.Place;
 import com.google.gwt.uibinder.client.UiBinder;
 import com.google.gwt.uibinder.client.UiField;
 import com.google.gwt.user.client.Window;
@@ -205,6 +208,7 @@ public class AppMyTactic extends Composite {
 			}
 		} else {
 			fileName.setText(appMyTacticMessages.emptyUserTactic());
+			playMatchButton.setEnabled(false);
 		}
 
 	}
@@ -284,6 +288,7 @@ public class AppMyTactic extends Composite {
 									+ tacticUser.getId().toString()));
 					if (tacticUser.getFileNameJar().equals(AppLib.NO_FILE)) {
 						fileName.setText(appMyTacticMessages.emptyUserTactic());
+						playMatchButton.setEnabled(false);
 					} else {
 						fileName.setText(tacticUser.getFileNameJar() + " :: "
 								+ tacticUser.getBytes() + " bytes");
@@ -359,7 +364,7 @@ public class AppMyTactic extends Composite {
 	}
 
 	private void checkDate() {
-		
+
 		new RPCCall<Date>() {
 
 			@Override
@@ -372,7 +377,7 @@ public class AppMyTactic extends Composite {
 			public void onSuccess(Date result) {
 				if (result != null) {
 					now = result;
-					
+
 					checkMatchs();
 				}
 			}
@@ -383,7 +388,7 @@ public class AppMyTactic extends Composite {
 			}
 
 		}.retry(3);
-		
+
 	}
 
 	private void showMatchs() {
@@ -398,10 +403,13 @@ public class AppMyTactic extends Composite {
 			row.add(addResult(m.getLocalGoals(), m.getVisitingTeamGoals(),
 					m.getLocalPossesion(), m.getState(), m.getId(),
 					m.getVisualization()));
-			
+
 			row.add(addTeam(m.getVisitingTeamId(), m.getNameForeign(),
 					m.getNameVisitingManager()));
-			
+
+			row.add(addLinks(m.getId(), m.getLocalTeamId(),
+					m.getVisitingTeamId(), m.getState(), m.getVisualization()));
+
 			listMatchs.add(row);
 		}
 	}
@@ -438,9 +446,9 @@ public class AppMyTactic extends Composite {
 	}
 
 	private Column addResult(int localGoals, int visitingTeamGoals,
-			double localPossesion, int state, Long id, Date d) {
+			double localPossesion, int state, final Long id, Date d) {
 		Column column = new Column();
-		column.setSize(ColumnSize.MD_3);
+		column.setSize(ColumnSize.MD_2);
 		Paragraph p = new Paragraph();
 		p.setAlignment(Alignment.CENTER);
 		Paragraph result = new Paragraph();
@@ -449,6 +457,7 @@ public class AppMyTactic extends Composite {
 				.getFormat(PredefinedFormat.DATE_TIME_MEDIUM);
 
 		Anchor anchor = new Anchor();
+		Button button = new Button();
 
 		switch (state) {
 		case AppLib.MATCH_ERROR:
@@ -486,8 +495,21 @@ public class AppMyTactic extends Composite {
 				 * Long.toString(id));
 				 */
 
+				anchor.setDataTarget("_blank");
 				anchor.setHref(AppLib.baseURL + "/visorwebgl/play.html?"
 						+ Long.toString(id));
+
+				button.setText("Prueba");
+				button.addClickHandler(new ClickHandler() {
+
+					@Override
+					public void onClick(ClickEvent event) {
+						goTo(new ShowMatchPlace(Long.toString(id)));
+
+					}
+
+				});
+				
 				/*
 				 * MyClickHandlerMatch myClickHandler = new MyClickHandlerMatch(
 				 * id, eventBus); anchor.addClickHandler(myClickHandler);
@@ -497,11 +519,57 @@ public class AppMyTactic extends Composite {
 		}
 
 		result.add(anchor);
+		result.add(button);
 
 		p.add(result);
 		p.add(possesion);
 
 		column.add(p);
+
+		return column;
+	}
+
+	private Column addLinks(Long id, Long localId, Long visitingId, int state,
+			Date d) {
+		Column column = new Column();
+		column.setSize(ColumnSize.MD_1);
+
+		if ((state == AppLib.MATCH_OK)
+				&& !(now.before(addMinutesToDate(d,
+						-AppLib.MINUTES_BEFORE_LIVE_MATCH)))
+				&& !(now.after(addMinutesToDate(d,
+						-AppLib.MINUTES_BEFORE_LIVE_MATCH)) && now
+						.before(addMinutesToDate(d,
+								AppLib.MINUTES_AFTER_LIVE_MATCH)))) {
+			Paragraph p = new Paragraph();
+			p.setAlignment(Alignment.CENTER);
+			Anchor match = new Anchor();
+			match.setIcon(IconType.DOWNLOAD);
+			match.setHref(AppLib.baseURL + "/serveFriendly?id="
+					+ Long.toString(id));
+			p.add(match);
+
+			if (tacticUser.getId().equals(localId)) {
+				Anchor csv = new Anchor();
+				csv.setIcon(IconType.CALENDAR);
+				csv.setHref(AppLib.baseURL + "/timeTacticMatch?id="
+						+ Long.toString(id) + "&tactic="
+						+ Long.toString(localId));
+
+				p.add(csv);
+
+			} else if (tacticUser.getId().equals(visitingId)) {
+				Anchor csv = new Anchor();
+				csv.setIcon(IconType.CALENDAR);
+				csv.setHref(AppLib.baseURL + "/timeTacticMatch?id="
+						+ Long.toString(id) + "&tactic="
+						+ Long.toString(visitingId));
+
+				p.add(csv);
+			}
+
+			column.add(p);
+		}
 
 		return column;
 	}
@@ -517,5 +585,9 @@ public class AppMyTactic extends Composite {
 
 	private Date addMinutesToDate(Date date, int minutes) {
 		return new Date(date.getTime() + (minutes * 60 * 1000));
+	}
+
+	public void goTo(Place place) {
+		clientFactory.getPlaceController().goTo(place);
 	}
 }

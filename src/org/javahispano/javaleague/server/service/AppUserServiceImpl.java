@@ -134,8 +134,13 @@ public class AppUserServiceImpl extends RemoteServiceServlet implements
 	@Override
 	public AppUser getLoggedInUser() {
 		try {
-			return LoginHelper.getLoggedInUser(getThreadLocalRequest()
-					.getSession());
+			HttpSession httpSession = getThreadLocalRequest()
+					.getSession();
+			AppUser appUser = LoginHelper.getLoggedInUser(httpSession);
+			
+			logger.warning("appUserName: " + appUser.getAppUserName());
+			
+			return appUser;
 		} catch (Exception e) {
 			logger.warning(Utils.stackTraceToString(e));
 		}
