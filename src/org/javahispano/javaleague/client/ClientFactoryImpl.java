@@ -4,11 +4,13 @@
 package org.javahispano.javaleague.client;
 
 import org.javahispano.javaleague.client.mvp.AppPlacesHistoryMapper;
+import org.javahispano.javaleague.client.mvp.views.FrameWorkView;
 import org.javahispano.javaleague.client.mvp.views.LoginView;
 import org.javahispano.javaleague.client.mvp.views.MyTacticView;
 import org.javahispano.javaleague.client.mvp.views.RegisterView;
 import org.javahispano.javaleague.client.mvp.views.ShowMatchView;
 import org.javahispano.javaleague.client.mvp.views.WelcomeView;
+import org.javahispano.javaleague.client.mvp.views.uibinder.FrameWorkViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.LoginViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.MyTacticViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.RegisterViewImpl;
@@ -16,6 +18,8 @@ import org.javahispano.javaleague.client.mvp.views.uibinder.ShowMatchViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.WelcomeViewImpl;
 import org.javahispano.javaleague.client.service.AppUserService;
 import org.javahispano.javaleague.client.service.AppUserServiceAsync;
+import org.javahispano.javaleague.client.service.FrameWorkService;
+import org.javahispano.javaleague.client.service.FrameWorkServiceAsync;
 import org.javahispano.javaleague.client.service.MatchFriendlyService;
 import org.javahispano.javaleague.client.service.MatchFriendlyServiceAsync;
 import org.javahispano.javaleague.client.service.RPCCall;
@@ -42,6 +46,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	private static LoginView loginView;
 	private static MyTacticView myTacticView;
 	private static ShowMatchView showMatchView;
+	private static FrameWorkView frameWorkView;
 
 	private static AppUser appUser;
 
@@ -54,6 +59,8 @@ public class ClientFactoryImpl implements ClientFactory {
 			.create(TacticUserService.class);
 	private MatchFriendlyServiceAsync matchFriendlyService = GWT
 			.create(MatchFriendlyService.class);
+	private FrameWorkServiceAsync frameWorkService = GWT
+			.create(FrameWorkService.class);
 
 	public ClientFactoryImpl() {
 
@@ -174,6 +181,20 @@ public class ClientFactoryImpl implements ClientFactory {
 		if (showMatchView == null)
 			showMatchView = new ShowMatchViewImpl();
 		return showMatchView;
+	}
+
+	@Override
+	public FrameWorkView getFrameWorkView() {
+		if (frameWorkView == null)
+			frameWorkView = new FrameWorkViewImpl();
+		return frameWorkView;
+	}
+
+	@Override
+	public FrameWorkServiceAsync getFrameWorkService() {
+		if (frameWorkService == null)
+			frameWorkService = GWT.create(FrameWorkService.class);
+		return frameWorkService;
 	}
 
 }

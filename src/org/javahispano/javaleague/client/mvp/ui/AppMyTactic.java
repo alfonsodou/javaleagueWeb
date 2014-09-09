@@ -93,6 +93,8 @@ public class AppMyTactic extends Composite {
 	@UiField
 	Button playMatchButton;
 	@UiField
+	Button updateWindowButton;
+	@UiField
 	Badge fileName;
 	@UiField
 	Paragraph listMatchs;
@@ -185,6 +187,15 @@ public class AppMyTactic extends Composite {
 
 				updateTacticButton.setEnabled(true);
 			}
+		});
+
+		updateWindowButton.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				checkDate();
+			}
+
 		});
 
 	}
@@ -327,7 +338,7 @@ public class AppMyTactic extends Composite {
 			j++;
 			for (int i = 0; i < array.size() - j; i++) {
 				if (array.get(i).getVisualization()
-						.compareTo(array.get(i + 1).getVisualization()) > 0) {
+						.compareTo(array.get(i + 1).getVisualization()) < 0) {
 					tmp = array.get(i);
 					array.set(i, array.get(i + 1));
 					array.set(i + 1, tmp);
@@ -396,7 +407,7 @@ public class AppMyTactic extends Composite {
 		for (MatchFriendly m : listMatchFriendly) {
 			Row row = new Row();
 
-			row.add(addType());
+			row.add(addType(m.getVisualization()));
 			row.add(addTeam(m.getLocalTeamId(), m.getNameLocal(),
 					m.getNameLocalManager()));
 
@@ -414,14 +425,24 @@ public class AppMyTactic extends Composite {
 		}
 	}
 
-	private Column addType() {
+	private Column addType(Date dateTimeMatch) {
 		Column column = new Column();
 
 		column.setSize(ColumnSize.MD_2);
+		Paragraph p = new Paragraph();
+		p.setAlignment(Alignment.CENTER);
 
 		Italic italics = new Italic();
 		italics.setText(appMyTacticMessages.friendly());
-		column.add(italics);
+
+		Small dateTime = new Small();
+		dateTime.setText(DateTimeFormat.getFormat(
+				PredefinedFormat.DATE_TIME_MEDIUM).format(dateTimeMatch));
+
+		p.add(italics);
+		p.add(dateTime);
+
+		column.add(p);
 
 		return column;
 	}
@@ -495,11 +516,11 @@ public class AppMyTactic extends Composite {
 				 * Long.toString(id));
 				 */
 
-				anchor.setDataTarget("_blank");
+				anchor.setTarget("_blank");
 				anchor.setHref(AppLib.baseURL + "/visorwebgl/play.html?"
 						+ Long.toString(id));
 
-				button.setText("Prueba");
+				/*button.setText("Prueba");
 				button.addClickHandler(new ClickHandler() {
 
 					@Override
@@ -509,7 +530,8 @@ public class AppMyTactic extends Composite {
 					}
 
 				});
-				
+				*/
+
 				/*
 				 * MyClickHandlerMatch myClickHandler = new MyClickHandlerMatch(
 				 * id, eventBus); anchor.addClickHandler(myClickHandler);

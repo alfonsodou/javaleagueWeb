@@ -1,11 +1,13 @@
 package org.javahispano.javaleague.client.mvp;
 
 import org.javahispano.javaleague.client.ClientFactory;
+import org.javahispano.javaleague.client.mvp.activities.FrameWorkActivity;
 import org.javahispano.javaleague.client.mvp.activities.LoginActivity;
 import org.javahispano.javaleague.client.mvp.activities.MyTacticActivity;
 import org.javahispano.javaleague.client.mvp.activities.RegisterActivity;
 import org.javahispano.javaleague.client.mvp.activities.ShowMatchActivity;
 import org.javahispano.javaleague.client.mvp.activities.WelcomeActivity;
+import org.javahispano.javaleague.client.mvp.places.FrameWorkPlace;
 import org.javahispano.javaleague.client.mvp.places.LoginPlace;
 import org.javahispano.javaleague.client.mvp.places.MyTacticPlace;
 import org.javahispano.javaleague.client.mvp.places.RegisterPlace;
@@ -36,6 +38,8 @@ public class AppActivityMapper implements ActivityMapper {
 			return new MyTacticActivity((MyTacticPlace) place, clientFactory);
 		else if (place instanceof ShowMatchPlace)
 			return new ShowMatchActivity((ShowMatchPlace) place, clientFactory);
+		else if (place instanceof FrameWorkPlace)
+			return new FrameWorkActivity((FrameWorkPlace) place, clientFactory);
 		else
 			return null;
 	}

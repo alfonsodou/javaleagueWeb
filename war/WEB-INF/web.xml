@@ -25,6 +25,17 @@
 		<url-pattern>/javaleague/appUserService</url-pattern>
 	</servlet-mapping>
 
+	<!-- ===================== FrameWorkService ===================== -->
+	<servlet>
+		<servlet-name>frameWorkService</servlet-name>
+		<servlet-class>org.javahispano.javaleague.server.service.FrameWorkServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>frameWorkService</servlet-name>
+		<url-pattern>/javaleague/frameWorkService</url-pattern>
+	</servlet-mapping>
+
 	<!-- ===================== TacticUserService ===================== -->
 	<servlet>
 		<servlet-name>tacticUserService</servlet-name>

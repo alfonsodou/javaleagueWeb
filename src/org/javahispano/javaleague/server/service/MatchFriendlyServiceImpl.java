@@ -64,7 +64,7 @@ public class MatchFriendlyServiceImpl extends RemoteServiceServlet implements
 			j++;
 			for (int i = 0; i < array.size() - j; i++) {
 				if (array.get(i).getVisualization()
-						.compareTo(array.get(i + 1).getVisualization()) > 0) {
+						.compareTo(array.get(i + 1).getVisualization()) < 0) {
 					tmp = array.get(i);
 					array.set(i, array.get(i + 1));
 					array.set(i + 1, tmp);

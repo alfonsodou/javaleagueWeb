@@ -7,6 +7,7 @@ import java.util.Date;
 
 import org.gwtbootstrap3.client.ui.AnchorButton;
 import org.javahispano.javaleague.client.ClientFactory;
+import org.javahispano.javaleague.client.mvp.places.FrameWorkPlace;
 import org.javahispano.javaleague.client.mvp.places.LoginPlace;
 import org.javahispano.javaleague.client.mvp.places.RegisterPlace;
 
@@ -46,6 +47,8 @@ public class AppPublicMenuBar extends Composite {
 	HasClickHandlers registerLink;
 	@UiField
 	HasClickHandlers loginLink;
+	@UiField
+	HasClickHandlers frameWorkLink;
 
 	public AppPublicMenuBar() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -86,6 +89,15 @@ public class AppPublicMenuBar extends Composite {
 			public void onClick(ClickEvent event) {
 				GWT.log("AppPublicMenuBar: select Login");
 				goTo(new LoginPlace());
+			}
+		});
+		
+		frameWorkLink.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				GWT.log("AppPublicMenuBar: select framework");
+				goTo(new FrameWorkPlace());
 			}
 		});
 	}
