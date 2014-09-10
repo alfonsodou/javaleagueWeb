@@ -65,12 +65,12 @@ public class AppFrameWork extends Composite {
 
 			@Override
 			public void onSuccess(FrameWork result) {
-				nameFrameWork.setHTML(result.getName());
-				versionFrameWork.setHTML(result.getVersion());
-				createdFrameWork.setHTML(DateTimeFormat.getFormat(
+				nameFrameWork.setText(result.getName());
+				versionFrameWork.setText(result.getVersion());
+				createdFrameWork.setText(DateTimeFormat.getFormat(
 						PredefinedFormat.DATE_TIME_MEDIUM).format(
 						result.getCreation()));
-				createdFrameWork.setHTML(DateTimeFormat.getFormat(
+				updatedFrameWork.setText(DateTimeFormat.getFormat(
 						PredefinedFormat.DATE_TIME_MEDIUM).format(
 						result.getUpdated()));
 				downloadFrameWorkNavbarLink.setHref(result.getUrlDownload());

@@ -132,7 +132,9 @@
 				<b:Row>
 					<b:Column size="MD_12">
 						<b.html:Paragraph alignment="CENTER">
-							<ui:msg key="listMatchs">Partidos</ui:msg>
+							<b.html:Strong>
+								<ui:msg key="listMatchs">Partidos</ui:msg>
+							</b.html:Strong>
 						</b.html:Paragraph>
 						<b.html:Paragraph ui:field="listMatchs"
 							alignment="CENTER">

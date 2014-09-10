@@ -432,14 +432,16 @@ public class AppMyTactic extends Composite {
 		Paragraph p = new Paragraph();
 		p.setAlignment(Alignment.CENTER);
 
+		Paragraph pa = new Paragraph();
 		Italic italics = new Italic();
 		italics.setText(appMyTacticMessages.friendly());
-
+		pa.add(italics);
+		
 		Small dateTime = new Small();
 		dateTime.setText(DateTimeFormat.getFormat(
 				PredefinedFormat.DATE_TIME_MEDIUM).format(dateTimeMatch));
 
-		p.add(italics);
+		p.add(pa);
 		p.add(dateTime);
 
 		column.add(p);
@@ -541,7 +543,7 @@ public class AppMyTactic extends Composite {
 		}
 
 		result.add(anchor);
-		result.add(button);
+		//result.add(button);
 
 		p.add(result);
 		p.add(possesion);
