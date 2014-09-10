@@ -5,6 +5,7 @@ package org.javahispano.javaleague.client;
 
 import org.javahispano.javaleague.client.mvp.AppPlacesHistoryMapper;
 import org.javahispano.javaleague.client.mvp.views.FrameWorkView;
+import org.javahispano.javaleague.client.mvp.views.LeagueView;
 import org.javahispano.javaleague.client.mvp.views.LoginView;
 import org.javahispano.javaleague.client.mvp.views.MyTacticView;
 import org.javahispano.javaleague.client.mvp.views.RegisterView;
@@ -12,6 +13,7 @@ import org.javahispano.javaleague.client.mvp.views.ShowMatchView;
 import org.javahispano.javaleague.client.mvp.views.WelcomeView;
 import org.javahispano.javaleague.client.service.AppUserServiceAsync;
 import org.javahispano.javaleague.client.service.FrameWorkServiceAsync;
+import org.javahispano.javaleague.client.service.LeagueServiceAsync;
 import org.javahispano.javaleague.client.service.MatchFriendlyServiceAsync;
 import org.javahispano.javaleague.client.service.TacticUserServiceAsync;
 import org.javahispano.javaleague.shared.domain.AppUser;
@@ -42,6 +44,8 @@ public interface ClientFactory {
 	
 	public FrameWorkView getFrameWorkView();
 	
+	public LeagueView getLeagueView();
+	
 	public AppUser getAppUser();
 	
 	public void setAppUser(AppUser appUser);
@@ -53,6 +57,8 @@ public interface ClientFactory {
 	public MatchFriendlyServiceAsync getMatchFriendlyService();
 	
 	public FrameWorkServiceAsync getFrameWorkService();
+	
+	public LeagueServiceAsync getLeagueService();
 	
 	public void init();
 }

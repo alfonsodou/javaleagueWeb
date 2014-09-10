@@ -5,6 +5,7 @@ package org.javahispano.javaleague.client.mvp.ui;
 
 import org.gwtbootstrap3.client.ui.AnchorButton;
 import org.javahispano.javaleague.client.ClientFactory;
+import org.javahispano.javaleague.client.mvp.places.LeaguePlace;
 import org.javahispano.javaleague.client.mvp.places.MyTacticPlace;
 import org.javahispano.javaleague.client.mvp.places.WelcomePlace;
 import org.javahispano.javaleague.client.service.RPCCall;
@@ -40,6 +41,8 @@ public class AppPrivateMenuBar extends Composite {
 	@UiField
 	HasClickHandlers logoutLink;
 	@UiField
+	HasClickHandlers leagueLink;
+	@UiField
 	AnchorButton userName;
 
 	public AppPrivateMenuBar() {
@@ -71,6 +74,15 @@ public class AppPrivateMenuBar extends Composite {
 			}
 		});
 
+		leagueLink.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				GWT.log("AppPrivateMenuBar: select League");
+				goTo(new LeaguePlace());
+			}
+			
+		});
 	}
 
 	private void logoutSession() {

@@ -5,12 +5,14 @@ package org.javahispano.javaleague.client;
 
 import org.javahispano.javaleague.client.mvp.AppPlacesHistoryMapper;
 import org.javahispano.javaleague.client.mvp.views.FrameWorkView;
+import org.javahispano.javaleague.client.mvp.views.LeagueView;
 import org.javahispano.javaleague.client.mvp.views.LoginView;
 import org.javahispano.javaleague.client.mvp.views.MyTacticView;
 import org.javahispano.javaleague.client.mvp.views.RegisterView;
 import org.javahispano.javaleague.client.mvp.views.ShowMatchView;
 import org.javahispano.javaleague.client.mvp.views.WelcomeView;
 import org.javahispano.javaleague.client.mvp.views.uibinder.FrameWorkViewImpl;
+import org.javahispano.javaleague.client.mvp.views.uibinder.LeagueViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.LoginViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.MyTacticViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.RegisterViewImpl;
@@ -20,6 +22,8 @@ import org.javahispano.javaleague.client.service.AppUserService;
 import org.javahispano.javaleague.client.service.AppUserServiceAsync;
 import org.javahispano.javaleague.client.service.FrameWorkService;
 import org.javahispano.javaleague.client.service.FrameWorkServiceAsync;
+import org.javahispano.javaleague.client.service.LeagueService;
+import org.javahispano.javaleague.client.service.LeagueServiceAsync;
 import org.javahispano.javaleague.client.service.MatchFriendlyService;
 import org.javahispano.javaleague.client.service.MatchFriendlyServiceAsync;
 import org.javahispano.javaleague.client.service.RPCCall;
@@ -47,6 +51,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	private static MyTacticView myTacticView;
 	private static ShowMatchView showMatchView;
 	private static FrameWorkView frameWorkView;
+	private static LeagueView leagueView;
 
 	private static AppUser appUser;
 
@@ -61,6 +66,7 @@ public class ClientFactoryImpl implements ClientFactory {
 			.create(MatchFriendlyService.class);
 	private FrameWorkServiceAsync frameWorkService = GWT
 			.create(FrameWorkService.class);
+	private LeagueServiceAsync leagueService = GWT.create(LeagueService.class);
 
 	public ClientFactoryImpl() {
 
@@ -195,6 +201,20 @@ public class ClientFactoryImpl implements ClientFactory {
 		if (frameWorkService == null)
 			frameWorkService = GWT.create(FrameWorkService.class);
 		return frameWorkService;
+	}
+
+	@Override
+	public LeagueView getLeagueView() {
+		if (leagueView == null)
+			leagueView = new LeagueViewImpl();
+		return leagueView;
+	}
+
+	@Override
+	public LeagueServiceAsync getLeagueService() {
+		if (leagueService == null)
+			leagueService = GWT.create(LeagueService.class);
+		return leagueService;
 	}
 
 }

@@ -3,13 +3,13 @@
  */
 package org.javahispano.javaleague.server.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.javahispano.javaleague.client.service.FrameWorkService;
 import org.javahispano.javaleague.server.domain.FrameWorkDao;
-import org.javahispano.javaleague.shared.AppLib;
 import org.javahispano.javaleague.shared.domain.FrameWork;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -30,7 +30,7 @@ public class FrameWorkServiceImpl extends RemoteServiceServlet implements
 
 	@Override
 	public List<FrameWork> getFrameWorks() {
-		List<FrameWork> frameWorks;
+		List<FrameWork> frameWorks = new ArrayList<FrameWork>();
 		try {
 			FrameWorkDao frameWorkDAO = new FrameWorkDao();
 			frameWorks = frameWorkDAO.findAllFrameWorks();

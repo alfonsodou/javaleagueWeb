@@ -30,7 +30,11 @@
 					<b:AnchorListItem ui:field="frameWorkLink">
 						<ui:msg key="frameWorkLink">FrameWork</ui:msg>
 					</b:AnchorListItem>
-
+					
+					<b:AnchorListItem ui:field="leagueLink">
+						<ui:msg key="leagueLink">Liga</ui:msg>
+					</b:AnchorListItem>
+					
 					<b:AnchorListItem ui:field="myTacticLink">
 						<ui:msg key="myTacticLink">Mi táctica</ui:msg>
 					</b:AnchorListItem>
@@ -39,7 +43,7 @@
 						href="https://github.com/alfonsodou/javaLeague/wiki/_pages">
 						<ui:msg key="wikiLink">Wiki</ui:msg>
 					</b:AnchorListItem>
-				
+
 					<b:ListDropDown>
 						<b:AnchorButton ui:field="userName" dataToggle="DROPDOWN"></b:AnchorButton>
 						<b:DropDownMenu>
@@ -51,7 +55,7 @@
 							</b:AnchorListItem>
 						</b:DropDownMenu>
 					</b:ListDropDown>
-					
+
 				</b:NavbarNav>
 
 
