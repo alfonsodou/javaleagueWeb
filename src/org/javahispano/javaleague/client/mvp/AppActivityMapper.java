@@ -2,19 +2,24 @@ package org.javahispano.javaleague.client.mvp;
 
 import org.javahispano.javaleague.client.ClientFactory;
 import org.javahispano.javaleague.client.mvp.activities.FrameWorkActivity;
+import org.javahispano.javaleague.client.mvp.activities.FrameWorkPrivateActivity;
 import org.javahispano.javaleague.client.mvp.activities.LeagueActivity;
+import org.javahispano.javaleague.client.mvp.activities.LeaguePrivateActivity;
 import org.javahispano.javaleague.client.mvp.activities.LoginActivity;
 import org.javahispano.javaleague.client.mvp.activities.MyTacticActivity;
 import org.javahispano.javaleague.client.mvp.activities.RegisterActivity;
 import org.javahispano.javaleague.client.mvp.activities.ShowMatchActivity;
 import org.javahispano.javaleague.client.mvp.activities.WelcomeActivity;
 import org.javahispano.javaleague.client.mvp.places.FrameWorkPlace;
+import org.javahispano.javaleague.client.mvp.places.FrameWorkPrivatePlace;
 import org.javahispano.javaleague.client.mvp.places.LeaguePlace;
+import org.javahispano.javaleague.client.mvp.places.LeaguePrivatePlace;
 import org.javahispano.javaleague.client.mvp.places.LoginPlace;
 import org.javahispano.javaleague.client.mvp.places.MyTacticPlace;
 import org.javahispano.javaleague.client.mvp.places.RegisterPlace;
 import org.javahispano.javaleague.client.mvp.places.ShowMatchPlace;
 import org.javahispano.javaleague.client.mvp.places.WelcomePlace;
+import org.javahispano.javaleague.client.mvp.presenters.FrameWorkPrivatePresenter;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
@@ -44,6 +49,12 @@ public class AppActivityMapper implements ActivityMapper {
 			return new FrameWorkActivity((FrameWorkPlace) place, clientFactory);
 		else if (place instanceof LeaguePlace)
 			return new LeagueActivity((LeaguePlace) place, clientFactory);
+		else if (place instanceof LeaguePrivatePlace)
+			return new LeaguePrivateActivity((LeaguePrivatePlace) place,
+					clientFactory);
+		else if (place instanceof FrameWorkPrivatePresenter)
+			return new FrameWorkPrivateActivity((FrameWorkPrivatePlace) place,
+					clientFactory);
 		else
 			return null;
 	}

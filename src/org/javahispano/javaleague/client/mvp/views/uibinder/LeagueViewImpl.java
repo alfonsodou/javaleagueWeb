@@ -37,15 +37,9 @@ public class LeagueViewImpl extends Composite implements LeagueView {
 	public LeagueViewImpl() {
 		initWidget(uiBinder.createAndBindUi(this));
 
-		setUp();
 	}
 
-	private void setUp() {
-		if (clientFactory.getAppUser() != null) {
-			headerPanel.clear();
-			headerPanel.add(new AppPrivateMenuBar());
-		}
-	}
+
 
 	@Override
 	public void setPresenter(LeaguePresenter presenter) {

@@ -4,7 +4,9 @@
 package org.javahispano.javaleague.client;
 
 import org.javahispano.javaleague.client.mvp.AppPlacesHistoryMapper;
+import org.javahispano.javaleague.client.mvp.views.FrameWorkPrivateView;
 import org.javahispano.javaleague.client.mvp.views.FrameWorkView;
+import org.javahispano.javaleague.client.mvp.views.LeaguePrivateView;
 import org.javahispano.javaleague.client.mvp.views.LeagueView;
 import org.javahispano.javaleague.client.mvp.views.LoginView;
 import org.javahispano.javaleague.client.mvp.views.MyTacticView;
@@ -44,7 +46,11 @@ public interface ClientFactory {
 	
 	public FrameWorkView getFrameWorkView();
 	
+	public FrameWorkPrivateView getFrameWorkPrivateView();
+	
 	public LeagueView getLeagueView();
+	
+	public LeaguePrivateView getLeaguePrivateView();
 	
 	public AppUser getAppUser();
 	

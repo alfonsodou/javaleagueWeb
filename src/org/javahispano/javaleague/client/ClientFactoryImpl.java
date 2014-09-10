@@ -4,14 +4,18 @@
 package org.javahispano.javaleague.client;
 
 import org.javahispano.javaleague.client.mvp.AppPlacesHistoryMapper;
+import org.javahispano.javaleague.client.mvp.views.FrameWorkPrivateView;
 import org.javahispano.javaleague.client.mvp.views.FrameWorkView;
+import org.javahispano.javaleague.client.mvp.views.LeaguePrivateView;
 import org.javahispano.javaleague.client.mvp.views.LeagueView;
 import org.javahispano.javaleague.client.mvp.views.LoginView;
 import org.javahispano.javaleague.client.mvp.views.MyTacticView;
 import org.javahispano.javaleague.client.mvp.views.RegisterView;
 import org.javahispano.javaleague.client.mvp.views.ShowMatchView;
 import org.javahispano.javaleague.client.mvp.views.WelcomeView;
+import org.javahispano.javaleague.client.mvp.views.uibinder.FrameWorkPrivateViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.FrameWorkViewImpl;
+import org.javahispano.javaleague.client.mvp.views.uibinder.LeaguePrivateViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.LeagueViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.LoginViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.MyTacticViewImpl;
@@ -52,6 +56,8 @@ public class ClientFactoryImpl implements ClientFactory {
 	private static ShowMatchView showMatchView;
 	private static FrameWorkView frameWorkView;
 	private static LeagueView leagueView;
+	private static LeaguePrivateView leaguePrivateView;
+	private static FrameWorkPrivateView frameWorkPrivateView;
 
 	private static AppUser appUser;
 
@@ -215,6 +221,20 @@ public class ClientFactoryImpl implements ClientFactory {
 		if (leagueService == null)
 			leagueService = GWT.create(LeagueService.class);
 		return leagueService;
+	}
+
+	@Override
+	public LeaguePrivateView getLeaguePrivateView() {
+		if (leaguePrivateView == null)
+			leaguePrivateView = new LeaguePrivateViewImpl();
+		return leaguePrivateView;
+	}
+
+	@Override
+	public FrameWorkPrivateView getFrameWorkPrivateView() {
+		if (frameWorkPrivateView == null)
+			frameWorkPrivateView = new FrameWorkPrivateViewImpl();
+		return frameWorkPrivateView;
 	}
 
 }
