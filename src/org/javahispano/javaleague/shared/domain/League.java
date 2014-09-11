@@ -63,6 +63,7 @@ public class League implements Serializable {
 	
 	private Integer executedMatchs;
 	
+	@Index
 	private Boolean defaultLeague;
 	
 	@Index
