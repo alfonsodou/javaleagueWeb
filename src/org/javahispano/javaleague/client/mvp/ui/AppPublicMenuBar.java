@@ -11,6 +11,7 @@ import org.javahispano.javaleague.client.mvp.places.FrameWorkPlace;
 import org.javahispano.javaleague.client.mvp.places.LeaguePlace;
 import org.javahispano.javaleague.client.mvp.places.LoginPlace;
 import org.javahispano.javaleague.client.mvp.places.RegisterPlace;
+import org.javahispano.javaleague.client.mvp.places.WelcomePlace;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.event.dom.client.ClickEvent;
@@ -52,6 +53,8 @@ public class AppPublicMenuBar extends Composite {
 	HasClickHandlers frameWorkLink;
 	@UiField
 	HasClickHandlers leagueLink;
+	@UiField
+	HasClickHandlers navbarBrand;
 
 	public AppPublicMenuBar() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -108,8 +111,18 @@ public class AppPublicMenuBar extends Composite {
 
 			@Override
 			public void onClick(ClickEvent event) {
-				GWT.log("AppPrivateMenuBar: select League");
+				GWT.log("AppPublicMenuBar: select League");
 				goTo(new LeaguePlace());
+			}
+			
+		});
+		
+		navbarBrand.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				GWT.log("AppPublicMenuBar: select home");
+				goTo(new WelcomePlace());
 			}
 			
 		});

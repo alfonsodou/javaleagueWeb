@@ -125,7 +125,7 @@
 					<b:Column size="MD_2" offset="MD_10">
 						<b:Button ui:field="updateWindowButton" icon="REFRESH"
 							iconSpin="true">
-							<ui:msg key="updateWindowButton">Refrescar</ui:msg>
+							<ui:msg key="updateWindowButton">Actualizar partidos</ui:msg>
 						</b:Button>
 					</b:Column>
 				</b:Row>

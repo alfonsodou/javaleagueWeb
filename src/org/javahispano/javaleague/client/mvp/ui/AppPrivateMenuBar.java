@@ -9,6 +9,7 @@ import org.javahispano.javaleague.client.mvp.places.FrameWorkPrivatePlace;
 import org.javahispano.javaleague.client.mvp.places.LeaguePrivatePlace;
 import org.javahispano.javaleague.client.mvp.places.MyTacticPlace;
 import org.javahispano.javaleague.client.mvp.places.WelcomePlace;
+import org.javahispano.javaleague.client.mvp.places.WelcomePrivatePlace;
 import org.javahispano.javaleague.client.service.RPCCall;
 
 import com.google.gwt.core.client.GWT;
@@ -47,6 +48,8 @@ public class AppPrivateMenuBar extends Composite {
 	HasClickHandlers frameWorkLink;
 	@UiField
 	AnchorButton userName;
+	@UiField
+	HasClickHandlers navbarBrand;
 
 	public AppPrivateMenuBar() {
 		initWidget(uiBinder.createAndBindUi(this));
@@ -84,9 +87,9 @@ public class AppPrivateMenuBar extends Composite {
 				GWT.log("AppPrivateMenuBar: select League");
 				goTo(new LeaguePrivatePlace());
 			}
-			
+
 		});
-		
+
 		frameWorkLink.addClickHandler(new ClickHandler() {
 
 			@Override
@@ -94,8 +97,19 @@ public class AppPrivateMenuBar extends Composite {
 				GWT.log("AppPrivateMenuBar: select frameWork");
 				goTo(new FrameWorkPrivatePlace());
 			}
-			
+
 		});
+
+		navbarBrand.addClickHandler(new ClickHandler() {
+
+			@Override
+			public void onClick(ClickEvent event) {
+				GWT.log("AppPrivateMenuBar: select home");
+				goTo(new WelcomePrivatePlace());
+			}
+
+		});
+
 	}
 
 	private void logoutSession() {

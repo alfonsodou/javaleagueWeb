@@ -47,9 +47,9 @@
 					<b:ListDropDown>
 						<b:AnchorButton ui:field="userName" dataToggle="DROPDOWN"></b:AnchorButton>
 						<b:DropDownMenu>
-							<b:AnchorListItem ui:field="perfilLink">
+							<!-- <b:AnchorListItem ui:field="perfilLink">
 								<ui:msg key="perfilLink">Perfil</ui:msg>
-							</b:AnchorListItem>
+							</b:AnchorListItem>  -->
 							<b:AnchorListItem ui:field="logoutLink">
 								<ui:msg key="logoutLink">Salir</ui:msg>
 							</b:AnchorListItem>

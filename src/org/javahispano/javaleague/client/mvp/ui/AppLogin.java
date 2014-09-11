@@ -64,8 +64,8 @@ public class AppLogin extends Composite {
 	TextBox emailTextBox;
 	@UiField
 	Input passwordTextBox;
-	@UiField
-	AnchorButton rememberPassword;
+	/*@UiField
+	AnchorButton rememberPassword;*/
 	@UiField
 	Label errorLogin;
 
@@ -103,7 +103,7 @@ public class AppLogin extends Composite {
 			}
 		});
 
-		rememberPassword.addClickHandler(new ClickHandler() {
+		/*rememberPassword.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {
 				final Modal modal = new Modal();
 				modal.setTitle(appLoginMessages.captionLogin());
@@ -127,7 +127,7 @@ public class AppLogin extends Composite {
 
 				formLoginUser.reset();
 			}
-		});
+		});*/
 
 		loginButton.addClickHandler(new ClickHandler() {
 			public void onClick(ClickEvent event) {

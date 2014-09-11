@@ -10,6 +10,7 @@ import org.javahispano.javaleague.client.mvp.activities.MyTacticActivity;
 import org.javahispano.javaleague.client.mvp.activities.RegisterActivity;
 import org.javahispano.javaleague.client.mvp.activities.ShowMatchActivity;
 import org.javahispano.javaleague.client.mvp.activities.WelcomeActivity;
+import org.javahispano.javaleague.client.mvp.activities.WelcomePrivateActivity;
 import org.javahispano.javaleague.client.mvp.places.FrameWorkPlace;
 import org.javahispano.javaleague.client.mvp.places.FrameWorkPrivatePlace;
 import org.javahispano.javaleague.client.mvp.places.LeaguePlace;
@@ -19,7 +20,7 @@ import org.javahispano.javaleague.client.mvp.places.MyTacticPlace;
 import org.javahispano.javaleague.client.mvp.places.RegisterPlace;
 import org.javahispano.javaleague.client.mvp.places.ShowMatchPlace;
 import org.javahispano.javaleague.client.mvp.places.WelcomePlace;
-import org.javahispano.javaleague.client.mvp.presenters.FrameWorkPrivatePresenter;
+import org.javahispano.javaleague.client.mvp.places.WelcomePrivatePlace;
 
 import com.google.gwt.activity.shared.Activity;
 import com.google.gwt.activity.shared.ActivityMapper;
@@ -52,8 +53,11 @@ public class AppActivityMapper implements ActivityMapper {
 		else if (place instanceof LeaguePrivatePlace)
 			return new LeaguePrivateActivity((LeaguePrivatePlace) place,
 					clientFactory);
-		else if (place instanceof FrameWorkPrivatePresenter)
+		else if (place instanceof FrameWorkPrivatePlace)
 			return new FrameWorkPrivateActivity((FrameWorkPrivatePlace) place,
+					clientFactory);
+		else if (place instanceof WelcomePrivatePlace)
+			return new WelcomePrivateActivity((WelcomePrivatePlace) place,
 					clientFactory);
 		else
 			return null;

@@ -9,6 +9,7 @@ import org.javahispano.javaleague.client.mvp.places.MyTacticPlace;
 import org.javahispano.javaleague.client.mvp.places.RegisterPlace;
 import org.javahispano.javaleague.client.mvp.places.ShowMatchPlace;
 import org.javahispano.javaleague.client.mvp.places.WelcomePlace;
+import org.javahispano.javaleague.client.mvp.places.WelcomePrivatePlace;
 
 import com.google.gwt.place.shared.PlaceHistoryMapper;
 import com.google.gwt.place.shared.WithTokenizers;
@@ -23,6 +24,7 @@ import com.google.gwt.place.shared.WithTokenizers;
 		LoginPlace.Tokenizer.class, MyTacticPlace.Tokenizer.class,
 		ShowMatchPlace.Tokenizer.class, FrameWorkPlace.Tokenizer.class,
 		LeaguePlace.Tokenizer.class, LeaguePrivatePlace.Tokenizer.class,
-		FrameWorkPrivatePlace.Tokenizer.class })
+		FrameWorkPrivatePlace.Tokenizer.class,
+		WelcomePrivatePlace.Tokenizer.class })
 public interface AppPlacesHistoryMapper extends PlaceHistoryMapper {
 }

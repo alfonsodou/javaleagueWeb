@@ -12,6 +12,7 @@ import org.javahispano.javaleague.client.mvp.views.LoginView;
 import org.javahispano.javaleague.client.mvp.views.MyTacticView;
 import org.javahispano.javaleague.client.mvp.views.RegisterView;
 import org.javahispano.javaleague.client.mvp.views.ShowMatchView;
+import org.javahispano.javaleague.client.mvp.views.WelcomePrivateView;
 import org.javahispano.javaleague.client.mvp.views.WelcomeView;
 import org.javahispano.javaleague.client.mvp.views.uibinder.FrameWorkPrivateViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.FrameWorkViewImpl;
@@ -21,6 +22,7 @@ import org.javahispano.javaleague.client.mvp.views.uibinder.LoginViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.MyTacticViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.RegisterViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.ShowMatchViewImpl;
+import org.javahispano.javaleague.client.mvp.views.uibinder.WelcomePrivateViewImpl;
 import org.javahispano.javaleague.client.mvp.views.uibinder.WelcomeViewImpl;
 import org.javahispano.javaleague.client.service.AppUserService;
 import org.javahispano.javaleague.client.service.AppUserServiceAsync;
@@ -58,6 +60,7 @@ public class ClientFactoryImpl implements ClientFactory {
 	private static LeagueView leagueView;
 	private static LeaguePrivateView leaguePrivateView;
 	private static FrameWorkPrivateView frameWorkPrivateView;
+	private static WelcomePrivateView welcomePrivateView;
 
 	private static AppUser appUser;
 
@@ -235,6 +238,13 @@ public class ClientFactoryImpl implements ClientFactory {
 		if (frameWorkPrivateView == null)
 			frameWorkPrivateView = new FrameWorkPrivateViewImpl();
 		return frameWorkPrivateView;
+	}
+
+	@Override
+	public WelcomePrivateView getWelcomePrivateView() {
+		if (welcomePrivateView == null)
+			welcomePrivateView = new WelcomePrivateViewImpl();
+		return welcomePrivateView;
 	}
 
 }

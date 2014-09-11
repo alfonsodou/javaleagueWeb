@@ -41,7 +41,7 @@
 								</g:FlowPanel>
 							</b:FormGroup>
 
-							<b:FormGroup>
+					<!--  	<b:FormGroup>
 								<g:FlowPanel addStyleNames="col-lg-offset-2 col-lg-10">
 									<b:CheckBox>
 										<ui:msg key="rememberMe">
@@ -54,7 +54,7 @@
 									</b:AnchorButton>
 								</g:FlowPanel>
 							</b:FormGroup>
-
+-->
 
 							<b:FormGroup>
 								<g:FlowPanel addStyleNames="col-lg-offset-2 col-lg-10">
