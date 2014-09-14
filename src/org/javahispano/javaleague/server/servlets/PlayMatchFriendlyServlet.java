@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.javahispano.javaleague.javacup.shared.Agent;
+import org.javahispano.javaleague.javacup.shared.BenchMark;
 import org.javahispano.javaleague.javacup.shared.MatchShared;
 import org.javahispano.javaleague.server.classloader.MyDataStoreClassLoader;
 import org.javahispano.javaleague.server.domain.FrameWorkDao;
@@ -93,7 +94,10 @@ public class PlayMatchFriendlyServlet extends HttpServlet {
 			lo = loadClass(localTactic, a);
 			vo = loadClass(visitingTactic, a);
 
-			MatchShared matchShared = a.execute(lo, vo);
+			BenchMark benchMark = new BenchMark();
+
+			MatchShared matchShared = a.execute(lo, vo,
+					benchMark.getMaxTimeIter());
 
 			filename = new GcsFilename(AppLib.BUCKET_GCS, AppLib.PATH_MATCH
 					+ AppLib.PATH_FRIENDLY_MATCH + match.getId().toString()
@@ -111,6 +115,8 @@ public class PlayMatchFriendlyServlet extends HttpServlet {
 			match.setState(AppLib.MATCH_OK);
 			match.setTimeLocal(matchShared.getTimeLocal());
 			match.setTimeVisita(matchShared.getTimeVisita());
+			match.setBenchMark(benchMark.getBenchMark());
+			match.setMaxTimeIter(benchMark.getMaxTimeIter());
 
 			localTactic.setState(AppLib.FRIENDLY_MATCH_OK);
 			visitingTactic.setState(AppLib.FRIENDLY_MATCH_OK);

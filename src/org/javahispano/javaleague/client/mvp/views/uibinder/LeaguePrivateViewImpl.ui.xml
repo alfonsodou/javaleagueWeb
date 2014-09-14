@@ -28,7 +28,7 @@
 			</g:SimplePanel>
 
 			<g:SimplePanel ui:field="centerPanel" addStyleNames="{style.push}">
-				<my:AppLeague></my:AppLeague>
+				<my:AppPrivateLeague></my:AppPrivateLeague>
 			</g:SimplePanel>
 
 			<g:SimplePanel ui:field="footerPanel">

@@ -21,5 +21,5 @@ java.util.Stack, true, true, false, false, java.util.Stack/1346942793, 134694279
 java.util.Vector, true, true, false, false, java.util.Vector/3057315478, 3057315478
 [J, true, true, false, false, [J/53942082, 53942082
 org.javahispano.javaleague.client.service.MatchFriendlyService, false, false, false, false, _, 2779745279
-org.javahispano.javaleague.shared.domain.MatchFriendly, true, true, false, false, org.javahispano.javaleague.shared.domain.MatchFriendly/1816153415, 1816153415
-[Lorg.javahispano.javaleague.shared.domain.MatchFriendly;, true, true, false, false, [Lorg.javahispano.javaleague.shared.domain.MatchFriendly;/565841519, 565841519
+org.javahispano.javaleague.shared.domain.MatchFriendly, true, true, false, false, org.javahispano.javaleague.shared.domain.MatchFriendly/925727524, 925727524
+[Lorg.javahispano.javaleague.shared.domain.MatchFriendly;, true, true, false, false, [Lorg.javahispano.javaleague.shared.domain.MatchFriendly;/772040, 772040

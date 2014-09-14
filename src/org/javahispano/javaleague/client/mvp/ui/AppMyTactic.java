@@ -495,12 +495,10 @@ public class AppMyTactic extends Composite {
 			anchor.setText(date.format(d));
 			break;
 		case AppLib.MATCH_OK:
-			if (now.before(addMinutesToDate(d,
-					-AppLib.MINUTES_BEFORE_LIVE_MATCH))) {
+			if (now.before(d)) {
 				anchor.setText(date.format(d));
 			} else {
-				if (now.after(addMinutesToDate(d,
-						-AppLib.MINUTES_BEFORE_LIVE_MATCH))
+				if (now.after(d)
 						&& now.before(addMinutesToDate(d,
 								AppLib.MINUTES_AFTER_LIVE_MATCH))) {
 					anchor.setText(appMyTacticMessages.live());

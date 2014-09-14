@@ -58,6 +58,8 @@ public class TimeTacticMatchServlet extends HttpServlet {
 							+ eliminaBlancos(match.getNameForeign()) + ".csv");
 		}
 
+		result = "BenchMark=" + match.getBenchMark() + " :: MaxTimeIter="
+				+ match.getMaxTimeIter() + "\n";
 		for (int i = 0; i < time.length; i++) {
 			result += time[i] + "\n";
 		}

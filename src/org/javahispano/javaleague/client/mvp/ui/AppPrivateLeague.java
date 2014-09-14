@@ -4,6 +4,7 @@
 package org.javahispano.javaleague.client.mvp.ui;
 
 import org.gwtbootstrap3.client.ui.DescriptionData;
+import org.gwtbootstrap3.client.ui.NavbarLink;
 import org.javahispano.javaleague.client.ClientFactory;
 import org.javahispano.javaleague.client.service.RPCCall;
 import org.javahispano.javaleague.shared.domain.League;
@@ -22,13 +23,13 @@ import com.google.gwt.user.client.ui.Widget;
  * @author adou
  *
  */
-public class AppLeague extends Composite {
+public class AppPrivateLeague extends Composite {
 
-	private static AppLeagueUiBinder uiBinder = GWT
-			.create(AppLeagueUiBinder.class);
+	private static AppPrivateLeagueUiBinder uiBinder = GWT
+			.create(AppPrivateLeagueUiBinder.class);
 	private ClientFactory clientFactory = GWT.create(ClientFactory.class);
-
-	interface AppLeagueUiBinder extends UiBinder<Widget, AppLeague> {
+	interface AppPrivateLeagueUiBinder extends
+			UiBinder<Widget, AppPrivateLeague> {
 	}
 
 	@UiField
@@ -37,8 +38,10 @@ public class AppLeague extends Composite {
 	DescriptionData endSignIn;
 	@UiField
 	DescriptionData numberTeams;
+	@UiField
+	NavbarLink signInNavbarLink;
 
-	public AppLeague() {
+	public AppPrivateLeague() {
 		initWidget(uiBinder.createAndBindUi(this));
 
 		setUp();

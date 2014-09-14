@@ -48,22 +48,21 @@
 										dependerá del número de equipos inscritos.
 									</ui:msg>
 								</b.html:Paragraph>
-
 							</b.html:OrderedList>
-						</b.html:Paragraph>
-						<b.html:Paragraph>
-							<ui:msg key="leagueParagraph4">Desde esta página podrás seguir la evolución
-								de la liga y visualizar todos los partidos en directo!</ui:msg>
-						</b.html:Paragraph>
-						<b.html:Paragraph alignment="CENTER">
-							<b.html:Strong>
-								<ui:msg key="leagueParagraph5">No lo pienses más y participa</ui:msg>
-							</b.html:Strong>
-						</b.html:Paragraph>
-						<b.html:Paragraph alignment="CENTER">
-							<b.html:Strong>
-								<ui:msg key="leagueParagraph6">Ayúdanos a probar la javaLeague</ui:msg>
-							</b.html:Strong>
+							<b.html:Paragraph>
+								<ui:msg key="leagueParagraph4">Desde esta página podrás seguir la evolución
+									de la liga y visualizar todos los partidos en directo!</ui:msg>
+							</b.html:Paragraph>
+							<b.html:Paragraph alignment="CENTER">
+								<b.html:Strong>
+									<ui:msg key="leagueParagraph5">No lo pienses más y participa</ui:msg>
+								</b.html:Strong>
+							</b.html:Paragraph>
+							<b.html:Paragraph alignment="CENTER">
+								<b.html:Strong>
+									<ui:msg key="leagueParagraph6">Ayúdanos a probar la javaLeague</ui:msg>
+								</b.html:Strong>
+							</b.html:Paragraph>
 						</b.html:Paragraph>
 					</b:Column>
 					<b:Column size="MD_5" offset="MD_1">
@@ -75,7 +74,7 @@
 									</b:DescriptionTitle>
 									<b:DescriptionData ui:field="nameLeague"></b:DescriptionData>
 									<b:DescriptionTitle>
-										<ui:msg key="endSignIn">Fininscripción</ui:msg>
+										<ui:msg key="endSignIn">Fin inscripción</ui:msg>
 									</b:DescriptionTitle>
 									<b:DescriptionData ui:field="endSignIn"></b:DescriptionData>
 									<b:DescriptionTitle>
@@ -84,7 +83,13 @@
 									<b:DescriptionData ui:field="numberTeams"></b:DescriptionData>
 								</b:Description>
 							</b:PanelBody>
-
+							<b:PanelFooter>
+								<b.html:Paragraph alignment="CENTER">
+									<b:NavbarLink ui:field="signInNavbarLink">
+										<ui:msg key="signInLeague">Inscribirme!</ui:msg>
+									</b:NavbarLink>
+								</b.html:Paragraph>
+							</b:PanelFooter>
 						</b:Panel>
 						<b.html:Paragraph alignment="CENTER">
 							<b:Image type="ROUNDED" url="images/duke.png" />

@@ -58,6 +58,10 @@ public class MatchFriendly implements Serializable {
 	private Long frameWorkId;
 	
 	private String error;
+	
+	private long benchMark;
+	
+	private long maxTimeIter;
 
 	public MatchFriendly() {
 		super();
@@ -72,6 +76,8 @@ public class MatchFriendly implements Serializable {
 		this.timeLocal = null;
 		this.timeVisita = null;
 		this.frameWorkId = AppLib.DEFAULT_FRAMEWORK_ID;
+		this.benchMark = 0L;
+		this.maxTimeIter = Long.MAX_VALUE;
 	}
 
 	public Long getId() {
@@ -283,6 +289,34 @@ public class MatchFriendly implements Serializable {
 	 */
 	public void setVisitingTeamId(Long visitingTeamId) {
 		this.visitingTeamId = visitingTeamId;
+	}
+
+	/**
+	 * @return the benchMark
+	 */
+	public long getBenchMark() {
+		return benchMark;
+	}
+
+	/**
+	 * @param benchMark the benchMark to set
+	 */
+	public void setBenchMark(long benchMark) {
+		this.benchMark = benchMark;
+	}
+
+	/**
+	 * @return the maxTimeIter
+	 */
+	public long getMaxTimeIter() {
+		return maxTimeIter;
+	}
+
+	/**
+	 * @param maxTimeIter the maxTimeIter to set
+	 */
+	public void setMaxTimeIter(long maxTimeIter) {
+		this.maxTimeIter = maxTimeIter;
 	}
 	
 
