@@ -4,15 +4,12 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.logging.Logger;
 
 import org.javahispano.javaleague.shared.AppLib;
 
-import com.googlecode.objectify.Ref;
 import com.googlecode.objectify.annotation.Entity;
 import com.googlecode.objectify.annotation.Id;
 import com.googlecode.objectify.annotation.Index;
-import com.googlecode.objectify.annotation.Load;
 
 /**
  * 
@@ -37,7 +34,7 @@ public class League implements Serializable {
 	
 	private String description;
 	
-	private List<AppUser> appUsers;
+	private List<Long> appUsers;
 	
 	private Date creation;
 	
@@ -82,6 +79,7 @@ public class League implements Serializable {
 		this.executedMatchs = 0;
 		this.state = AppLib.LEAGUE_INIT;
 		this.defaultLeague = Boolean.FALSE;
+		this.appUsers = new ArrayList<Long>();
 	}
 		
 	public Long getId() {
@@ -331,14 +329,14 @@ public class League implements Serializable {
 	/**
 	 * @return the appUsers
 	 */
-	public List<AppUser> getAppUsers() {
+	public List<Long> getAppUsers() {
 		return appUsers;
 	}
 
 	/**
 	 * @param appUsers the appUsers to set
 	 */
-	public void setAppUsers(List<AppUser> appUsers) {
+	public void setAppUsers(List<Long> appUsers) {
 		this.appUsers = appUsers;
 	}
 

@@ -10,6 +10,7 @@ import java.util.logging.Logger;
 import org.javahispano.javaleague.client.service.LeagueService;
 import org.javahispano.javaleague.server.domain.LeagueDao;
 import org.javahispano.javaleague.server.utils.Utils;
+import org.javahispano.javaleague.shared.domain.AppUser;
 import org.javahispano.javaleague.shared.domain.League;
 
 import com.google.gwt.user.server.rpc.RemoteServiceServlet;
@@ -63,6 +64,36 @@ public class LeagueServiceImpl extends RemoteServiceServlet implements LeagueSer
 		} catch (Exception e) {
 			Utils.stackTraceToString(e);
 		}
+		return null;
+	}
+
+	@Override
+	public League addUser(Long id, Long appUserId) {
+		try {
+			League league = leagueDao.findById(id);
+			league.getAppUsers().add(appUserId);
+			league = leagueDao.save(league);
+			
+			return league;
+		} catch (Exception e) {
+			Utils.stackTraceToString(e);
+		}
+		
+		return null;
+	}
+
+	@Override
+	public League deleteUser(Long id, Long appUserId) {
+		try {
+			League league = leagueDao.findById(id);
+			league.getAppUsers().remove(appUserId);
+			league = leagueDao.save(league);
+			
+			return league;
+		} catch (Exception e) {
+			Utils.stackTraceToString(e);
+		}
+		
 		return null;
 	}
 

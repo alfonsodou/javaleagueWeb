@@ -75,7 +75,7 @@
 									</b:DescriptionTitle>
 									<b:DescriptionData ui:field="nameLeague"></b:DescriptionData>
 									<b:DescriptionTitle>
-										<ui:msg key="endSignIn">Fininscripción</ui:msg>
+										<ui:msg key="endSignIn">Fin inscripción</ui:msg>
 									</b:DescriptionTitle>
 									<b:DescriptionData ui:field="endSignIn"></b:DescriptionData>
 									<b:DescriptionTitle>

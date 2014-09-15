@@ -261,6 +261,7 @@ public class AppMyTactic extends Composite {
 			public void onSuccess(MatchFriendly result) {
 				if (result == null) {
 					waitForFriendlyMatch.setVisible(true);
+					playMatchButton.setEnabled(false);
 				} else {
 					listMatchFriendly.add(result);
 					bubbleSort(listMatchFriendly);

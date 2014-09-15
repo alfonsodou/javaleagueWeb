@@ -85,9 +85,14 @@
 							</b:PanelBody>
 							<b:PanelFooter>
 								<b.html:Paragraph alignment="CENTER">
-									<b:NavbarLink ui:field="signInNavbarLink">
-										<ui:msg key="signInLeague">Inscribirme!</ui:msg>
+									<b:NavbarLink ui:field="signInNavbarLink" visible="false">
+										<ui:msg key="signInLeague">Quiero participar!</ui:msg>
 									</b:NavbarLink>
+									<b:NavbarLink ui:field="signOutNavbarLink"
+										visible="false">
+										<ui:msg key="signOutLeague">Ya no quiero participar</ui:msg>
+									</b:NavbarLink>
+
 								</b.html:Paragraph>
 							</b:PanelFooter>
 						</b:Panel>
