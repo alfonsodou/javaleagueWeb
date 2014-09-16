@@ -13,6 +13,8 @@ import org.gwtbootstrap3.client.ui.Badge;
 import org.gwtbootstrap3.client.ui.Button;
 import org.gwtbootstrap3.client.ui.Column;
 import org.gwtbootstrap3.client.ui.Label;
+import org.gwtbootstrap3.client.ui.ListGroup;
+import org.gwtbootstrap3.client.ui.ListGroupItem;
 import org.gwtbootstrap3.client.ui.Modal;
 import org.gwtbootstrap3.client.ui.ModalBody;
 import org.gwtbootstrap3.client.ui.ModalFooter;
@@ -25,7 +27,6 @@ import org.gwtbootstrap3.client.ui.html.Paragraph;
 import org.gwtbootstrap3.client.ui.html.Small;
 import org.gwtbootstrap3.client.ui.html.Span;
 import org.javahispano.javaleague.client.ClientFactory;
-import org.javahispano.javaleague.client.mvp.places.ShowMatchPlace;
 import org.javahispano.javaleague.client.resources.messages.AppMyTacticMessages;
 import org.javahispano.javaleague.client.service.RPCCall;
 import org.javahispano.javaleague.shared.AppLib;
@@ -305,9 +306,9 @@ public class AppMyTactic extends Composite {
 						fileName.setText(tacticUser.getFileNameJar() + " :: "
 								+ tacticUser.getBytes() + " bytes");
 					}
-					if ((tacticUser.getValid())
-							&& (tacticUser.getState() == AppLib.FRIENDLY_MATCH_SCHEDULED)) {
+					if (tacticUser.getState() == AppLib.FRIENDLY_MATCH_SCHEDULED) {
 						waitForFriendlyMatch.setVisible(true);
+						playMatchButton.setEnabled(false);
 					}
 
 					checkDate();
@@ -405,7 +406,10 @@ public class AppMyTactic extends Composite {
 
 	private void showMatchs() {
 		listMatchs.clear();
+		ListGroup lg = new ListGroup();
 		for (MatchFriendly m : listMatchFriendly) {
+			ListGroupItem lgi = new ListGroupItem();
+			
 			Row row = new Row();
 
 			row.add(addType(m.getVisualization()));
@@ -421,9 +425,10 @@ public class AppMyTactic extends Composite {
 
 			row.add(addLinks(m.getId(), m.getLocalTeamId(),
 					m.getVisitingTeamId(), m.getState(), m.getVisualization()));
-
-			listMatchs.add(row);
+			lgi.add(row);
+			lg.add(lgi);
 		}
+		listMatchs.add(lg);
 	}
 
 	private Column addType(Date dateTimeMatch) {
@@ -557,11 +562,7 @@ public class AppMyTactic extends Composite {
 		Column column = new Column();
 		column.setSize(ColumnSize.MD_1);
 
-		if ((state == AppLib.MATCH_OK)
-				&& !(now.before(addMinutesToDate(d,
-						-AppLib.MINUTES_BEFORE_LIVE_MATCH)))
-				&& !(now.after(addMinutesToDate(d,
-						-AppLib.MINUTES_BEFORE_LIVE_MATCH)) && now
+		if ((state == AppLib.MATCH_OK) && !(now
 						.before(addMinutesToDate(d,
 								AppLib.MINUTES_AFTER_LIVE_MATCH)))) {
 			Paragraph p = new Paragraph();
