@@ -8,6 +8,7 @@ import org.javahispano.javaleague.shared.domain.AppUser;
 import org.javahispano.javaleague.shared.domain.FrameWork;
 import org.javahispano.javaleague.shared.domain.League;
 import org.javahispano.javaleague.shared.domain.MatchFriendly;
+import org.javahispano.javaleague.shared.domain.MatchLeague;
 import org.javahispano.javaleague.shared.domain.TacticUser;
 
 import com.googlecode.objectify.Objectify;
@@ -25,6 +26,7 @@ public class OfyService {
 		factory().register(FrameWork.class);
 		factory().register(MatchFriendly.class);
 		factory().register(League.class);
+		factory().register(MatchLeague.class);
 	}
 
 	public static Objectify ofy() {
