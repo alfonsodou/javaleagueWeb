@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.javahispano.javaleague.server.domain.AppUserDao;
 import org.javahispano.javaleague.server.domain.LeagueDao;
 import org.javahispano.javaleague.server.domain.MatchLeagueDao;
 import org.javahispano.javaleague.server.domain.TacticUserDao;
@@ -35,6 +36,7 @@ public class ManageLeagueServlet extends HttpServlet {
 	private LeagueDao leagueDao = new LeagueDao();
 	private MatchLeagueDao matchDao = new MatchLeagueDao();
 	private TacticUserDao tacticUserDao = new TacticUserDao();
+	private AppUserDao appUserDao = new AppUserDao();
 	private static final Logger log = Logger
 			.getLogger(ManageLeagueServlet.class.getName());
 
@@ -107,23 +109,25 @@ public class ManageLeagueServlet extends HttpServlet {
 						away = found[1];
 					}
 
+					local = tacticUserDao.fetch(league.getAppUsers().get(home));
+					visiting = tacticUserDao.fetch(league.getAppUsers().get(
+							away));
+
 					match.setLocalTeamId(league.getAppUsers().get(home));
 					match.setVisitingTeamId(league.getAppUsers().get(away));
-					match.setNameLocal(league.getAppUsers().get(home));
+					match.setNameLocal(local.getTeamName());
 					match.setLocalTeamId(league.getAppUsers().get(home));
-					match.setNameForeign(league.getAppUsers().get(away));
-					match.setNameLocalManager(league.getAppUsers().get(home));
-					match.setNameVisitingManager(league.getAppUsers().get(away));
+					match.setNameForeign(visiting.getTeamName());
+					match.setNameLocalManager(appUserDao.fetch(
+							local.getUserId()).getAppUserName());
+					match.setNameVisitingManager(appUserDao.fetch(
+							visiting.getUserId()).getAppUserName());
 					match.setVisitingTeamId(league.getAppUsers().get(away));
 					match = matchDao.save(match);
 				}
 
 				start = getNextDate(start, days.get(indexDay));
-				if (indexDay == days.size() - 1) {
-					indexDay = 0;
-				} else {
-					indexDay++;
-				}
+
 			}
 		}
 
