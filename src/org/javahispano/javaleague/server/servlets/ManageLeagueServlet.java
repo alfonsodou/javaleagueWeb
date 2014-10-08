@@ -55,6 +55,11 @@ public class ManageLeagueServlet extends HttpServlet {
 			} catch (Exception e) {
 				log.warning(Utils.stackTraceToString(e));
 			}
+		} else if (action.equals("create_calendar")) {
+			Calendar cal = Calendar.getInstance();
+			cal.set(2014, 10, 11, 15, 0, 0);
+			League league = leagueDao.findDefaultLeague();
+			league = createCalendarLeague(league, cal.getTime());
 		}
 	}
 
@@ -109,9 +114,13 @@ public class ManageLeagueServlet extends HttpServlet {
 						away = found[1];
 					}
 
-					local = tacticUserDao.fetch(league.getAppUsers().get(home));
-					visiting = tacticUserDao.fetch(league.getAppUsers().get(
-							away));
+					log.warning("Home ID: " + league.getAppUsers().get(home));
+					log.warning("Away ID: " + league.getAppUsers().get(away));
+
+					local = tacticUserDao.findByUserId(league.getAppUsers()
+							.get(home));
+					visiting = tacticUserDao.findByUserId(league.getAppUsers()
+							.get(away));
 
 					match.setLocalTeamId(league.getAppUsers().get(home));
 					match.setVisitingTeamId(league.getAppUsers().get(away));
@@ -126,12 +135,12 @@ public class ManageLeagueServlet extends HttpServlet {
 					match = matchDao.save(match);
 				}
 
-				start = getNextDate(start, days.get(indexDay));
+				start = getNextDate(start, 1);
 
 			}
 		}
 
-		league = leagueDAO.save(league);
+		league = leagueDao.save(league);
 
 		return league;
 	}
@@ -235,11 +244,7 @@ public class ManageLeagueServlet extends HttpServlet {
 	private static Date getNextDate(Date date, int day) {
 		Calendar calendarDate = Calendar.getInstance();
 		calendarDate.setTime(date);
-		calendarDate.add(Calendar.MINUTE, 1440);
-		while (calendarDate.get(Calendar.DAY_OF_WEEK) != day) {
-			calendarDate.add(Calendar.MINUTE, 1440);
-		}
-
+		calendarDate.add(Calendar.MINUTE, 1440 * day);
 		return calendarDate.getTime();
 	}
 
