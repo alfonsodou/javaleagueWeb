@@ -5,4 +5,9 @@
 <description>Comprueba cada día los usuarios que no han validado su email</description>
 <schedule>every day 00:00</schedule>
 </cron>
+<cron>
+<url>/cron/dispatchMatchs</url>
+<description>Comprueba cada día los partidos de liga pendientes de ejecutar</description>
+<schedule>every day 13:10</schedule>
+</cron>
 </cronentries>
