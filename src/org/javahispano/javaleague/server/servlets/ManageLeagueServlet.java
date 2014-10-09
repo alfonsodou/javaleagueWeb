@@ -57,7 +57,7 @@ public class ManageLeagueServlet extends HttpServlet {
 			}
 		} else if (action.equals("create_calendar")) {
 			Calendar cal = Calendar.getInstance();
-			cal.set(2014, 10, 11, 15, 0, 0);
+			cal.set(2014, 10, 9, 15, 0, 0);
 			League league = leagueDao.findDefaultLeague();
 			league = createCalendarLeague(league, cal.getTime());
 		}
@@ -122,10 +122,9 @@ public class ManageLeagueServlet extends HttpServlet {
 					visiting = tacticUserDao.findByUserId(league.getAppUsers()
 							.get(away));
 
-					match.setLocalTeamId(league.getAppUsers().get(home));
-					match.setVisitingTeamId(league.getAppUsers().get(away));
+					match.setLocalTeamId(local.getId());
+					match.setVisitingTeamId(visiting.getId());
 					match.setNameLocal(local.getTeamName());
-					match.setLocalTeamId(league.getAppUsers().get(home));
 					match.setNameForeign(visiting.getTeamName());
 					match.setNameLocalManager(appUserDao.fetch(
 							local.getUserId()).getAppUserName());
@@ -244,7 +243,11 @@ public class ManageLeagueServlet extends HttpServlet {
 	private static Date getNextDate(Date date, int day) {
 		Calendar calendarDate = Calendar.getInstance();
 		calendarDate.setTime(date);
-		calendarDate.add(Calendar.MINUTE, 1440 * day);
+		//calendarDate.add(Calendar.MINUTE, 1440 * day);
+		/*
+		 * Pruebas: generamos las jornadas cada 15 minutos
+		 */
+		calendarDate.add(Calendar.MINUTE, 15);
 		return calendarDate.getTime();
 	}
 

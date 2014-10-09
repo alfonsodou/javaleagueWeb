@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import org.javahispano.javaleague.server.utils.Utils;
+import org.javahispano.javaleague.shared.AppLib;
 import org.javahispano.javaleague.shared.domain.MatchLeague;
 
 /**
@@ -48,13 +49,29 @@ public class MatchLeagueDao {
 	public List<MatchLeague> findAllByTactic(Long tacticId) {
 		try {
 			List<MatchLeague> matchs = new ArrayList<MatchLeague>();
-			
+
 			matchs.addAll(ofy().load().type(MatchLeague.class)
 					.filter("localTeamId", tacticId).order("visualization")
 					.list());
 
 			matchs.addAll(ofy().load().type(MatchLeague.class)
 					.filter("visitingTeamId", tacticId).order("visualization")
+					.list());
+
+			return matchs;
+		} catch (Exception e) {
+			logger.warning(Utils.stackTraceToString(e));
+		}
+		return null;
+	}
+
+	public List<MatchLeague> findAllByLeague(Long leagueId) {
+		try {
+			List<MatchLeague> matchs = new ArrayList<MatchLeague>();
+
+			matchs.addAll(ofy().load().type(MatchLeague.class)
+					.filter("leagueId", leagueId)
+					.filter("state", AppLib.MATCH_SCHEDULED).order("execution")
 					.list());
 
 			return matchs;
