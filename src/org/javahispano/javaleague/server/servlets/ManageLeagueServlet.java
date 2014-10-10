@@ -14,11 +14,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.javahispano.javaleague.server.domain.AppUserDao;
+import org.javahispano.javaleague.server.domain.FrameWorkDao;
 import org.javahispano.javaleague.server.domain.LeagueDao;
 import org.javahispano.javaleague.server.domain.MatchLeagueDao;
 import org.javahispano.javaleague.server.domain.TacticUserDao;
 import org.javahispano.javaleague.server.utils.Utils;
 import org.javahispano.javaleague.shared.AppLib;
+import org.javahispano.javaleague.shared.domain.AppUser;
 import org.javahispano.javaleague.shared.domain.League;
 import org.javahispano.javaleague.shared.domain.MatchLeague;
 import org.javahispano.javaleague.shared.domain.TacticUser;
@@ -37,6 +39,7 @@ public class ManageLeagueServlet extends HttpServlet {
 	private MatchLeagueDao matchDao = new MatchLeagueDao();
 	private TacticUserDao tacticUserDao = new TacticUserDao();
 	private AppUserDao appUserDao = new AppUserDao();
+	private FrameWorkDao frameWorkDao = new FrameWorkDao();
 	private static final Logger log = Logger
 			.getLogger(ManageLeagueServlet.class.getName());
 
@@ -60,7 +63,18 @@ public class ManageLeagueServlet extends HttpServlet {
 			cal.set(2014, 10, 9, 15, 0, 0);
 			League league = leagueDao.findDefaultLeague();
 			league = createCalendarLeague(league, cal.getTime());
+		} else if (action.equals("delete_appuser")) {
+			Long appUserId = Long.parseLong(req.getParameter("appUserId")
+					.replace("_", ""));
+			League league = leagueDao.findDefaultLeague();
+			league.getAppUsers().remove(appUserId);
+
+			leagueDao.save(league);
 		}
+	}
+
+	public void deleteAppUser(League league, AppUser appUser) {
+
 	}
 
 	public League createCalendarLeague(League league, Date init) {
@@ -100,6 +114,8 @@ public class ManageLeagueServlet extends HttpServlet {
 
 					match = new MatchLeague();
 					match.setLeagueId(league.getId());
+					match.setFrameWorkId(frameWorkDao.findDefaultFrameWork()
+							.getId());
 					match.setExecution(addMinutesToDate(start, -120));
 					match.setVisualization(start);
 
@@ -130,7 +146,6 @@ public class ManageLeagueServlet extends HttpServlet {
 							local.getUserId()).getAppUserName());
 					match.setNameVisitingManager(appUserDao.fetch(
 							visiting.getUserId()).getAppUserName());
-					match.setVisitingTeamId(league.getAppUsers().get(away));
 					match = matchDao.save(match);
 				}
 
@@ -243,7 +258,7 @@ public class ManageLeagueServlet extends HttpServlet {
 	private static Date getNextDate(Date date, int day) {
 		Calendar calendarDate = Calendar.getInstance();
 		calendarDate.setTime(date);
-		//calendarDate.add(Calendar.MINUTE, 1440 * day);
+		// calendarDate.add(Calendar.MINUTE, 1440 * day);
 		/*
 		 * Pruebas: generamos las jornadas cada 15 minutos
 		 */
