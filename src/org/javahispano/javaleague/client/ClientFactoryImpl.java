@@ -32,6 +32,8 @@ import org.javahispano.javaleague.client.service.LeagueService;
 import org.javahispano.javaleague.client.service.LeagueServiceAsync;
 import org.javahispano.javaleague.client.service.MatchFriendlyService;
 import org.javahispano.javaleague.client.service.MatchFriendlyServiceAsync;
+import org.javahispano.javaleague.client.service.MatchLeagueService;
+import org.javahispano.javaleague.client.service.MatchLeagueServiceAsync;
 import org.javahispano.javaleague.client.service.RPCCall;
 import org.javahispano.javaleague.client.service.TacticUserService;
 import org.javahispano.javaleague.client.service.TacticUserServiceAsync;
@@ -73,6 +75,8 @@ public class ClientFactoryImpl implements ClientFactory {
 			.create(TacticUserService.class);
 	private MatchFriendlyServiceAsync matchFriendlyService = GWT
 			.create(MatchFriendlyService.class);
+	private MatchLeagueServiceAsync matchLeagueService = GWT
+			.create(MatchLeagueService.class);
 	private FrameWorkServiceAsync frameWorkService = GWT
 			.create(FrameWorkService.class);
 	private LeagueServiceAsync leagueService = GWT.create(LeagueService.class);
@@ -245,6 +249,13 @@ public class ClientFactoryImpl implements ClientFactory {
 		if (welcomePrivateView == null)
 			welcomePrivateView = new WelcomePrivateViewImpl();
 		return welcomePrivateView;
+	}
+
+	@Override
+	public MatchLeagueServiceAsync getMatchLeagueService() {
+		if (matchLeagueService == null)
+			matchLeagueService = GWT.create(MatchLeagueService.class);
+		return matchLeagueService;
 	}
 
 }

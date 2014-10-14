@@ -3,10 +3,13 @@
  */
 package org.javahispano.javaleague.client.mvp.ui;
 
+import java.util.List;
+
 import org.gwtbootstrap3.client.ui.DescriptionData;
 import org.javahispano.javaleague.client.ClientFactory;
 import org.javahispano.javaleague.client.service.RPCCall;
 import org.javahispano.javaleague.shared.domain.League;
+import org.javahispano.javaleague.shared.domain.MatchLeague;
 
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.i18n.client.DateTimeFormat;
@@ -30,6 +33,8 @@ public class AppLeague extends Composite {
 
 	interface AppLeagueUiBinder extends UiBinder<Widget, AppLeague> {
 	}
+
+	private League league;
 
 	@UiField
 	DescriptionData nameLeague;
@@ -59,6 +64,7 @@ public class AppLeague extends Composite {
 
 			@Override
 			public void onSuccess(League result) {
+				league = result;
 				nameLeague.setText(result.getName());
 				endSignIn.setText(DateTimeFormat.getFormat(
 						PredefinedFormat.DATE_TIME_MEDIUM).format(
@@ -70,6 +76,7 @@ public class AppLeague extends Composite {
 					numberTeams.setText("0");
 				}
 
+				getMatchs();
 			}
 
 			@Override
@@ -80,4 +87,26 @@ public class AppLeague extends Composite {
 		}.retry(3);
 	}
 
+	private void getMatchs() {
+		new RPCCall<List<MatchLeague>>() {
+
+			@Override
+			public void onFailure(Throwable caught) {
+				GWT.log(caught.getMessage());
+				Window.alert("Error fetch matchs ...");
+			}
+
+			@Override
+			public void onSuccess(List<MatchLeague> result) {
+			}
+
+			@Override
+			protected void callService(AsyncCallback<List<MatchLeague>> cb) {
+				clientFactory.getMatchLeagueService().getAllMatchsByLeague(
+						league.getId(), cb);
+			}
+
+		}.retry(3);
+
+	}
 }

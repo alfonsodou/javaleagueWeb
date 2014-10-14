@@ -18,6 +18,7 @@ import org.javahispano.javaleague.client.service.AppUserServiceAsync;
 import org.javahispano.javaleague.client.service.FrameWorkServiceAsync;
 import org.javahispano.javaleague.client.service.LeagueServiceAsync;
 import org.javahispano.javaleague.client.service.MatchFriendlyServiceAsync;
+import org.javahispano.javaleague.client.service.MatchLeagueServiceAsync;
 import org.javahispano.javaleague.client.service.TacticUserServiceAsync;
 import org.javahispano.javaleague.shared.domain.AppUser;
 
@@ -64,6 +65,8 @@ public interface ClientFactory {
 	public TacticUserServiceAsync getTacticUserService();
 	
 	public MatchFriendlyServiceAsync getMatchFriendlyService();
+	
+	public MatchLeagueServiceAsync getMatchLeagueService();
 	
 	public FrameWorkServiceAsync getFrameWorkService();
 	

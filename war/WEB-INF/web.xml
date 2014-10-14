@@ -69,6 +69,17 @@
 		<url-pattern>/javaleague/matchFriendlyService</url-pattern>
 	</servlet-mapping>
 
+	<!-- ===================== matchLeagueService ===================== -->
+	<servlet>
+		<servlet-name>matchLeagueService</servlet-name>
+		<servlet-class>org.javahispano.javaleague.server.service.MatchLeagueServiceImpl</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>matchLeagueService</servlet-name>
+		<url-pattern>/javaleague/matchLeagueService</url-pattern>
+	</servlet-mapping>
+	
 	<!-- ===================== AuthenticateUser Servlet ===================== -->
 	<servlet>
 		<servlet-name>AuthenticateUser</servlet-name>
