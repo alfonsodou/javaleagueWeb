@@ -52,8 +52,8 @@ public class AppLeague extends Composite {
 	interface AppLeagueUiBinder extends UiBinder<Widget, AppLeague> {
 	}
 
-	private League league;
-	private List<MatchLeague> matchs;
+	private League league = null;
+	private List<MatchLeague> matchs = null;
 	private Date now;
 
 	@UiField

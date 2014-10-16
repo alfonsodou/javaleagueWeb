@@ -10,9 +10,15 @@
 		<property name="visitingTeamId" direction="asc" />
 		<property name="visualization" direction="asc" />
 	</datastore-index>
-    <datastore-index kind="MatchLeague" ancestor="false" source="manual">
-        <property name="leagueId" direction="asc"/>
-        <property name="state" direction="asc"/>
-        <property name="execution" direction="asc"/>
-    </datastore-index>	
+	<datastore-index kind="MatchLeague" ancestor="false"
+		source="manual">
+		<property name="leagueId" direction="asc" />
+		<property name="state" direction="asc" />
+		<property name="execution" direction="asc" />
+	</datastore-index>
+	<datastore-index kind="MatchLeague" ancestor="false"
+		source="manual">
+		<property name="leagueId" direction="asc" />
+		<property name="execution" direction="asc" />
+	</datastore-index>
 </datastore-indexes>

@@ -70,9 +70,7 @@ public class MatchLeagueDao {
 			List<MatchLeague> matchs = new ArrayList<MatchLeague>();
 
 			matchs.addAll(ofy().load().type(MatchLeague.class)
-					.filter("leagueId", leagueId)
-					.filter("state", AppLib.MATCH_SCHEDULED).order("execution")
-					.list());
+					.filter("leagueId", leagueId).order("execution").list());
 
 			return matchs;
 		} catch (Exception e) {
