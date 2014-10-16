@@ -91,6 +91,18 @@
 						</b.html:Paragraph>
 					</b:Column>
 				</b:Row>
+				<b:Row>
+					<b:Column size="MD_12">
+						<b.html:Paragraph alignment="CENTER">
+							<b.html:Strong>
+								<ui:msg key="listMatchs">Partidos</ui:msg>
+							</b.html:Strong>
+						</b.html:Paragraph>
+						<b.html:Paragraph ui:field="listMatchs"
+							alignment="CENTER">
+						</b.html:Paragraph>
+					</b:Column>
+				</b:Row>				
 			</b:PanelBody>
 		</b:Panel>
 	</b:Row>
