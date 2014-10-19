@@ -60,7 +60,7 @@ public class ManageLeagueServlet extends HttpServlet {
 			}
 		} else if (action.equals("create_calendar")) {
 			Calendar cal = Calendar.getInstance();
-			cal.set(2014, 10, 9, 15, 0, 0);
+			cal.set(2014, 10, 25, 15, 0, 0);
 			League league = leagueDao.findDefaultLeague();
 			league = createCalendarLeague(league, cal.getTime());
 		} else if (action.equals("delete_appuser")) {
@@ -149,7 +149,7 @@ public class ManageLeagueServlet extends HttpServlet {
 					match = matchDao.save(match);
 				}
 
-				start = getNextDate(start, 1);
+				start = getNextDate(start, 2);
 
 			}
 		}
@@ -258,11 +258,7 @@ public class ManageLeagueServlet extends HttpServlet {
 	private static Date getNextDate(Date date, int day) {
 		Calendar calendarDate = Calendar.getInstance();
 		calendarDate.setTime(date);
-		// calendarDate.add(Calendar.MINUTE, 1440 * day);
-		/*
-		 * Pruebas: generamos las jornadas cada 15 minutos
-		 */
-		calendarDate.add(Calendar.MINUTE, 15);
+		calendarDate.add(Calendar.MINUTE, 1440 * day);
 		return calendarDate.getTime();
 	}
 
